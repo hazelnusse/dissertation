@@ -1,0 +1,88 @@
+\documentclass[11pt]{ucdavisthesis}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[us,nodayofweek,12hr]{datetime}
+\usepackage{graphicx}
+\usepackage[
+    abbreviate=false,
+    backend=biber,
+    backref=true,
+    refsection=chapter,
+    sortcites=true,
+    sorting=nyt,
+    sortlocale=en_US,
+    style=numeric-comp
+]{biblatex}
+\addbibresource{library.bib}
+\defbibheading{subbibliography}{\section*{References for Chapter \ref{refsection:\therefsection}}}
+% Make bibiliography single spaced
+%\renewcommand{\bibfont}{\singlespacing}
+
+\usepackage{longtable}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\tikzstyle{block} = [draw, rectangle]
+\tikzstyle{sum} = [draw, circle]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+
+% Used for things I don't have a citation for
+\newcommand{\needscite}[1]{(need to cite #1)}
+
+% hyperref should come after biblatex (according to biblatex documentation),
+% and it should be loaded last (according to hypperef documentation.
+\usepackage[
+    colorlinks=true,
+    pdfencoding=auto,
+    pdfauthor={Dale Lukas Peterson},
+    pdfkeywords={bicycle; dynamics; control; linearization; constraints; system identification},
+    pdftitle={Bicycle dynamics: modelling and experimental validation},
+    xetex
+]{hyperref}
+
+\begin{document}
+
+\title{Bicycle dynamics: modelling and experimental validation}
+
+\author{Dale Lukas Peterson}
+
+\authordegrees{B.S. (University of California Santa Barbara) 2004 \\
+               M.S. (University of California Davis) 2007}
+
+\officialmajor{Mechanical Engineering}
+
+\graduateprogram{Mechanical and Aerospace Engineering}
+
+\degreemonth{September}
+
+\degreeyear{2013}
+
+\committee{Mont Hubbard, Chair}{Ronald A. Hess}{Fidelis O. Eke}{}{}
+
+\dedication{\textsl{To my family.}}
+
+\acknowledgments{\input{acknowledgements}}
+
+\abstract{\input{abstract}}
+
+\makeintropages
+
+\setcounter{chapter}{-1}
+\include{chapter_0}
+\printbibliography[section=1,heading=subbibliography]
+\include{chapter_1}
+\printbibliography[section=2,heading=subbibliography]
+\include{chapter_2}
+\printbibliography[section=3,heading=subbibliography]
+\include{chapter_3}
+\printbibliography[section=4,heading=subbibliography]
+\include{chapter_4}
+\printbibliography[section=5,heading=subbibliography]
+
+\UMIabstract[\input{abstract}]
+
+\end{document}
+

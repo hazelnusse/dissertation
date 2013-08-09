@@ -1,0 +1,380 @@
+\chapter{Robotic bicycle}
+
+\addtocounter{section}{-1}
+\section{Introduction}
+
+This chapter describes the mechanical, electrical, and software design of the
+robotic bicycle. Physical parameter measurement and sensor calibration is also
+described.  All mechanical and electrical components (both purchased and
+fabricated) are documented here.  Finally, I discuss the design and
+implementation of the program that runs on the microncontroller. Connections to
+the bicycle model and its subsequent linearization are discussed.
+
+\section{Mechanical design}
+
+%This chapter describes the design of two real time controllers which were
+%implemented to stabilize the bicycle over a finite range of forward speeds so
+%that system identification experiments could be performed.  When linearized
+%about the upright steady equilibrium the first order forward and lateral
+%dynamics are decoupled; for this reason the forward dynamics control was
+%designed separately from the lateral dynamics controller.
+
+\section{Controller user interface}
+Interaction with the control system is performed through two wireless
+radios~\cite{XBeePro} which act as a serial cable replacement between the serial
+ports of the bicycle microcontroller (MCU) and a laptop (or any other computer
+with a serial port). Running on the MCU is a real time operating
+%system\cite{ChibiOS} which implements a simple and extensible shell interface.
+%Commands with optional arguments are sent as strings over the serial connection
+%to the MCU and permit a user on a laptop to interact remotely with the bicycle.
+%
+%The following commands were implemented to
+%\begin{itemize}
+%\item \verb|collect| \verb|[datafile]|
+%\item \verb|rw| \verb|[{+-}XX.XX]|
+%\item \verb|yr| \verb|[{+-}XX.XX]|
+%\item \verb|status|
+%\item \verb|calibrate|
+%\item \verb|homefork|
+%\item \verb|disable|
+%\item \verb|reset|
+%\end{itemize}
+%
+%\section{Rear wheel rate controller}
+%A proportional integral (PI) controller was implemented to provide set point
+%control of rear wheel rate. Rear wheel angle $\theta_R$ was measured with an
+%incremental optical encoder that provides 800 quadrature counts per wheel
+%revolution.  Rear wheel rate $\dot{\theta}_R$ is simply taken to be the average
+%over the sample period: $(\theta_{i} - \theta_{i-1}) / (t_{i} - t_{i-1})$.
+%
+%TODO:
+%  draw block diagram
+%  describe conditional integration
+%
+%\section{Yaw rate controller}
+%The objective of the yaw rate controller is twofold: 1) stabilize the roll and
+%steer dynamics, and 2) track a reference yaw rate $\dot{\psi}_r$.  Because the
+%lateral dynamics are dependent on $\dot{\theta}_R$, yaw rate controller gains
+%were computed at 101 values of $\dot{\theta}_R$, logarithmically spaced between
+%$10^{-0.5}$ and $10^1$ m / s. Using logarithmic spacing instead of linear
+%spacing has the effect of providing relatively higher controller gain density
+%at lower speeds than at higher speeds. This is important because the bicycle is
+%relatively more unstable at lower speeds than at higher speeds and the unstable
+%dynamics change with speed more quickly below the weave critical speed than
+%they do above the capsize speed.  Put simply, a bicycle is more difficult to
+%balance at low speeds and careful gain selection is more important at low
+%speeds than at high speeds.
+%
+%The yaw rate controller has four measurements which are used to compute the
+%applied steer torque: 1) rear wheel rate, 2) steer angle, 3) roll rate, and 4)
+%yaw rate. First, the rear wheel rate measurement is used to look up the
+%controller gains which were designed for the bicycle in forward steady cruise
+%with rear wheel rates above and below the measurement.  The remaining three
+%measurements are used as inputs to the state equations (at each speed).  The
+%two state updates are linearly interpolated at the current speed measurement to
+%obtain the actual state update.  This interpolated state update is then used to
+%compute the output steer torque.
+%
+%The design of the controller (at each speed) involves two independent steps: 1)
+%solve the discrete algebraic Riccati equation (DARE) associated with a LQR
+%optimal control problem to compute the optimal state feedback gain, and 2)
+%solve the DARE associated with an optimal estimation problem to compute the
+%optimal filter gain which is used to compute the state estimate. The state
+%estimate is then used in place of the true state in the LQR controller. The
+%design of the controller and estimator are described below.
+%
+%\subsection{LQR yaw rate controller with integral action}
+%The four states of the bicycle model are roll $\phi$, steer $\delta$, roll rate
+%$\dot{\phi}$, and, steer rate $\dot{\delta}$.  These four states are augmented
+%with a fifth state, the time integral of yaw rate error
+%$\int\dot{\psi}-\dot{\psi}_r dt$.  This five dimensional state is denoted by
+%$x_k$. A block diagram of the state feedback control topology is shown below.
+%
+%\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+%  % We start by placing the blocks
+%  \node [input, name=input] {};
+%  \node [sum, right of=input] (sum) {};
+%  \node [block, right of=sum] (integrator) {$\frac{T_s}{z-1}$};
+%  \node [block, right of=integrator] (gain) {$K_c$};
+%  \node [block, right of=gain] (bicycle) {Bicycle};
+%  % We draw an edge between the controller and system block to 
+%  % calculate the coordinate u. We need it to place the measurement block. 
+%  \draw [->] (sum) -- node[name=e] {$e$} (integrator);
+%  \draw [->] (integrator) -- node[name=xi] {} (gain);
+%  \draw [->] (gain) -- node[name=u] {$\tau_{\delta}$} (bicycle);
+%  \node [output, right of=bicycle] (output) {};
+%  \coordinate [above of=u] (tmp1);  % 
+%  \coordinate [below of=xi] (tmp2);  % 
+%
+%  % Once the nodes are placed, connecting them is easy. 
+%  \draw [draw,->] (input) -- node {$\dot{\psi}_r$} (sum);
+%  %\draw [->] (sum) -- node {$e$} (controller);
+%  \draw [->] (bicycle) -- node [name=y] {$\dot{\psi}$} (output);
+%  %\draw [->] (y) -- (tmp1) -- (gain);
+%  \draw [->] (y) |- (tmp2) -| node[pos=0.99] {$-$} (sum);
+%\end{tikzpicture}
+%
+%TODO: Finish block diagram
+%
+%\begin{align}
+%\label{eq:augmented_plant}
+%    x_{k+1} & =
+%  \begin{bmatrix}
+%    A & 0 \\
+%    -C_{\dot{\psi}} T_s & 1
+%  \end{bmatrix}
+%    x_{k} +
+%  \begin{bmatrix}
+%    B_{\delta} \\ 0
+%  \end{bmatrix}
+%    u_k \\
+%\label{eq:augmented_plant_simple}
+%  & = A_{cp} x_{k} + B_{cp} u_k
+%\end{align}
+%The $A$ matrix is the bicycle system dynamics matrix, $B_{\delta}$ is the
+%bicycle input matrix associated with steer torque inputs, and, $C_{\dot{\psi}}$
+%is the output matrix associated with measurement of yaw rate $\dot{\psi}$, all
+%converted to discrete time using sample time $T_s$.  Subscript ``cp'' denotes
+%``controlled plant''.
+%
+%The controller seeks the sequence of control inputs $u^*_k$, $k \geq 0$, which
+%minimizes the quadratic cost function
+%\begin{align}
+%  J(u) = \sum_{k=0}^{\infty} x_k^T Q x_k + r u_k^2
+%\label{eq:LQRcost}
+%\end{align}
+%for any initial state $x_0$. $Q \in \mathbf{R}^{5 \times 5}, Q = Q^T \geq 0$
+%is the state weighting matrix, and $r$ is the positive real control control
+%weighting. The solution to the optimal control problem is the linear state
+%feedback
+%\begin{align}
+%\label{eq:linear_state_feedback}
+%u^*_k & = -(r + B_{cp} P^*_c B_{cp})^{-1} B_{cp}^T P_c^* A_{cp} x_k \\
+%      & = K_c x_k
+%\end{align}
+%where $P^*_c$ is the the unique, symmetric positive definite solution of the
+%DARE
+%\begin{align}
+%\label{eq:DARE_controller}
+%A_{cp}^T (P_c - P_c B_{cp} (r + B_{cp}^T P_c B_{cp})^{-1} B_{cp}^T
+%P_c) A_{cp} + Q & = 0
+%\end{align}
+%The linear state feedback gain $K_c \in \mathbf{R}^{1 \times 5}$ stabilizes the
+%bicycle and provides zero steady state tracking error to a reference yaw rate.
+%This gain is computed at each speed with the following $Q$ and $r$ weightings
+%\begin{align}
+%Q &= \mathrm{diag}(1, 1, 1, 1, 1) \\
+%r &= 1
+%\end{align}
+%TODO: plot of LQR weightings vs. rear wheel rate.
+%
+%\subsection{State estimator}
+%The state estimator is designed to estimate the five states in
+%\ref{eq:augmented_plant_simple}. The state equations must be modified to
+%include the input reference yaw rate and the measurement equations. The state
+%and output equations of the plant to be estimated are
+%\begin{align}
+%    x_{k+1} & =
+%  \begin{bmatrix}
+%    A & 0 \\
+%    -C_{\dot{\psi}} T_s & 1
+%  \end{bmatrix} x_{k} +
+%  \begin{bmatrix}
+%    B_{\delta} & 0 \\ 0 & T_s
+%  \end{bmatrix}
+%  \begin{bmatrix}
+%    u_k \\ r_k
+%  \end{bmatrix}
+%  + w_k \\
+%  & = A_{ep} x_k + B_{ep} \begin{bmatrix} u_k \\ r_k \end{bmatrix} + w_k \\
+%  y_k & =
+%  \begin{bmatrix}
+%    0 & 1 & 0 & 0 & 0\\ % Steer angle measurement
+%    0 & 0 & 1 & 0 & 0\\ % Roll rate measurement
+%    0 & 0 & 0 & 0 & 1    % Integral of yaw rate error measurement
+%  \end{bmatrix}
+%    x_{k} + v_k \\
+%  &= C_{ep} x_k + v_k
+%\label{eq:estimated_plant}
+%\end{align}
+%where the subscript ``ep'' denotes ``estimated plant'', $C_m \in \mathbf{R}^{2\times4}$ represents the measurement output matrix
+%associated with measuring steer angle and roll rate.  The third output of this
+%plant is integral of yaw rate error, which we assume to have a direct
+%measurement of.  Process noise $w_k$ and measurement noise $v_k$ are assumed to
+%have zero mean and covariance $W$ and $V$ respectively.
+%
+%The state estimate is computed in two steps: a prediction step that
+%extrapolates the state estimate based on assumed dynamics, and a correction
+%step which uses the most recent measurements.  The two steps are
+%\begin{align}
+%  \hat{x}_{k+1} & = A_{ep} \bar{x}_k + B_{ep} \begin{bmatrix} u_k \\ r_k \end{bmatrix} \\
+%  \bar{x}_{k+1} & = \hat{x}_{k+1} + K_e (y_{k+1} - C_{ep} \hat{x}_{k+1})
+%\end{align}
+%These can be combined into a single state space equation
+%\begin{align}
+%\bar{x}_{k+1} & = (I - K_e C_{ep}) A_{ep} \bar{x}_k
+%            + \begin{bmatrix}(I - K_e C_{ep}) B_{ep} & K_e \end{bmatrix}
+%              \begin{bmatrix} u_k \\ r_k \\ y_{k+1} \end{bmatrix}
+%\end{align}
+%Where $K_e$ is the estimator gain. In order for the estimator states to
+%converge to the true state, the error dynamics must be stable.  The error
+%dynamics are
+%\begin{align}
+%  \bar{e}_{k+1} & \triangleq x_{k+1} - \bar{x}_{k+1} \\
+%  & = A_{ep} x_k + B_{ep} \begin{bmatrix} u_k \\ r_k \end{bmatrix} - (I - K_e C_{ep}) A_{ep} \bar{x}_k
+%    - \begin{bmatrix}(I - K_e C_{ep}) B_{ep} & K_e \end{bmatrix}
+%              \begin{bmatrix} \tilde{u}_k \\ \tilde{y}_{k+1} \end{bmatrix} \\
+%              & = (I - K_e C_{ep}) A_{ep} (x_k - \bar{x}_k) \\
+%              & = (I - K_e C_{ep}) A_{ep} \bar{e}_k
+%\label{eq:estimator_error}
+%\end{align}
+%The error dynamics are stable if and only if $(I - K_e C_{ep}) A_{ep}$ has all
+%eigenvalues inside the closed unit circle.  The pair $(A_{ep}, C_{ep} A_{ep})$
+%must be observable for arbitrary eigenvalue assignment.
+%
+%The estimator gain $K_e$ is chosen to be
+%\begin{align}
+%K_e & = P_e^* C_{ep}^T (C_{ep} P_e^* C_{ep}^T + V)^{-1}
+%\end{align}
+%where $P_e^*$ is the unique, symmetric, positive definite solution of the
+%DARE
+%\begin{align}
+%\label{eq:DARE_observer}
+%A_{ep}(P_e - P_e C_{ep}^T(C_{ep} P_e C_{ep}^T + V)^{-1} C_{ep} P_e) A_{ep}^T -
+%P_e + W &= 0
+%\end{align}
+%The solution to the DARE was found using the Schur vector technique of Laub
+%\cite{Laub1979}
+%
+%\subsection{Closed loop dynamics}
+%The bicycle state equations along with the estimator state equations are
+%\begin{align}
+%x_{k+1} & = A_{ep} x_k + B_{ep} \begin{bmatrix} u_k \\ r_k \end{bmatrix} \\
+%\bar{x}_{k+1} & = (I - K_e C_{ep}) A_{ep} \bar{x}_k +
+%  \begin{bmatrix} (I - K_e C_{ep}) B_{ep} & K_e \end{bmatrix}
+%  \begin{bmatrix} u_k \\ r_k \\ y_{k+1} \end{bmatrix}
+%\end{align}
+%Using the feedback law $u_k = K_c \bar{x}_k$ and the measurement equations
+%$y_{k+1} = C_{ep} x_{k+1}$, the closed loop dynamics of the combined system
+%becomes
+%\begin{align}
+%  x_{k+1} & = A_{ep} x_k + \begin{bmatrix} B_{\delta} \\ 0 \end{bmatrix} K_c
+%  \bar{x}_k + \begin{bmatrix} 0 \\ T_s \end{bmatrix} r_k \\
+%  \bar{x}_{k+1} & = K_e C_{ep} A_{ep} x_k + \begin{bmatrix} (I - K_e C_{ep})
+%  A_{ep} + \begin{bmatrix} B_{\delta} \\ 0 \end{bmatrix} K_c \end{bmatrix}
+%  \bar{x}_k + \begin{bmatrix} 0 \\ T_s \end{bmatrix} r_k
+%\end{align}
+%
+%\subsection{Implementation}
+%Since the controller design has an augmented state that is not part of the
+%bicycle, and this state is not measured from a physical sensor, both this
+%``measurement'' loop, and the control loop, can be closed in the implementation
+%of the controller.  The resulting state space equations have five states (four
+%bicycle state estimates and the integral of yaw rate error), three inputs (yaw
+%rate reference, steer angle measurement, and roll rate measurement), and, one
+%output (steer torque).
+%
+%
+%
+%\section{Introduction}
+%
+%\section{System identification experiments}
+%On July 13, 2013, twenty eight experimental runs were performed on the Dairy
+%Road basketball courts on the UC Davis campus (38.53794$^{\circ}$ North,
+%121.759475$^{\circ}$ West). Oliver Lee and Mont Hubbard were stationed at the
+%northeast corner of the east court, while I travelled back and forth with the
+%robotic bicycle each run. To begin each run, Oliver Lee operated the laptop and
+%issued commands to configure the filename (following a naming convention $<$run
+%number$>$.dat), speed set point, distance to travel before reducing the speed
+%set point to 1.0 m/s, and optionally, an additive sinusoidal disturbance steer
+%torque of magnitude $A_d$ cNm and frequency $f_d$ Hz.  Mont Hubbard took notes
+%of each run and coordinated with Oliver Lee to ensure commands issued to robot
+%were consistent with his notes.  Prior to issuing a non-zero speed set point
+%command, I held the bicycle near the reference configuration (as indicated by
+%two LED's which turned on when IMU lateral acceleration and steer angle were
+%less than 1.0 m/s$^2$ and 1.0 deg, respectively), then ran along side the
+%bicycle as it travelled east to west or west to East. At the end of each run, I
+%would turn of the main power switches to each motor and catch the bicycle to
+%prevent it from falling on its casters.  The speed command issued by Oliver
+%took two arguments: speed set point and distance to travel before changing the
+%set point to 1.0 m/s. At 1.0 m/s, it was easy to manually switch off the motors
+%and catch the bicycle.
+%\begin{center}
+%  \begin{longtable}{| l | l | l | l | l | l | l |}
+%  \hline
+%  Run & Time (PST) & Speed (m/s) & $A_d$ (cNm) & $f_d$ (Hz) & $x$ (m) &
+%  Direction \endhead
+%  \hline
+%  \multicolumn{7}{|p{\textwidth}|}{Yaw rate PI controller is designed such that
+%  first 0dB cross-over frequency is 0.1 Hz. Additive disturbance torque is
+%  $\sin\left(2\pi t \right)$.} \\
+%  \hline
+%  000 & 0641 & 2.0 & -- & -- & 30.0 & West \\
+%  \hline
+%  001 & 0643 & 2.0 & -- & -- & 30.0 & West \\
+%  \hline
+%  002 & 0644 & 3.0 & -- & -- & 30.0 & East \\
+%  \hline
+%  003 & 0646 & 3.0 & -- & -- & 30.0 & West \\
+%  \hline
+%  004 & 0647 & 4.0 & -- & -- & 30.0 & East \\
+%  \hline
+%  005 & 0649 & 4.0 & -- & -- & 30.0 & West \\
+%  \hline
+%  006 & 0650 & 4.0 & -- & -- & 60.0 & East \\
+%  \hline
+%  007 & 0652 & 4.0 & -- & -- & 60.0 & East \\
+%  \hline
+%  008 & 0656 & 2.0 & 0.5 & 1.0 & 30.0 & West \\
+%  \hline
+%  009 & 0659 & 2.0 & 1.0 & 1.0 & 30.0 & East \\
+%  \hline
+%  010 & 0701 & 2.0 & 1.0 & 1.0 & 30.0 & East \\
+%  \hline
+%  \multicolumn{7}{|p{\textwidth}|}{Changed additive disturbance torque to be
+%  $A_d \sin\left(2\pi f_d \left(t - t_i\right)\right)$, where $t_i$ is the time at which
+%  the disturbance is initially applied.} \\
+%  \hline
+%  011 & 0714 & 2.0 & 1.0 & 1.0 & 30.0 & West \\
+%  \hline
+%  012 & 0718 & 2.0 & 5.0 & 1.0 & 30.0 & East \\
+%  \hline
+%  013 & 0721 & 2.0 & 5.0 & 1.0 & 30.0 & West \\
+%  \hline
+%  014 & 0725 & 2.0 & -5.0 & 1.0 & 30.0 & East \\
+%  \hline
+%  \multicolumn{7}{|p{\textwidth}|}{Changed yaw rate PI controller design such that
+%  first 0dB cross-over frequency is selected by Matlab's
+%  pidtune() instead of specified to be 0.1 Hz} \\
+%  \hline
+%  015 & 0754 & 2.0 & -- & -- & 30.0 & West \\
+%  \hline
+%  016 & 0756 & 2.0 & -- & -- & 30.0 & East \\
+%  \hline
+%  017 & 0757 & 4.0 & -- & -- & 30.0 & West \\
+%  \hline
+%  018 & 0800 & 2.0 & 5.0 & 1.0 & 30.0 & East \\
+%  \hline
+%  019 & 0808 & 2.0 & 5.0 & 5.0 & 30.0 & West \\
+%  \hline
+%  020 & 0813 & 2.0 & 10.0 & 1.0 & 30.0 & West \\
+%  \hline
+%  021 & 0815 & 2.0 & -- & -- & 30.0 & West \\
+%  \hline
+%  022 & 0816 & 1.0 & -- & -- & 30.0 & East \\
+%  \hline
+%  023 & 0818 & 1.0 & -- & -- & 30.0 & East \\
+%  \hline
+%  024 & 0821 & 2.0 & -- & -- & 5.0 & East \\
+%  \hline
+%  025 & 0824 & 2.0 & -- & -- & 60.0 & West \\
+%  \hline
+%  026 & 0825 & 3.0 & -- & -- & 50.0 & East \\
+%  \hline
+%  027 & 0827 & 3.0 & -- & -- & 50.0 & East \\
+%  \hline
+%  028 & 0829 & 3.0 & -- & -- & 50.0 & East \\
+%  \hline
+%  \end{longtable}
+%
+%\end{center}

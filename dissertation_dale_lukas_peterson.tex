@@ -1,9 +1,12 @@
 \documentclass[11pt]{ucdavisthesis}
+%\documentclass[11pt,draft]{ucdavisthesis}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage[us,nodayofweek,12hr]{datetime}
+%\usepackage[us,nodayofweek,12hr]{datetime}
+\usepackage[Q=yes]{examplep}
 \usepackage{graphicx}
+%\usepackage{tabulary}
 \usepackage[
     abbreviate=false,
     backend=biber,
@@ -16,18 +19,15 @@
 ]{biblatex}
 \addbibresource{library.bib}
 \defbibheading{subbibliography}{\section*{References for Chapter \ref{refsection:\therefsection}}}
-% Make bibiliography single spaced
-%\renewcommand{\bibfont}{\singlespacing}
+
+% Make references start at number 0
+%\DeclareFieldFormat{labelnumber}{\decrease{#1}}
+%\newcounter{num}
+%\newcommand{\decrease}[1]{\setcounter{num}{#1}\addtocounter{num}{-1}\thenum}
 
 \usepackage{longtable}
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows}
-
-\tikzstyle{block} = [draw, rectangle]
-\tikzstyle{sum} = [draw, circle]
-\tikzstyle{input} = [coordinate]
-\tikzstyle{output} = [coordinate]
-\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+\usetikzlibrary{arrows,calc,shapes,positioning}
 
 % Used for things I don't have a citation for
 \newcommand{\needscite}[1]{(need to cite #1)}
@@ -42,6 +42,8 @@
     pdftitle={Bicycle dynamics: modelling and experimental validation},
     xetex
 ]{hyperref}
+
+\newcommand{\bm}[1]{\mathbf{#1}}
 
 \begin{document}
 
@@ -70,7 +72,6 @@
 
 \makeintropages
 
-\setcounter{chapter}{-1}
 \include{chapter_0}
 \printbibliography[section=1,heading=subbibliography]
 \include{chapter_1}

@@ -1,1 +1,120 @@
-\chapter{Linearization}
+\chapter{Mathematical model of bicycle motion} \label{chapter2}
+
+\section{Introduction}
+
+\section{Physical parameters}
+
+\subsection{Parameter conversion}\label{model:parameter_conversion}
+We make a slight addition to the physical parameters presented
+in~\cite{Meijaard2007} by modelling the wheels as tori instead of thin disks.
+This results in two extra parameters: the tori minor radii $t_\text{R}$ and
+$t_\text{F}$ of the rear and front wheels respectively. This brings the number
+of parameters from 25 to 27. Converting from these 27 parameters to the 23
+gyrostat parameters is always possible. However, the opposite is not generally
+true because the mapping is not injective (it is one-to-many). In all of the
+equations that follow, the symbols used for the parameters presented
+in~\cite{Meijaard2007} are on the right side of the equality, while the symbols
+used to describe the gyrostat parameters are on the left of the equality. Some
+parameters have very similar symbols but should not be confused as being the
+same (i.e., $m_\text{R} \ne m_r$).
+
+Of the twenty three gyrostat parameters, six have identical counterparts in the
+Meijaard parameters
+\begin{align}
+  J_r &= I_{\text{R}yy} \\
+  R_r &= r_\text{R} \\
+  r_r &= t_\text{R}\\
+  J_f &= I_{\text{F}yy} \\
+  R_f &= r_\text{F} \\
+  r_f &= t_\text{F}
+\end{align}
+The rear and front gyrostat masses are trivially related
+\begin{align}
+  m_r &= m_\text{B} + m_\text{R} \\
+  m_f &= m_\text{H} + m_\text{F}
+\end{align}
+The mass center locations are related as
+\begin{align}
+a_r &= \frac{m_\text{B}}{m_\text{B} + m_\text{R}} \left(c_{\lambda} x_\text{B}
+- s_{\lambda} \left(r_\text{R} + t_\text{R} + z_\text{B}\right)\right) \\
+b_r &= \frac{m_\text{B}}{m_\text{B} + m_\text{R}} \left(c_{\lambda}
+\left(r_\text{R} + t_\text{R} + z_\text{B}\right) + s_{\lambda} x_\text{B}\right) \\
+a_f &= - \frac{m_\text{H}}{m_\text{F} + m_\text{H}} \left(c_{\lambda} \left(w -
+x_\text{H}\right) + s_{\lambda} \left(r_\text{F} + t_\text{F} + z_\text{H}\right)\right) \\
+b_f &= \frac{m_\text{H}}{m_\text{F} + m_\text{H}} \left(c_{\lambda}
+\left(r_\text{F} + t_\text{F} + z_\text{H}\right) - s_{\lambda} \left(w -
+x_\text{H}\right)\right)
+\end{align}
+The three parameters which describe the perpendicular distance of the wheel centers from the
+steer axis, and the distance between these perpendicular lines are
+\begin{align}
+c_r &= c_{\lambda} \left(c + w\right) - s_{\lambda} \left(r_\text{R} +
+t_{R}\right) \\
+c_f &= c_{\lambda} c - s_{\lambda} \left(r_\text{F} + t_\text{F}\right) \\
+l_s &= - c_{\lambda} \left(r_\text{F} - r_\text{R} + t_\text{F} - t_\text{R}\right) + s_{\lambda} w
+\end{align}
+The central inertia scalars of the two gyrostats are related to the Meijaard
+parameters as follows
+\begin{align}
+I_{rxx} &=
+I_{\text{R}xx} +
+c_\lambda^2 I_{\text{B}xx} - 2 s_\lambda c_\lambda I_{\text{B}xz} + s_\lambda^2
+I_{\text{B}zz} \notag\\
+&\quad + \frac{m_\text{R} m_\text{B}}{\left(m_\text{R} +
+m_\text{B}\right)}\left(c_\lambda \left(r_\text{R} + t_\text{R} +
+z_\text{B}\right) + s_\lambda x_\text{B}\right)^2 \\
+%
+I_{ryy} &= I_{\text{R}yy} + I_{\text{B}yy} \notag\\
+&\quad + \frac{m_\text{R} m_\text{B}}{\left(m_\text{R} + m_\text{B}\right)}
+\left(x_\text{B}^2 + \left(r_\text{R} + t_\text{R} + z_\text{B}\right)^2
+\right) \\
+%
+I_{rzz} &= I_{\text{R}xx} +
+s_\lambda^2 I_{\text{B}xx} + 2 s_\lambda c_\lambda I_{\text{B}xz} + c_\lambda^2
+I_{\text{B}zz} \notag\\
+&\quad + \frac{m_\text{R} m_\text{B}}{\left(m_\text{R} + m_\text{B}\right)}
+\left(c_{\lambda} x_\text{B} - s_\lambda \left(r_\text{R} + t_\text{R} +
+z_\text{B}\right)\right)^{2}\\
+%
+I_{rxz} &= \left(c_\lambda^2 - s_\lambda^2) I_{\text{B}xz}
++ s_\lambda c_\lambda \left(I_{\text{B}xx} - I_{\text{B}zz}\right) \notag\\
+&\quad - \frac{m_\text{B} m_\text{R}}{\left(m_\text{B} + m_\text{R}\right)}
+\left(c_\lambda x_\text{B} - s_\lambda \left(r_\text{R} + t_\text{R} +
+z_\text{B}\right)\right) \left(c_\lambda \left(r_\text{R} + t_\text{R} +
+z_\text{B}\right) + s_{\lambda} x_\text{B}\right) \\
+%
+I_{fxx} &= I_{\text{F}xx} +
+c_\lambda^2 I_{\text{H}xx} - 2 s_\lambda c_\lambda I_{\text{H}xz} + s_\lambda^2
+I_{\text{H}zz} \notag\\
+&\quad + \frac{m_\text{H} m_\text{F}}{\left(m_\text{F} + m_\text{H}\right)} \left(c_{\lambda}
+\left(r_\text{F} + t_\text{F} + z_\text{H}\right) - s_{\lambda} \left(w -
+x_\text{H}\right)\right)^{2}\\
+%
+I_{fyy} &= I_{\text{F}yy} + I_{\text{H}yy} \notag \\
+&\quad + \frac{m_\text{F} m_\text{H}}{\left(m_\text{F} + m_\text{H}\right)}
+\left(\left(w - x_\text{H}\right)^2 + \left(r_\text{F} + t_\text{F} +
+z_\text{H}\right)^2\right) \\
+%
+I_{fzz} &= I_{\text{F}xx} +
+s_\lambda^2 I_{\text{H}xx} + 2 s_\lambda c_\lambda I_{\text{H}xz} + c_\lambda^2
+I_{\text{H}zz} \notag\\
+&\quad + \frac{m_\text{F} m_\text{H}}{\left(m_\text{F} + m_\text{H}\right)} \left(c_{\lambda}
+\left(w - x_\text{H}\right) + s_{\lambda} \left(r_\text{F} + t_\text{F} +
+z_\text{H}\right)\right)^{2}\\
+%
+I_{fxz} &= \left(c_\lambda^2 - s_\lambda^2) I_{\text{H}xz}
++ s_\lambda c_\lambda \left(I_{\text{H}xx} - I_{\text{H}zz}\right) \notag\\
+&\quad + \frac{m_\text{F} m_\text{H}}{\left(m_\text{F} + m_\text{H}\right)}
+\left(c_\lambda \left(w - x_\text{H}\right) + s_\lambda \left(r_\text{F} + t_\text{F} +
+z_\text{H}\right)\right) \left(c_\lambda \left(r_\text{F} + t_\text{F} +
+z_\text{H}\right) - s_{\lambda} \left(w - x_\text{H}\right)\right)
+\end{align}
+
+
+
+
+
+\section{Kinematics}
+
+\section{Dynamics}
+

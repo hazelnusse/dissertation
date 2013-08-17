@@ -1,47 +1,16 @@
-\chapter{Mathematical model of bicycle motion} \label{chapter2}
+\chapter{Introduction}
+%\setcounter{section}{-1}
+\section{Motivation}
 
-\section{Introduction}
-
-\section{Physical parameters}
-
-\subsection{Parameter conversion}\label{model:parameter_conversion}
-We make a slight addition to the physical parameters presented
-in~\cite{Meijaard2007} by modelling the wheels as torii instead of thin disks.
-This results in two extra parameters: the tori minor radii $t_R$ and $t_F$ of
-the rear and front wheels respectively. This brings the number of parameters
-from 25 to 27. Converting from these 27 parameters to the 23 gyrostat
-parameters is always possible. However, the opposite is not generally true
-because the mapping is not injective (it is one-to-many). In all of the
-equations that follow, the symbols used for the parameters presented
-in~\cite{Meijaard2007} are on the right side of the equality, while the symbols
-used to describe the gyrostat parameters are on the left of the equality. Some
-parameters have very similar symbols but should not be confused as being the
-same (i.e., $m_R \ne m_r$).
-
-Of the twenty three gyrostat parameters, six have identical counterparts in the Meijaard
-paramters
-\begin{align}
-  J_r &= I_{Ryy} \\
-  R_r &= r_R \\
-  r_r &= t_R\\
-  J_f &= I_{Fyy} \\
-  R_f &= r_F \\
-  r_f &= t_F
-\end{align}
-while two are trivially related
-\begin{align}
-    m_r &= m_R + m_B \\
-    m_f &= m_F + m_H
-\end{align}
-The remaining fifteen (23-6-2=15) gyrostat parameters are related to the
-Meijaard parameters as follows
-
-
-
-
-
-
-\section{Kinematics}
-
-\section{Dynamics}
-
+As early as 3350BC, homo sapiens utilized wheels to ease
+their lives \needscite{OldestWheel}. For more than five thousand years, wheels were
+used for many things in many ways, but it wasn't until 1817 when Karl von Drais
+invented the ``running machine'': the first single-track two-wheeled balancing
+vehicle. Developments to the ``running machine'', notably pnuematic tires (1845),
+pedalled drivetrains (1866), steel spoked wheels (1868), two-speed hub gear
+(1896), and butted tubes (1897) resulted in what we would comfortably call a
+bicycle. The technology of the bicycle has been under constant development, but
+by the early 1900's the form of the bicycle had stabilized to a large degree:
+pnuematic tires, spoked wheels, hand or foot brakes, and a drivetrain with one
+or more gears. A mathematical framework for the motion of bicycle began
+around this same time\cite{Whipple1899}.

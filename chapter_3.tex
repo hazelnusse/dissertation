@@ -8,11 +8,11 @@ The Whipple bicycle model qualitatively predicts behavior commonly observed in
 physical bicycles such as a stable speed range and counter steer. To
 quantitatively assess the accuracy of these predictions, in as controlled a
 setting as possible, a robot bicycle was constructed. By \textit{robot
-bicycle}, we simply mean that it can balance without a human rider; this key
+bicycle}, we simply mean a bicycle that can balance without a human rider; this key
 feature permits experiments to be performed where dynamic quantities can be
-measured without the influence of undesirable and difficult measure human
+measured without the influence of undesirable and difficult to measure human
 inputs such as limb motion. Measurement of the bicycle motion that results from
-the application of known bicycle inputs permits direct comparisons to
+the application of precisely known bicycle inputs permits direct comparisons to
 predictions of the Whipple model without the need to model the human.
 Experiments such as those conducted by Kooijman~\cite{Kooijman2007}, wherein a
 riderless bicycle was pushed and ``ghost ridden'', do not maintain a constant
@@ -23,8 +23,16 @@ as such, it was limited to speeds for which the uncontrolled bicycle is stable.
 This work extends the work of~\cite{Kooijman2007} by accurately maintaining a
 constant speed, and stabilizing the bicycle for speeds below the weave speed.
 
+% TODO: motivate more discuss system identification
+% if you remove the rider, the bicycle has a single input
+% talk about system id
+% bicycle is unstable
+% control must be based upon some model of the bicycle
+% for some frequencies, the model is sufficient (low bandwidth control
+% for others it is not (high frequencies not predicted by the model)
+
 This chapter describes the design and construction (mechanical, electrical, and
-software) robot bicycle and presents data collected in a set of experiments.
+software) of the robot bicycle and presents data collected in a set of experiments.
 Physical parameter measurement, sensor calibration, and all mechanical and
 electrical components (purchased and fabricated) are documented here. The
 mechanical and electrical sections are somewhat low level and tedious but are
@@ -33,9 +41,10 @@ design may consider skipping to \autoref{rb:sec:control}. Finally, a
 description and analysis of a set of experiments is presented.
 
 \section{Mechanical construction} \label{rb:sec:mec}
+\subsection{Design} \label{rb:subsec:mecdesign}
 The robot bicycle is shown in Figures
 \ref{rb:img:rightside}-\ref{rb:img:leftsidecloseup}. Where possible, readily
-available bicycle parts were used. A number of parts were fabricated to
+available bicycle parts were used. A number of components were fabricated to
 interface standard bicycle parts (frame, fork steer tube, disc brake tabs) with
 equipment not typically found on a bicycle (batteries, fork motor, safety
 casters, and electrical equipment). This section provides a high level overview
@@ -81,13 +90,13 @@ steer motor.}
   \label{rb:img:leftsidecloseup}
 \end{figure}
 
-A Surly 4130 cromoly steel bicycle frame and fork was used~\cite{Surly2009}.
+A Surly 4130 cromoly steel bicycle frame and fork were used~\cite{Surly2009}.
 The frame and fork permit the use of 26'' or 700c wheels, cantilever or disc
-brakes, and was chosen because its rugged steel construction permitted
-modification without fear of compromising its structural integrity.  The frame
+brakes, and were chosen because its rugged steel construction permitted
+modification without fear of compromising its structural integrity. The frame
 was modified by welding an 18 gauge mild steel sheet to the inside of the front
 triangle to provide a surface on which to mount the digital motor drives,
-microcontroller development board, and the microcontroller batteries.
+microcontroller development board and batteries.
 
 To prevent damage to the robot bicycle in the case of a fall, custom training
 wheels were designed and built. The training wheels were composed of casters
@@ -97,26 +106,56 @@ approximately 20$^{\circ}$ before they touched the ground. Each caster wheel
 was bolted to a 2'' long 2''x4'' aluminum box section which was in turn bolted
 to one side of a small vertical steel plate. On the other side of the steel
 plate, three 1/2''x0.0625'' 4130 cromoly steel round tubes were welded -- each
-tube connected the steel plate (and hence the casters) to bicycle frame and
+tube connected the steel plate (and hence the casters) to the bicycle frame and
 provided sufficient strength and rigidity to handle the loads transmitted
 during a fall. Welded to the inboard ends of the three 1/2'' tubes were
-brackets which interfaced with seat tube, down tube, and bottom bracket. The
+brackets which interfaced with the seat tube, down tube, and bottom bracket. The
 brackets on either side of the frame were bolted together, thereby sandwiching
 the bicycle frame.
 
-The other custom fabricated mechanical components were the wheel optical
-encoder mounts, the fork motor mounting hardware, and the battery support
-plate.  The details of each of these components are discussed in
-\ref{rb:subsec:sensors}, \ref{rb:subsec:actuators}, and
-\ref{rb:subsec:batteries}, respectively.
+Other custom-fabricated mechanical components were the wheel optical encoder
+mounts, fork motor mounting hardware, and battery support plate. The details of
+each of these components are discussed in \ref{rb:subsec:sensors},
+\ref{rb:subsec:actuators}, and \ref{rb:subsec:batteries}, respectively.
+
+\subsection{Physical parameter measurement} \label{rb:subsec:parameters}
+The twenty three physical parameters (described in \autoref{chapter2}) of the
+robot bicycle were estimated by measuring first the benchmark parameter set,
+and then converting those parameters to the gyrostat parameter set using the
+equations presented in \autoref{model:parameter_conversion}. It was assumed
+that the wheel minor radius was zero (i.e., that the wheels were knife edged).
+The resulting parameters are presented in \autoref{rb:tab:parameters}.
+
+\begin{table}[ht]
+  \centering
+  %\begin{tabular}{rS[table-parse-only]S[table-parse-only]s}
+  \begin{tabular}{rccl}
+    \toprule
+    & {Rear assembly} & {Front assembly} & {Units} \\
+    \midrule
+    $I_{xx}$ &  1.542 &   0.183 & \si{kg.m^2} \\
+    $I_{yy}$ &  3.557 &   0.226 & \si{kg.m^2} \\
+    $I_{zz}$ &  3.014 &   0.069 & \si{kg.m^2} \\
+    $I_{xz}$ &  0.839 &  -0.010 & \si{kg.m^2} \\
+         $J$ &  0.114 &   0.092 & \si{kg.m^2} \\
+         $m$ & 34.1   &   2.95  & \si{kg}     \\
+         $R$ &  0.336 &   0.336 & \si{m}      \\
+         $r$ &  0     &   0     & \si{m}\\
+         $a$ &  0.514 &  -0.021 & \si{m}\\
+         $b$ & -0.219 &  -0.152 & \si{m}\\
+         $c$ &  0.963 &  -0.048 & \si{m}\\
+         $l_s$ & \multicolumn{2}{c}{0.343} &  \si{m} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Robot bicycle physical parameters.}
+  \label{rb:tab:parameters}
+\end{table}
 
 \section{Electrical system description} \label{rb:sec:elec}
-%\addtocounter{subsection}{-1}
-\subsection{Microcontroller} \label{rb:subsec:mcu}
-All functionality related to control, measurement, and user interaction was
-implemented by programming an Olimex STM32-H407~\cite{OlimexSTM32H407} ARM
-development board. A summary of the board functionality utilized are shown in
-Table \ref{rb:tab:mcu}.
+\subsection{Microcontroller} \label{rb:subsec:mcu} All functionality related to
+control, measurement, and user interaction was implemented by programming an
+Olimex STM32-H407~\cite{OlimexSTM32H407} development board. A summary of the
+board functionality utilized are shown in Table \ref{rb:tab:mcu}.
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|l|}
@@ -129,7 +168,7 @@ Table \ref{rb:tab:mcu}.
     Timers & 32-bit count up timer @ 4MHz \\
            & PWM generation @ 2.563KHz; $2^{16} - 1$ distinct duty cycles \\
     \hline
-                   & UART peripherial (115,200 baud 8N1) to XBee Pro radio \\
+                   & UART peripheral (115,200 baud 8N1) to XBee Pro radio \\
     Communication  & I2C peripheral @ 400KHz to communicate with IMU \\
                    & SDIO peripheral to log data to micro SD flash memory card \\
                    & JTAG peripheral for flashing and debugging programs \\
@@ -142,10 +181,10 @@ Table \ref{rb:tab:mcu}.
   \label{rb:tab:mcu}
 \end{table}
 The C++11~\cite{C++11} programming language was used to implement all
-functionality executed on the development board CPU. Certain language
-features such as dynamic memory allocation, runtime type information, and
-exceptions were not used due to associated overhead (generated code size or
-runtime efficiency). Version 4.7 (update 2) of the GCC ARM
+functionality executed on the development board CPU. Certain language features
+such as dynamic memory allocation, runtime type information, and exceptions
+were not used due to associated overhead (generated code size or runtime
+efficiency). The compiler used was Version 4.7 (update 2) of the GCC ARM
 Embedded~\cite{gccARMEmbedded} toolchain was used to compile and link source
 code to machine executable code. This ARM maintained version of GCC is
 customized to generate efficient machine instructions for ARM embedded
@@ -227,7 +266,7 @@ every time the microcontroller was reset or powered up.
   \caption{Calibration of steer angle encoder, accelerometer, and rate
     gyroscope ($\phi=-\pi/2$ configuration). The steer calibration fixture
     ensured $\delta=0$ and provided surfaces to rest the bubble levels (visible
-    on far side of bicycle frame). Two turn buckles were used to make minor
+    on far side of bicycle frame). Two turnbuckles were used to make minor
   orientation adjustments to level the frame (visible on left side of image).}
   \label{rb:img:calibration}
 \end{figure}
@@ -245,11 +284,11 @@ As described in Chapter 1, the bicycle model introduces set of dextral unit
 vectors fixed to the rear frame $R$ of the bicycle, with $\bm{r}_z$ parallel to
 the steer axis and down, $\bm{r}_y$ perpendicular to the frame plane and to the
 right, and $\bm{r}_x = \bm{r}_y \times \bm{r}_z$ ($\bm{r}_x$ points forward and
-up when the bicycle is in the reference configuration). Fixed to the sensor $S$
+slightly up when the bicycle is in the reference configuration). Fixed to the sensor $S$
 are a set of dextral unit vectors with $\bm{s}_x$ and $\bm{s}_y$ in the plane
-of integrated circuit, and $\bm{s}_z$ normal to the plane of the integrated
+of the integrated circuit, and $\bm{s}_z$ normal to the plane of the integrated
 circuit. To orient the sensor relative to the bicycle, first align $S$ with
-$R$, then apply the following successive body fixed ZXY rotations: $\alpha -
+$R$, then apply the following successive body-fixed ZXY rotations: $\alpha -
 \pi/2$, $\beta$, $\gamma$. The first rotation was offset by $-\pi/2$ so that
 all three angles were near zero.
 
@@ -272,7 +311,7 @@ cube and the cube was laid on a level surface on each of its six sides.  These
 six configurations correspond to the following bicycle orientations:
 $\phi=\pm\pi/2$ (frame plane horizontal), $\phi=0$ and $\theta_R = \{-\pi/2, 0,
 \pi/2, \pi\}$ (frame plane vertical, two horizontal steer axis orientations and
-two vertical steer axis orientations). The acceleration in the three sensor
+two vertical steer axis orientations). The sensed acceleration in the three sensor
 directions was recorded for approximately sixty seconds while the bicycle was
 in each each of the six configurations.
 
@@ -364,25 +403,31 @@ obtain three equations with twelve unknowns. Repeating for each of the six
 configurations, we obtain an overdetermined system of eighteen equations in
 twelve unknowns. The twelve unknowns are the six sensitivites, the three
 biases, and the three orientation angles relating the sensor frame to the
-bicycle frame. This overdetermined system of equations was solve by the method
-of least squares~\cite{SciPy:optimize.leastsq} to obtain the following
-sensitivities, biases, and orientation angles
+bicycle frame. This overdetermined system of equations was solved by the method
+of least squares to obtain the following sensitivities, biases, and orientation
+angles
 \begin{align}
   \left[
     \begin{matrix}
-      S_{xx} & S_{xy} & S_{xz}\\
-      S_{xy} & S_{yy} & S_{yz}\\
-      S_{xz} & S_{yz} & S_{zz}
+      S_{xx} \\
+      S_{yy} \\
+      S_{zz} \\
+      S_{xy} \\
+      S_{yz} \\
+      S_{xz}
     \end{matrix}
   \right]
   &=
   \left[
     \begin{matrix}
-      5.98965439e-04 & -5.47664577e-07 & 1.92721134e-06 \\
-     -5.47664577e-07 &  5.95347246e-04 & -1.64554051e-06 \\
-      1.92721134e-06 & -1.64554051e-06 & 5.82882068e-04
+      \num{5.9898e-4} \\
+      \num{5.9534e-4} \\
+      \num{5.8288e-4} \\
+      \num{-5.4766e-7} \\
+      \num{-1.6455e-6} \\
+      \num{1.9272e-6}
     \end{matrix}
-  \right]\\
+  \right] \text{m/s$^2$/bit} \\
   \left[
     \begin{matrix}
       b_{x} \\
@@ -393,17 +438,29 @@ sensitivities, biases, and orientation angles
   &=
   \left[
     \begin{matrix}
-      -0.56998783 \\
-       0.05138561 \\
-       1.16912488
+      -0.5700 \\
+       0.0514 \\
+       1.1690
     \end{matrix}
-  \right]\\
-  \alpha &= 0.003066921593368227 \\
-  \beta &= 0.3230223150690179 \\
-  \gamma &= -0.01821662736826406
+  \right] \text{\si{m/s^2}} \\
+  \left[
+    \begin{matrix}
+      \alpha \\
+      \beta \\
+      \gamma
+    \end{matrix}
+  \right]
+  &=
+  \left[
+    \begin{matrix}
+      0.0031 \\
+      0.3230 \\
+     -0.0182
+    \end{matrix}
+  \right] \text{rad}
 \end{align}
 The diagonal entries of $S$ were very close to the manufacturer specified
-sensitivity of 5.9876e-04 m/s$^2$/bit. The diagonal entries were greater than
+sensitivity of \num{5.9876e-4} m/s$^2$/bit. The diagonal entries were greater than
 the off-diagonal entries by more than two orders of magnitude, indicating the
 cross axis sensitivity was less than 1\%, also in line with the manufacturers
 specifications. The means of three rate gyroscope measurements axes were
@@ -411,9 +468,9 @@ computed for each static configuration, and were found to be independent of
 configuration (as expected). These means were used as biases for the
 measurement of the bicycle frame angular velocity and were found to be
 \begin{align}
-  E[\omega_x] &= -0.12041638 \text{ rad/s}\\
-  E[\omega_y] &= 0.03156526 \text{ rad/s}\\
-  E[\omega_z] &= 0.00995525 \text{ rad/s}
+  E[\omega_x] &= -0.1204\text{ rad/s}\\
+  E[\omega_y] &=  0.0316 \text{ rad/s}\\
+  E[\omega_z] &=  0.0100 \text{ rad/s}
 \end{align}
 Since a rate table or other convenient means of calibrating the gyroscope
 sensitivities was not available, the manufacturer published gyroscope
@@ -471,14 +528,14 @@ controller that operated at 30kHz. The current commands were generated by the
 microcontroller as 3.3V pulse width modulated (PWM) signals which were
 converted by the motor drives to the appropriate high voltage, high current PWM
 signals to the motor windings. The bicycle control system was designed to
-generate control signals as applied joint torques, which were then scaled by
+generate applied joint torques as control signals, which were then scaled by
 the respective motor torque constants before generating the current command PWM
 signal.
 
-The rear wheel was was built with an electric hub motor~\cite{AmpedBikes}. The
+The rear wheel was built with an electric hub motor~\cite{AmpedBikes}. The
 manufacturer supplied rim and spokes were of extremely low quality (very weak,
 untrue, and noticeably inertially non-symmetric), so they were replaced with DT
-Swiss 2.0mm stainless steel spokes and Mavic model A719, 700c diamter, 36 hole
+Swiss 2.0mm stainless steel spokes and Mavic model A719, 700c diameter, 36 hole
 rim. The rear hub axle served as the motor stator and armature with the three
 motor power leads exiting the left side of the axle. The motor field magnets
 were fixed to the inside of the hub shell and rotated along with the spokes,
@@ -487,15 +544,15 @@ configuration is commonly known as the ``outrunner'' configuration. No
 manufacturer specifications were available for this motor, so the motor torque
 constant was determined experimentally by applying a constant rear wheel
 current $I_R$ with while the wheel was off the ground and measuring the angular
-response. The inertia of the rotating portion of the wheel was measured (need
-to reference parameter measurement section), and the idealized DC motor
-equation $J_R\ddot{\theta}_R = K_t I_R$ was integrated twice with respect to
-time (constant current assumed and zero initial conditions) to obtain $\theta =
-\frac{K_t I_R}{2J_R}t^2$. A least squares fit was then used to estimate
-$K_t=6.6$ Nm/A. Since a PI speed controller was implemented for the rear wheel
-controller, it was not critical to know $K_t$ precisely (PI controllers perform
-reasonably well even when system parameters are not well known); for this
-reason we didn't expend any effort to more accurately determine $K_t$.
+response. The spin inertia $J_r$ of the rear wheel was measured
+(\autoref{rb:subsec:parameters}), and the idealized DC motor equation
+$J_r\ddot{\theta}_R = K_t I_r$ was integrated twice with respect to time
+(constant current assumed and $\theta_R(0)=\dot{\theta}_R(0) = 0$) to obtain
+$\theta = \frac{K_t I_r}{2J_r}t^2$. A least squares fit was then used to
+estimate $K_t=6.6$ Nm/A. Since a PI speed controller was implemented to control
+rear wheel rate, it was not critical to know $K_t$ precisely (PI controllers
+perform reasonably well even when system parameters are not well known); for
+this reason we didn't expend any effort to more accurately determine $K_t$.
 
 The fork motor~\cite{TeknicM3441} was bolted to an aluminum box section which
 in turn was bolted to a custom upper headset. The custom upper headset was
@@ -510,11 +567,11 @@ attached to the steer tube in the same way a threaded bicycle stem wedge
 expander attaches to the bicycle steer tube. The upper portion of the circular
 plug (which mates with the motor shaft) was bored with a hole to match the
 diameter of the motor output shaft, and an internal key-way was cut with a
-wire-cut electrical discharge machine. Once the motor was bolted down, a set
+wire-cut electrical discharge machine. Once the motor was secured, a set
 screw was threaded into the upper portion of the plug to make contact with the
 motor key. This design permitted the fork to be driven directly by the motor
 without the use of a gearbox, and still permitted the motor to be removed
-easily if necessary. Most importantly, the design had zero backlash between the
+easily if necessary. Most importantly, the design had no backlash between the
 motor shaft and the fork. A previous design was attempted which made use of a
 precision gearbox, but it was found to have unacceptable levels of backlash.
 Since the sign of the steer angle rate frequently changes during normal
@@ -525,7 +582,7 @@ undesirable.
 Four 12.0V sealed lead acid (SLA) batteries were wired in series and used to
 power the motors and the digital motor drives. The SLA batteries were arranged
 in a row of four and tightly bound to each other with duct tape and nylon
-strapping. All other electronics were powered with a two cell 7.2V lithium
+strapping. All other electronics were powered with a two-cell 7.2V lithium
 polymer battery~\cite{Zippy5000} which was fastened to the right side of the
 electrical panel with velcro and a small bungee cord.
 
@@ -541,11 +598,11 @@ align the steel plate symmetrically with respect to the bicycle frame. The top
 tube bracket was a clamshell design, with the top half welded to the bottom of
 the steel plate and the bottom half placed on the underside of the top tube and
 then bolted to the top half, thereby securing the plate to the tube (see
-\autoref{rb:img:imuplacement}). When the bicycle was in the reference
+\autoref{rb:img:imuplacement}). When the bicycle was in the upright reference 
 configuration, the battery plate was approximately horizontal. In addition to
 the battery box to maintain the lateral and longitudinal position of the
 batteries with respect to the frame, nylon straps were used to secure the
-batteries down on to the plate.
+batteries onto the plate.
 
 \subsection{Wireless communication} \label{rb:subsec:wireless}
 A pair of XBee Pro~\cite{XBeePro} wireless radios were used as a serial cable
@@ -566,10 +623,9 @@ details of the control system for the robot bicycle. Lower level details and
 user interface considerations are detailed in \autoref{rb:subsec:data} and
 \autoref{rb:subsec:ui}.
 
-%\addtocounter{subsection}{-1}
 \subsection{Data logging} \label{rb:subsec:data}
 Data was written at 200Hz, in binary format, to a single file per ``run'' on
-the micro SD card . The data format used Google Protocol
+the micro SD card. The data format used Google Protocol
 Buffers~\cite{GoogleProtoBuf}, a platform independent data interchange format
 used by Google. In addition to abstracting away platform dependent issues (byte
 order, word size, etc.), this data format permitted data fields to be marked as
@@ -583,25 +639,25 @@ experiment to verify that we had implemented the control algorithms correctly.
 The following is a partial list of the data that was recorded during each run;
 the complete list is viewable in the source code.
 \begin{description}
-  \item[System time] Units of 0.25$\mu$s. Starts at zero when data collect
-    begins.
-  \item[Computation time] Units of 0.25$\mu$s. Measures time elapse from the
+  \item[System time] Units of 0.25$\mu$s. Time elapsed since the beginning of
+    data collection.
+  \item[Computation time] Units of 0.25$\mu$s. Time elapsed from the
     beginning of each 5ms period until data collection and logging are
     complete. Used to ensure no calculations exceed the loop time.
   \item[System state] 32-bit unsigned integer whose bits are set high or low
-    depending on the boolean state of the following: Rear motor enable, steer
+    depending on the Boolean state of the following: Rear motor enable, steer
     motor enable, rear motor fault, steer motor fault, sample buffer
     encode/initialization/overflow error, hardware button
     (\autoref{rb:subsec:sensors}), IMU communication error, filesystem error.
-  \item[Rear wheel angle, rear wheel rate, steer angle, steer angle rate]]
-    Units of rad, rad/s. Rear wheel angle and angular rate, steer angle and
-    angular rate. Rear wheel angular rate was determined by a 100ms moving
-    average of an ideal derivative ($\dot{\theta}_R \approx \Delta\theta_R /
-    \Delta t$), steer angular rate was obtained by a low pass filtered ideal
-    derivative ($G(s)=s/(s+20\pi)$).  This difference was necessary because the
-    discretization error of the rear wheel encoder was 2 orders of magnitude
-    higher than that of the steer encoder.
-  \item[Reference (commanded) rear wheel rate and yaw rate] Units of rad/s. By
+  \item[Rear wheel and steer angles and rates] Units of rad, rad/s. Rear wheel
+    angle and angular rate, steer angle and angular rate. Rear wheel angular
+    rate was determined by a 100ms moving average of an ideal derivative
+    ($\dot{\theta}_R \approx \Delta\theta_R / \Delta t$), steer angular rate
+    was obtained by a low pass filtered ideal derivative ($G(s)=s/(s+20\pi)$).
+    This difference was necessary because the discretization error of the rear
+    wheel encoder was 2 orders of magnitude higher than that of the steer
+    encoder.
+  \item[Commanded rear wheel rate and yaw rate] Units of rad/s. By
     default, these both start at 0 rad/s and change once the \verb|speed| or
     \verb|yaw_rate| commands are issued. Speed was specified in m/s but
     converted to rear wheel rate by dividing by rear wheel radius.
@@ -612,7 +668,7 @@ the complete list is viewable in the source code.
   \item[Frame angular velocity, sensor acceleration] Units of rad/s, m/s$^2$.
     Both quantities were computed by applying the sensitivities, biases, and
     direction cosine matrix to map raw measurements to appropriately scaled
-    measurments in the bicycle body fixed frame.
+    measurments in the bicycle body-fixed frame.
     (\autoref{rb:subsec:sensors}).
 \end{description}
 
@@ -655,14 +711,15 @@ The yaw rate controller was implemented with an inner loop and an outer loop.
 The inner loop was comprised of a full state estimator for the four bicycle
 states using measurements of steer angle $\delta$ and lean rate $\dot{\phi}$,
 and a full state feedback control law which used the state estimates instead of
-the states. The stabilized inner loop was then wrapped with an outer yaw rate
-control loop which computed generated an additive control action based upon the
-error between the reference yaw rate $\dot{\psi}_r$ and an estimated yaw rate.
-The block diagram for the complete system is shown in
+the states. The stabilized inner loop was then inserted into an outer yaw rate
+control loop which computed an additive control action based upon the error
+between the commanded yaw rate $\dot{\psi}_c$ and the estimated yaw rate
+$\dot{\hat{\psi}}$.  The block diagram for the complete system is shown in
 \autoref{rb:fig:yr_block_diagram}. An additive sinusoidal disturbance torque
-with user selectable amplitude $A$ and frequency $f$ (see the \verb|disturb|
+with user selectable amplitude $a_d$ and frequency $f$ (see the \verb|disturb|
 command in \autoref{rb:subsec:ui}) was also incorporated into the design; by
-default $A=0$ so that no disturbance was applied unless requested by the user.
+default $a_d=0$ so that no disturbance was applied unless requested by the
+user.
 
 \begin{figure}[h]
   \centering
@@ -676,7 +733,7 @@ default $A=0$ so that no disturbance was applied unless requested by the user.
     \matrix[ampersand replacement=\&, row sep=0.2cm, column sep=0.4cm] {
     %\node (disturbance_input) [coordinate, above=of inner_sum] {};
     % First row
-    \node (input) [] {$\dot{\psi}_r$}; \&
+    \node (input) [] {$\dot{\psi}_c$}; \&
     \node (outer_sum) [sum,label=135:$+$,label=225:$-$] {}; \&
     \node (pi_block) [block] {PI}; \&
     \node (inner_sum) [sum,label=45:$+$,label=135:$+$,label=225:$+$] {}; \&
@@ -698,7 +755,7 @@ default $A=0$ so that no disturbance was applied unless requested by the user.
       \& \& \node(C_yr) [block] {$C_{\dot{\psi}}$}; \& \& \& \& \& \& \& \\
     };
     % Place disturbance node above inner_sum, not using the matrix layout
-    \node (disturbance) [above=of inner_sum] {$d = A\sin(2\pi f t)$};
+    \node (disturbance) [above=of inner_sum] {$d = a_d\sin(2\pi f t)$};
 
     \draw[connector] (input.east) to (outer_sum.west);
     \draw[connector] (outer_sum.east) to node[auto] {$e_{\dot{\psi}}$} (pi_block.west);
@@ -743,10 +800,11 @@ allowable'' value for the corresponding state or control variable (e.g., the
 ``maximum allowable'' value for lean $\phi$ was $\frac{2\pi}{180}=2^{\circ}$).
 
 Once the state feedback gain was computed, the closed loop eigenvalues of the
-stabilzed plant dynamics $A+BK$ were computed, and the estimator gain was
+stabilized plant dynamics $A+BK$ were computed, and the estimator gain was
 selected using pole placement. The poles of the estimator were all placed on
-the negative real axis, spaced by 0.2 rad/s, and with the slowest estimator
-pole being $3\min(\text{real}(\sigma(A+BK)))$.
+the negative real axis, equally spaced by 0.2 rad/s, and with the slowest estimator
+pole being $3\min(\text{real}(\sigma(A+BK)))$. This ensured the convergence of
+the estimator was substantially faster than the controller dynamics.
 
 With the bicycle dynamics stabilized by the inner loop, an outer loop was added
 to track yaw rate. Yaw rate was chosen as the variable to track because it is a
@@ -763,7 +821,7 @@ based on the measured speed. A linear interpolation of the state update and
 control law were performed using the nearest two speeds to the measured speed.
 An implication of this is that estimation and control was not possible below
 0.5m/s. This turned out not to be a problem as long as the bicycle was started
-from a standstill near the reference configuration.
+from a standstill near the upright reference configuration.
 
 \subsection{User interface} \label{rb:subsec:ui}
 The following list details the available commands and gives a brief description
@@ -777,77 +835,51 @@ of each.
   \item[\Q{reset}] Perform a software reset of the microcontroller.
   \item[\Q{threads}] Show the memory address, stack address, priority, number
     of references to this thread, thread state, thread time in ticks, and the
-    name all currently running threads.
-  \item[\Q{calibrate}] Begin the steer angle calibration routine.
-  \item[\Q{homefork}] Wait for the steer encoder index signal set the steer calibration offset.
-  \item[\Q{e_thresh {+-}XX.XX}] Set state estimation threshold speed in m/s.
-    Must be set to a speed greater than or equal to 0.5m/s (the lowest speed
+    name of all currently running threads.
+  \item[\Q{calibrate}] Begin the steer angle calibration routine (see
+    \autoref{rb:subsec:sensors})
+  \item[\Q{homefork}] Wait for the steer encoder index signal to set the steer calibration offset.
+  \item[\Q{e_thresh v_e}] Set state estimation threshold speed to \verb|v_e| m/s.
+    \verb|v_e| must be greater than or equal to 0.5m/s (the lowest speed
     for which linearized bicycle dynamics state space matrices were generated).
-  \item[\Q{c_thresh {+-}XX.XX}] Set control threshold speed in m/s. Must be larger than estimation threshold speed.
-  \item[\Q{thresh {+-}XX.XX {+-}XX.XX}] Simultaneously set state estimation
-    and control threshold speeds in m/s.
-  \item[\Q{disturb {+-}XX.XX {+-}XX.XX}] Set sinusoidal disturbance amplitude (in
-    cNm) and frequency (in Hz).
-  \item[\Q{speed_limit {+-}XX.XX {+-}XX.XX}] Set reference speed (in m/s) and
-    distance limit (in meters). At the distance specified by the second
-    argument, the speed set point is changed to 1.0 m/s, a speed which was easy
-    walk next to and catch the bicycle. On reset, the reference speed is 0 m/s;
-    changing the reference causes the bicycle to begin moving.
-  \item[\Q{speed {+-}XX.XX}] Set reference speed (in m/s). The bicycle will
+  \item[\Q{c_thresh v_c}] Set the threshold speed to \verb|v_c| m/s. Once the
+    bicycle speed \verb|v| exceeds \verb|v_c| yaw rate control is enabled. Must
+    be larger than estimation threshold speed.
+  \item[\Q{thresh v_e v_c}] Simultaneously set state estimation and control threshold speeds.
+  \item[\Q{disturb a_d f}] Set disturbance amplitude to \verb|a_d|\num{1e-2}Nm
+    and disturbance frequency to \verb|f| Hz (see
+    \autoref{rb:fig:yr_block_diagram}).
+  \item[\Q{speed v}] Set commanded speed in m/s. The control system will
     immediately attempt to track this speed until a fault occurs or the
-    reference is changed by the user.
-  \item[\Q{l_thresh}] Set lateral acceleration threshold for lean indication
-    LED. In quasi-static conditions at the beginning of each run, a green LED
-    was illuminated when the lateral acceleration of the bicycle was below a
-    threshold (with a default of 0.01 m/s$^2$), thus enabling the bicycle to be
-    initialized with as close to zero lean angle as possible. The sensed
-    lateral acceleration was non-zero when the bicycle was leaned because the
-    accelerometer senses the gravitational field even when static.
-  \item[\Q{yaw_rate {+-}XX.XX}] Set the reference yaw rate (in rad/s). On
+    reference is changed by the user. On reset, the reference speed is set 0
+    m/s.
+  \item[\Q{speed_limit v d}] Set commanded speed to \verb|v| m/s and distance
+    limit to \verb|d| meters. This works the same as \verb|speed| except that
+    once the bicycle has travelled \verb|d| meters, the commanded speed is
+    changed to 1.0 m/s, a speed which was easy to walk next to and catch the
+    bicycle.
+  \item[\Q{l_thresh t}] Set the lateral acceleration threshold to \verb|t|. At
+    the beginning of each run, a green LED is illuminated when the bicycle
+    lateral acceleration is below \verb|t| (with a default of \verb|t|=0.01
+    m/s$^2$). This enables the bicycle to be initialized with as close to zero
+    lean angle as possible. The sensed lateral acceleration is non-zero in
+    static conditions because the accelerometer senses the gravitational field.
+  \item[\Q{yaw_rate yr] Set the commanded yaw rate in rad/s. On
     reset, reference yaw rate is 0 rad/s (straight line motion).
 
 \end{description}
 
-%\section{Experiments and results} \label{rb:sec:experiments}
+\section{Experiments} \label{rb:sec:experiments}
 
-%\addtocounter{subsection}{-1}
-%\subsection{Experiments conducted}
+\subsection{Experiments conducted} \label{rb:subsec:experiments}
 
-%\subsection{Data analysis}
+\subsection{Results} \label{rb:subsec:results}
 
-
-
+\subsection{Discussion} \label{rb:subsec:discuss}
 
 
 
-%
-%This chapter describes the design of two real time controllers which were
-%implemented to stabilize the bicycle over a finite range of forward speeds so
-%that system identification experiments could be performed.  When linearized
-%about the upright steady equilibrium the first order forward and lateral
-%dynamics are decoupled; for this reason the forward dynamics control was
-%designed separately from the lateral dynamics controller.
 
-%\section{Controller user interface}
-%Interaction with the control system is performed through two wireless
-%radios~\cite{XBeePro} which act as a serial cable replacement between the serial
-%ports of the bicycle microcontroller (MCU) and a laptop (or any other computer
-%with a serial port). Running on the MCU is a real time operating
-%system\cite{ChibiOS} which implements a simple and extensible shell interface.
-%Commands with optional arguments are sent as strings over the serial connection
-%to the MCU and permit a user on a laptop to interact remotely with the bicycle.
-%
-%The following commands were implemented to
-%\begin{itemize}
-%\item \verb|collect| \verb|[datafile]|
-%\item \verb|rw| \verb|[{+-}XX.XX]|
-%\item \verb|yr| \verb|[{+-}XX.XX]|
-%\item \verb|status|
-%\item \verb|calibrate|
-%\item \verb|homefork|
-%\item \verb|disable|
-%\item \verb|reset|
-%\end{itemize}
 %
 %\section{Yaw rate controller}
 %The objective of the yaw rate controller is twofold: 1) stabilize the roll and

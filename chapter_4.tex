@@ -1,7 +1,5 @@
 \chapter{Robot bicycle}
 
-%\addtocounter{section}{-1}
-%\addtocounter{table}{-1}
 \section{Introduction and Motivation} \label{rb:sec:intro}
 
 The Whipple bicycle model qualitatively predicts behavior commonly observed in
@@ -128,10 +126,9 @@ The resulting parameters are presented in \autoref{rb:tab:parameters}.
 
 \begin{table}[ht]
   \centering
-  %\begin{tabular}{rS[table-parse-only]S[table-parse-only]s}
   \begin{tabular}{rccl}
     \toprule
-    & {Rear assembly} & {Front assembly} & {Units} \\
+    & {Rear gyrostat} & {Front gyrostat} & {Units} \\
     \midrule
     $I_{xx}$ &  1.542 &   0.183 & \si{kg.m^2} \\
     $I_{yy}$ &  3.557 &   0.226 & \si{kg.m^2} \\
@@ -185,21 +182,21 @@ functionality executed on the development board CPU. Certain language features
 such as dynamic memory allocation, runtime type information, and exceptions
 were not used due to associated overhead (generated code size or runtime
 efficiency). The compiler used was Version 4.7 (update 2) of the GCC ARM
-Embedded~\cite{gccARMEmbedded} toolchain was used to compile and link source
+Embedded~\cite{gccARMEmbedded} tool chain was used to compile and link source
 code to machine executable code. This ARM maintained version of GCC is
 customized to generate efficient machine instructions for ARM embedded
 processors.
 
 The real time operating system ChibiOS/RT~\cite{ChibiOS} provided functionality
-for threaded execution (concurrency), thread synchronization primitives (mutual
-exclusions and semaphores), a filesystem for data logging, an extensible
-interactive serial shell, and a high level interface to the development board
-hardware peripherals (UART, I2C, SDIO, and GPIOs). ChibiOS/RT directly supports
-a large number of development boards, including the Olimex STM32-H407, which
-made building and running test code convenient and relatively painless.
-Additionally, the very active user community and excellent documentation of
-ChibiOS/RT made it easy to troubleshoot problems, ask questions, and get help
-while developing the firmware.
+for concurrent execution, thread synchronization primitives, a file system for
+data logging, an extensible interactive serial shell, and a high level
+interface to the development board hardware peripherals (UART, I2C, SDIO, and
+GPIOs). ChibiOS/RT directly supports a large number of development boards,
+including the Olimex STM32-H407, which made building and running test code
+convenient and relatively painless.  Additionally, the very active user
+community and excellent documentation of ChibiOS/RT made it easy to
+troubleshoot problems, ask questions, and get help while developing the
+firmware.
 
 The development board was attached to the right side of the sheet in the front
 triangle of the frame. Slightly above the development board on the electrical
@@ -243,22 +240,24 @@ zero steer configuration. The fixture can be seen in
 \autoref{rb:img:calibration}. The steer angle calibration involved the
 following steps:
 \begin{itemize}
-  \item Suspend the bicycle from the ceiling and remove both wheels.
-  \item Rigidly mount the steer calibration fixture into the wheel dropouts
-    (this puts the fork in the zero steer configuration)
+  \item Suspend the bicycle frame from the ceiling and remove both wheels.
+  \item Rigidly mount the steer calibration fixture into the wheel dropouts,
+    thereby setting $\delta=0$.
   \item Turn on the microcontroller on and call the \verb|calibrate| function.
     This function zeros the steer encoder count and waits for the steer encoder
     index.
   \item Remove the fixture from the front dropouts, and rotate the fork left to
     right 16 times.
-  \item Record the steer offset presented by the \verb|calibrate| function.
+  \item Record the steer offset presented by the \verb|calibrate| function. The
+    offset is a signed integer number of quadrature counts the index is away
+    from $\delta=0$.
 \end{itemize}
 On microcontroller power up or reset, the steer encoder count is set to zero
 regardless of the position of the fork. By permanently recording the number of
-counts the steer index is from from the zero steer configuration, this offset
-can be set during a fork homing procedure when the steer index is triggered.
-This functionality was implemented in the \verb|homefork| function and was run
-every time the microcontroller was reset or powered up.
+quadrature counts the steer index is from from the zero steer configuration,
+this offset can be set during a fork homing procedure when the steer index is
+triggered.  This functionality was implemented in the \verb|homefork| function
+and was run every time the microcontroller was reset or powered up.
 
 \begin{figure}[ht]
   \centering
@@ -305,7 +304,7 @@ visible.}
 
 To determine the three angles $\alpha$, $\beta$, and $\gamma$, the static
 acceleration was measured in three sensor directions ($\bm{s}_x$, $\bm{s}_y$,
-$\bm{s}_z$) in six unique configurations. The six configurations are those that
+$\bm{s}_z$) in six unique orientations. The six orientations are those that
 would be obtained if $R$ were aligned with and fixed to the edges of a perfect
 cube and the cube was laid on a level surface on each of its six sides.  These
 six configurations correspond to the following bicycle orientations:
@@ -313,7 +312,18 @@ $\phi=\pm\pi/2$ (frame plane horizontal), $\phi=0$ and $\theta_R = \{-\pi/2, 0,
 \pi/2, \pi\}$ (frame plane vertical, two horizontal steer axis orientations and
 two vertical steer axis orientations). The sensed acceleration in the three sensor
 directions was recorded for approximately sixty seconds while the bicycle was
-in each each of the six configurations.
+in each orientation.
+
+The six orientations were obtained by suspending the bicycle by ropes from
+three points of attachment and using a turnbuckle on two of the ropes to level
+the desired surface in two directions. Two precision horizontal bubble levels
+were attached to the frame 90 degrees apart to permit levelling in both
+directions.  Once levelled, the bicycle was left to rest for approximately 5
+minutes to allow for small swinging and twisting oscillations to die out; this
+was also aided by suspending a weight from the frame with fishing line and
+hanging it into a bucket of water. The bucket of water provided some
+dissipation which helped damp out vibrations. Once stationary (within the
+limits of the vibrating building), data collection was initiated.
 
 When at rest, the accelerometer senses the gravitational field as if it were
 accelerating \textit{upwards} at $g$, this corresponds to $-g\bm{n}_z$.
@@ -353,9 +363,11 @@ c_{\alpha} - c_{\beta}
 c_{\gamma} c_{\phi}
 c_{\theta}\right)
 \end{align}
-The goal of the calibration was to convert the measured acceleration to the
-true acceleration, and for this reason the following slightly non traditional
-(yet equally representative) form of the acceleration sensor model was used
+Where $s_{x}$ and $c_{x}$, $x=\alpha,\beta,\gamma,\phi,\theta$ are
+abbreviations of $\sin{x}$ and $\cos{x}$. The goal of the calibration was to
+convert the measured acceleration to the true acceleration, and for this reason
+the following slightly non traditional (yet equally representative) form of the
+acceleration sensor model was used
 \begin{align}
   \label{rb:eq:sensormodel}
   \left[
@@ -401,7 +413,7 @@ $\phi$ and pitch $\theta$ corresponding with a particular configuration, and
 taking the time series mean of each of the raw measurements $a_x, a_y, a_z$, we
 obtain three equations with twelve unknowns. Repeating for each of the six
 configurations, we obtain an overdetermined system of eighteen equations in
-twelve unknowns. The twelve unknowns are the six sensitivites, the three
+twelve unknowns. The twelve unknowns are the six sensitivities, the three
 biases, and the three orientation angles relating the sensor frame to the
 bicycle frame. This overdetermined system of equations was solved by the method
 of least squares to obtain the following sensitivities, biases, and orientation
@@ -475,46 +487,6 @@ measurement of the bicycle frame angular velocity and were found to be
 Since a rate table or other convenient means of calibrating the gyroscope
 sensitivities was not available, the manufacturer published gyroscope
 sensitivities were used.
-
-%For each configuration, replacing the term to the left of the equality with the
-
-%mean of each respective sensor axis measurement, and evaluating the terms to
-
-%the right of the equality at the value of lean $\phi$ and pitch $\theta$
-
-%associated with that configuration, Equations \ref{rb:eq:imux}-\ref{rb:eq:imuz}
-
-%yield a system of three equations in three unknowns: $\alpha, \beta, \gamma$.
-
-%This yield a system of 18 equations in three unknowns.
-
-
-
-
-
-%A calibration procedure to determine the orientation of the
-%sensor axes relative to the frame axes (as defined by the model) was performed
-%by accurately orienting the bicycle in six orientations: 1, 2) steer axis
-%vertical (two configurations); 3, 4) steer axis horizontal, rear axle axis
-%vertical (two configurations); 5, 6) steer axis horizontal, rear axle axis
-%horizontal (two configurations). Said another way, the six orientations are
-%those that would be obtained if the bicycle body fixed coordinates were aligned
-%with and fixed to the edges of a perfect cube, and the cube was laid on a level
-%surface on each of its six sides while data was collected from an accelerometer
-%fixed to the cube but whose axes didn't aligned with the cube edges.
-%
-%The six orientations were obtained by suspending the bicycle by ropes from three
-%points of attachment and using a turnbuckle on two of the ropes to level the
-%desired surface in two directions. Two precision horizontal bubble levels were
-%attached to the frame 90 degrees apart to permit levelling in both directions.
-%Once levelled, the bicycle was left to rest for approximately 5 minutes to
-%allow for small swinging and twisting oscillations to die out; this was also
-%aided by suspending a weight from the frame with fishing line and hanging it
-%into a bucket of water. The bucket of water provided some dissipation which
-%helped damp out vibrations. Once stationary (within the limits of the vibrating
-%building), data collection was initiated for a period of approximately 60
-%seconds.
-
 
 \subsection{Actuators} \label{rb:subsec:actuators}
 The robot bicycle was equipped with a rear wheel hub motor to drive the rear
@@ -803,7 +775,7 @@ Once the state feedback gain was computed, the closed loop eigenvalues of the
 stabilized plant dynamics $A+BK$ were computed, and the estimator gain was
 selected using pole placement. The poles of the estimator were all placed on
 the negative real axis, equally spaced by 0.2 rad/s, and with the slowest estimator
-pole being $3\min(\text{real}(\sigma(A+BK)))$. This ensured the convergence of
+pole being $3\min(\text{Re}(\sigma(A+BK)))$. This ensured the convergence of
 the estimator was substantially faster than the controller dynamics.
 
 With the bicycle dynamics stabilized by the inner loop, an outer loop was added
@@ -815,10 +787,12 @@ steady turning motion ($\dot{\psi}=c\ne0$). The Matlab function
 Since the dynamics of the bicycle vary with speed, this control system design
 was performed at 101 speeds, logarithmically spaced between 0.5m/s and 10m/s.
 All matrices in \autoref{rb:fig:yr_block_diagram} were output to a C++ file as
-an array of matrices parameterized by speed. This file was then compiled into
-the firmware and gain scheduling was used to compute the actual control law
-based on the measured speed. A linear interpolation of the state update and
-control law were performed using the nearest two speeds to the measured speed.
+a sorted array of matrices parameterized by speed. This file was then compiled
+into the firmware and gain scheduling was used to compute the actual control
+law based on the measured speed. During a experimental run, the measured speed
+was used to perform a binary search into the array to find the matrices
+associated with speeds bounding the measured speed. A linear interpolation of
+the state update and control law were performed using these nearest two speeds.
 An implication of this is that estimation and control was not possible below
 0.5m/s. This turned out not to be a problem as long as the bicycle was started
 from a standstill near the upright reference configuration.
@@ -895,10 +869,10 @@ and catch the bicycle.
 \begin{center}
   \begin{longtable}{| l | l | l | l | l | l | l |}
   \hline
-  Run & Time (PST) & Speed (m/s) & $A_d$ (cNm) & $f_d$ (Hz) & $x$ (m) &
+  Run & Time (PST) & Speed (m/s) & $a_d$ (\num{1e-2} Nm) & $f_d$ (Hz) & $x$ (m) &
   Direction \endhead
   \hline
-  \multicolumn{7}{|p{\textwidth}|}{Yaw rate PI controller is designed such that
+  \multicolumn{7}{|p{.9\textwidth}|}{Yaw rate PI controller is designed such that
   first 0dB cross-over frequency is 0.1 Hz. Additive disturbance torque is
   $\sin\left(2\pi t \right)$.} \\
   \hline
@@ -924,7 +898,7 @@ and catch the bicycle.
   \hline
   010 & 0701 & 2.0 & 1.0 & 1.0 & 30.0 & East \\
   \hline
-  \multicolumn{7}{|p{\textwidth}|}{Changed additive disturbance torque to be
+  \multicolumn{7}{|p{.9\textwidth}|}{Changed additive disturbance torque to be
   $A_d \sin\left(2\pi f_d \left(t - t_i\right)\right)$, where $t_i$ is the time at which
   the disturbance is initially applied.} \\
   \hline
@@ -936,7 +910,7 @@ and catch the bicycle.
   \hline
   014 & 0725 & 2.0 & -5.0 & 1.0 & 30.0 & East \\
   \hline
-  \multicolumn{7}{|p{\textwidth}|}{Changed yaw rate PI controller design such that
+  \multicolumn{7}{|p{.9\textwidth}|}{Changed yaw rate PI controller design such that
   first 0dB cross-over frequency is selected by Matlab's
   pidtune() instead of specified to be 0.1 Hz} \\
   \hline
@@ -971,7 +945,6 @@ and catch the bicycle.
   \end{longtable}
 
 \end{center}
-
 
 \subsection{Results} \label{rb:subsec:results}
 

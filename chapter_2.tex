@@ -1,25 +1,331 @@
 \chapter{Mathematical model of bicycle motion} \label{chapter2}
 
 \section{Introduction}
+The bicycle model we use assumes the bicycle is composed of four rigid bodies:
+two wheels, a frame, and a fork. These rigid bodies are assumed to be connected
+by three frictionless revolute joints: one between the rear wheel and frame,
+one between the front wheel and fork, and one between the bicycle frame and the
+fork. The rigid wheels are modelled as torii which make point contact with the
+ground plane. The frame and fork are each assumed to to be inertially inertial
+symmetric about in their respective $XZ$ planes. The revolute joint connecting
+the bicycle frame and fork is assumed to be parallel to the $Z$ axis of the
+bicycle frame and fork. It is assumed that each wheel mass center lies in the
+$XZ$ symmetry plane of the body to which it is connected, and that each wheel
+revolute joint axis is parallel to the $Y$ axis of each respective body.
 
-\section{Physical parameters}
+\section{Bicycle parameters}
+The choice of physical parameters used to describe the four rigid bodies, their
+interface with each other and the ground plane is of practical concern for
+several reasons: 1) measurement of the parameters on real bicycles, 2)
+simulation efficiency, 3) comparisons between models. Measurement of physical
+bicycle parameters is laborious and it is therefore beneficial to have a set of
+model parameters that are easily (and ideally directly) measurable on standard
+bicycles. The parameters used in~\cite{Meijaard2007} (this is not the first use
+of this parameter set, but it is the most clearly presented; hereafter we refer
+to these as the ``Meijaard parameters'') have been adopted by many
+authors~\cite{Sharp2008,Moore2010} as the \textit{de facto} set of parameters
+for describing bicycles. Further, many of the Meijaard parameters are
+immediately recognizable by everyday bicycle enthusiasts, for example wheelbase
+$w$, trail $c$, and steer axis tilt $\lambda$. For these reasons, this choice
+of parameters is indispensable.
+
+There are strong reasons to prefer other choices of parameters. The Meijaard
+parameters are ideally suited to direct derivation of linearized equations of
+motion, about the upright zero steer configuration. The reason for this is that
+the Meijaard parameters are defined with respect to the bicycle \textit{in the
+upright zero steer configuration} and with respect to a set of body fixed
+coordinates that are aligned with the inertial frame \textit{only in this
+configuration}. Deriving nonlinear equations of motion with this parameter set
+is cumbersome and requires a number of intermediate geometric quantities to be
+introduced. A serious disadvantage of the Meijaard parameter set is the
+coupling between the parameters. Consider, for example, a parameter study
+investigating the effect of front wheel radius on stability. Using the Meijaard
+parameters, a naive approach might be to choose a set of parameters and compare
+the eigenvalues for that set with the eigenvalues when only the wheel front
+wheel radius is changed. Unfortunately, this does not represent the act of
+taking a real bicycle (with some set of parameters) and simply changing the
+front wheel to one with identical mass and inertia but different radius.
+Changing the front wheel radius of a real bicycle changes the steer axis tilt,
+wheelbase, trail, center of mass locations relative to the rear wheel contact,
+and, by virtue of the inertia scalars being defined relative to an inertial
+frame, six of the inertia scalars. Thus, if the goal of an analyst or designer
+is to understand the difference between how front wheel radius affects a
+bicycle stability (a reasonable goal), and that person uses the Meijaard
+parameter set to describe the bicycle, no fewer than \textit{thirteen}
+additional parameters must be adjusted: the wheelbase $w$, trail $c$, steer
+axis tilt $\lambda$, the central inertia scalars $I_{\text{B}xx}$,
+$I_{\text{B}zz}$, $I_{\text{B}xz}$, $I_{\text{H}xx}$, $I_{\text{H}zz}$,
+$I_{\text{H}xz}$, and the scalars describing the center of mass locations of
+the bicycle frame and the fork $x_\text{B}$, $z_\text{B}$, $x_\text{H}$, and
+$z_\text{H}$. This coupling of parameters is the result of defining the
+parameters with respect to the reference configuration. If the naive approach
+is used anyway, and all other parameters are left unchanged as
+in~\cite{Moore2008,Tak2010}, it must be realized that when comparing results
+which have only one of these coupled parameters changed (e.g., front wheel
+radius), one is actually comparing bicycles with different frame and fork
+geometry, center of mass location, and mass distribution since these must be
+changed (on a real bicycle) in order to keep the Meijaard parameters constant.
+Stated simply, one is not comparing effect of only front wheel radius, but the
+effect of changing the front wheel radius and thirteen other parameters. The
+practical utility of such a comparison is dubious at best. While this issue
+\textit{can} be addressed by carefully changing the thirteen coupled parameters,
+to our knowledge, no parameter study to date has done this. This is a rarely
+stated, but critical, downside of the Meijaard parameters.
+
+The easiest way to remedy the issue of parameter coupling is to choose physical
+parameters which can be defined independent of configuration. This is standard
+practice in robotics: robot link lengths are defined relative to the previous
+link in the chain, and mass and inertia properties of each link are defined
+with respect to a link-fixed coordinate system which is independent of overall
+robot configuration. The thirteen Meijaard parameters which are defined
+relative to the reference configuration can be arranged into three groups and
+addressed separately. First, the wheelbase $w$, trail $c$, and steer axis tilt
+$\lambda$ can be replaced with three distances which are independent of
+configuration, as in~\cite{Franke1990}. Two of these measure the perpendicular
+distance between the wheel centers and the steer axis while a third measures
+the distance parallel to the steer axis between the first two lines. Second,
+the bicycle frame and fork center of mass locations relative to the rear wheel
+ground contact ($x_\text{B}, z_\text{B}, x_\text{H}, z_\text{H}$
+in~\cite{Meijaard2007}) can be replaced with parameters which are defined
+relative to the rear and front wheel centers, respectively. Finally, the
+central inertia scalars of the bicycle frame and fork ($I_{\text{B}xx},
+I_{\text{B}zz}, I_{\text{B}xz}, I_{\text{H}xx}, I_{\text{H}zz}, I_{\text{H}xz}$
+in~\cite{Meijaard2007}) can be replaced with inertia scalars defined relative
+to body-fixed coordinate systems which are aligned with a features fixed in the
+body (such as the steer and wheel axes).
+
+This section carefully describes the physical parameters used to model the
+bicycle. These parameters address the issues raised in the previous two
+paragraphs and also reduce the number of parameters needed to describe the same
+four rigid bodies. This reduction is possible because the inertial properties
+of rear frame and rear wheel are independent of the orientation of the rear
+wheel relative to the rear frame (and similarly for the front fork and front
+wheel). This parameterization of the physical properties of the bicycle is
+collectively referred to as the gyrostat parameters. Finally, we present the
+conversion from the Meijaard parameters to the gyrostat parameters.
+
+\subsection{Gyrostat parameters} \label{model:gyrostat_parameters}
+A gyrostat is a mechanical system of one or more bodies which has the rigid
+body property that its inertia scalars are time independent
+constants~\cite{Wittenburg2008}. The most common example of such a system is a
+motor with a rotor which is inertially symmetric about the spin axis. As the
+rotor rotates relative to the frame of the motor, neither the location of the
+mass center nor the combined inertia of the system changes. This type of
+gyrostat is referred to as a cylindrical gyrostat~\cite{Mitiguy2001}. The two
+body cylindrical gyrostat is typically described as being composed of a carrier
+and a rotor. A bicycle wheel and frame or fork is exactly such a gyrostat.
+
+To aid the discussion which follows, we present the relationship between the
+parameters which fully describe a cylindrical gyrostat and the parameters which
+fully describe the two composing bodies. First consider a carrier $A$ with a
+set of mutually perpendicular axes $X$, $Y$, $Z$ intersecting at the mass
+center $A^*$ of $A$. $A$ has mass $m_A$, and let $\uv{a}{x}, \uv{a}{y},
+\uv{a}{z}$ be unit vectors parallel to $X$, $Y$, $Z$, respectively, and express
+the inertia dyadic of $A$ for $A^*$ as $\bm{I}^{A/A^*} =
+I_{Axx}\uv{a}{x}\uv{a}{x} + I_{Ayy}\uv{a}{y}\uv{a}{y} +
+I_{Azz}\uv{a}{z}\uv{a}{z} + I_{Axz}(\uv{a}{x}\uv{a}{z} + \uv{a}{z}\uv{a}{x})$.
+$A$ is inertially symmetric about the $XZ$ plane. Attached to $A$ with a
+revolute joint is rotor $B$ with mass $m_B$. Fixed to $B$ is a set of
+mutually perpendicular axes $X'$, $Y'$, $Z'$, intersecting at the mass center
+$B^*$ of $B$. Let the revolute joint axis be $Y'\parallel Y$, assume that $B^*$
+lies in the $XY$ plane, and express the inertia dyadic of $B$ for $B^*$ as
+$\bm{I}^{B/B^*} = I\uv{a}{x}\uv{a}{x} + J\uv{a}{y}\uv{a}{y} +
+I\uv{a}{z}\uv{a}{z}$ (i.e., $B$ is inertially symmetric about the $Y'$ axis).
+Let $\bm{r}^{B^*A^*} = a \uv{a}{x} + b \uv{a}{z}$ be the position vector
+from the mass center of rotor $B$ to the mass center of carrier $A$.  Let $G^*$
+denote the center of mass of $A$ and $B$ and let us refer to the cylindrical
+gyrostat simply as $G$. The cylindrical gyrostat has mass
+\begin{align}
+  m_G &\triangleq m_A + m_B
+\end{align}
+and the position vector from $B^*$ to $G^*$ is
+\begin{align}
+  \bm{r}^{B^*G^*} &= \frac{m_A}{m_A + m_B}\left(a \uv{a}{x} + b \uv{a}{z}\right)
+\end{align}
+The inertia dyadic of $G$ for $G^*$ is
+\begin{align}
+  \bm{I}^{G/G^*} &= \bm{I}^{A/G^*} + \bm{I}^{B/G^*} \notag \\
+                 &= \bm{I}^{A/A^*} + \bm{I}^{A^*/G^*} + \bm{I}^{B/B^*} +
+                 \bm{I}^{B^*/G^*} \notag \\
+%
+                 &= \underbrace{\left(I + I_{Axx} + \frac{m_A m_B}{m_A + m_B}
+               b^2 \right)}_{\triangleq I_{Gxx}}
+                 \uv{a}{x}\uv{a}{x} \notag \\
+%
+                 &+ \underbrace{\left(J + I_{Ayy} + \frac{m_A m_B}{m_A + m_B} \left(a^2 +
+               b^2\right)\right)}_{\triangleq I_{Gyy}} \uv{a}{y}\uv{a}{y} \notag \\
+%
+                 &+ \underbrace{\left(I + I_{Azz} + \frac{m_A m_B}{m_A + m_B}
+               a^2 \right)}_{\triangleq I_{Gzz}}
+                 \uv{a}{z}\uv{a}{z} \notag \\
+%
+                 &+ \underbrace{\left(I_{Axz} - \frac{m_A m_B}{m_A + m_B} a b
+               \right)}_{\triangleq I_{Gxz}}
+               \left(\uv{a}{x}\uv{a}{z} + \uv{a}{z}\uv{a}{x}\right)
+\end{align}
+where $\bm{I}^{A^*/G^*}$ denotes the inertia dyadic relative to $G^*$ of a
+(fictitious) particle situated at $A^*$ and having a mass $m_A$ (similarly for
+$\bm{I}^{B^*/G^*}$)~\cite{Kane1985}. Describing the dynamics of a gyrostat in
+terms of $m_G, I_{Gxx}, I_{Gyy}, I_{Gzz}, I_{Gzz}, I_{Gxz}$, and $J$ (six
+parameters) is substantially simpler than describing simpler than describing
+the dynamics in terms of the parameters fundamental to each individual rigid
+body $m_A, m_B, I, J, I_{Axx}, I_{Ayy}, I_{Azz}, I_{Azz}$, and $I_{Axz}$ (eight
+parameters). This is partly due to the simple fact that there are two fewer
+parameters to consider, but also due to significant simplifications that occur
+when forming generalized inertia forces~\cite{Mitiguy2001}.
+
+We assume the bicycle rear frame and rear wheel form a cylindrical gyrostat of
+the same type as the example just presented, as do the fork and front wheel.
+The bicycle may be considered to be composed of two such cylindrical gyrostats
+whose carriers (the frame and fork) are connected by a revolute joint -- the
+steer axis. It is natural to consider how many parameters are needed to
+describe a bicycle using this formulation. In addition to the six inertial
+parameters, each gyrostat requires five more parameters: two torus radii, two
+distances defining the mass center location relative to the wheel axis and
+finally the distance from the wheel axis to the steer axis along a
+perpendicular to the steer axis. Thus eleven parameters are need to describe
+each cylindrical gyrostat. One more parameter is necessary to define the
+distance along the steer axis, between the line segments from each wheel center
+to the steer axis. Thus, a total of twenty three parameters fully characterize
+the model. These parameters are shown in \autoref{model:tab:parameters}. Some
+of the parameters are illustrated in \autoref{model:fig:bicycle}.
+
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{rl}
+    \toprule
+    Symbol & Description \\
+    \midrule
+    $I_{xx}, I_{yy}, I_{zz}, I_{xz}$ & gyrostat central inertia scalars \\
+    $J$ & wheel spin moment of inertia \\
+    $m$ & gyrostat mass \\
+    $R, r$ & wheel major and minor radii \\
+    $a, b$ & distances from wheel center to gyrostat mass center \\
+    $c$ & distance from wheel center steer axis in $X$ direction \\
+    $l_s$ & steer axis separation \\
+    \bottomrule
+  \end{tabular}
+  \caption{Bicycle gyrostat parameters. To distinguish whether they are a
+    property of the rear or the front gyrostat, the first 11 parameters are
+    subscripted with $r$ or $f$. For example, $m_r$ denotes the rear gyrostat
+    mass, while $J_f$ denotes the front wheel spin moment of inertia. The steer
+  axis separation $l_s$ is a property of how the two gyrostats are connect and
+hence is not subscripted in this fashion.}
+  \label{model:tab:parameters}
+\end{table}
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[scale=4]
+    %% Define constants
+    \def\Rr{0.30cm}
+    \def\Rf{0.32cm}
+    \def\rr{0.02cm}
+    \def\rf{0.01cm}
+    \def\ar{0.514cm}
+    \def\af{-0.15cm}
+    \def\br{-0.25cm}
+    \def\bf{-0.15cm}
+    \def\cr{0.9cm}
+    \def\cf{-0.25cm}
+    \def\ls{0.5cm}
+    \def\cmr{0.05cm}
+    %% Locate important points
+    \coordinate (RWO) at (0, 0);
+    \coordinate (SAH) at ($(RWO) + (\cr, 0)$);
+    \coordinate (SAF) at ($(SAH) - (0, \ls)$);
+    \coordinate (FWO) at ($(SAF) - (\cf, 0)$);
+    \coordinate (RO) at ($(RWO) + (\ar, -\br)$);
+    \coordinate (FO) at ($(FWO) + (\af, -\bf)$);
+    %% Draw important parts
+    \draw[draw=gray,dashed] (RWO) circle (\Rr);
+    \draw[draw=gray,dashed] (FWO) circle (\Rf);
+    \draw (RWO) circle (\Rr-\rr);
+    \draw (FWO) circle (\Rf-\rf);
+    \draw (RWO) circle (\Rr+\rr);
+    \draw (FWO) circle (\Rf+\rf);
+    \draw (270:\Rr+\rr+\rr+\rr+\rr) node {$R_r, r_r$};
+    \draw (FWO) ++(90:\Rf+\rf+\rf+\rf+\rf+\rf+\rf) node {$R_f, r_f$};
+    \draw[->,thick] (RWO) -- node[below] {$c_r$} (SAH);
+    \draw[->,thick] (SAH) -- node[left] {$l_s$} (SAF);
+    \draw[->,thick] (FWO) -- node[below] {$c_f$} (SAF);
+    \filldraw[fill=gray,draw=gray] (RO) -- ++(\cmr, 0) arc (0:90:\cmr);
+    \filldraw[fill=gray,draw=gray] (RO) -- ++(0, -\cmr) arc (270:180:\cmr);
+    \draw(RO) circle (\cmr);
+    \filldraw[fill=gray,draw=gray] (FO) -- ++(\cmr, 0) arc (0:90:\cmr);
+    \filldraw[fill=gray,draw=gray] (FO) -- ++(0, -\cmr) arc (270:180:\cmr);
+    \draw(FO) circle (\cmr);
+    \draw[->] (RWO) -- node[left] {$b_r$} ++(0, -\br);
+    \draw[->] ++($(RWO) + (0, -\br)$) -- node[auto] {$a_r$} ++(\ar, 0);
+    \draw[->] (FWO) -- node[right] {$b_f$} ++(0, -\bf);
+    \draw[->] ++($(FWO) + (0, -\bf)$) -- node[above] {$a_f$} ++(\af, 0);
+    % Draw dots at center of wheels
+    \filldraw (RWO) circle (.01cm);
+    \filldraw (FWO) circle (.01cm);
+    \coordinate (sa_label) at ($(SAH) + (0, .3cm)$);
+    \draw[dashed,draw=gray] ($(SAF) + (0, -.3cm)$) -- (sa_label);
+    \node[label=above:Steer axis] at (sa_label) {};
+  \end{tikzpicture}
+  \caption{Bicycle geometric parameters. As drawn, $b_r$, $a_f$, $b_f$, and $c_f$
+  are all negative; this is typical for traditional bicycles. Note that
+each parameter is defined without reference to the configuration of the
+bicycle.}
+  \label{model:fig:bicycle}
+\end{figure}
+
+%The rear wheel is modelled as a rigid torus and is completely characterized by
+%5 constant parameters: the major and minor radii, the mass, and two moments of
+%inertia (one about the axis of symmetry, the other about any line in the wheel
+%plane). The rear frame is modelled as a rigid body with unspecified geometry
+%other than the spin axis of the wheel and steer axis which connects it to the
+%fork. It is assumed that the two axes are perpendicular, that the frame is
+%inertially symmetric about the plane perpendicular to the wheel spin axis, and
+%that the steer axis lies in this symmetry plane. The bicycle frame is equipped
+%with a dextral set of unit vectors: $\bm{r}_x, \bm{r}_y, \bm{r}_z=\bm{r}_x
+%\times \bm{r}_y$ with $\bm{r}_y$ parallel the wheel axis and $\bm{r}_z$
+%parallel to the steer axis. As described, the rear frame is completely
+%characterized by 8 parameters: one distance between the wheel and steer axes as
+%measured in the symmetry plane along a line perpendicular to the steer axis,
+%two distances between the wheel spin axis and the mass center in the symmetry
+%plane, the mass, and four central inertia scalars ($\bm{r}_x$ and $\bm{r}_z$
+%are not assumed to be principal axes). If the rear wheel plane symmetry is
+%constrained to lie in the bicycle symmetry plane, 13 parameters to completely
+%describe these two bodies. Treated together, we can compute the combined mass,
+%center of mass location (relative to the wheel axis), and the combined inertia
+%about the center of mass. The combined mass and combined inertia represent 6
+%unique scalar quantities as opposed to the 8 when the two bodies are considered
+%separately. By describing the rear frame and rear wheel in terms of these
+%combined parameters rather than the parameters intrinsic to each individual
+%body, we use 2 fewer parameters. The same arguments apply to the  front fork
+%and front wheel (replacing $\bm{r}_x, \bm{r}_y, \bm{r}_z$ with $\bm{f}_x,
+%\bm{f}_y, \bm{f}_z$, respectively). With one final parameter describing the
+%distance along the steer axis between the two bicycle frame and fork, we
+%completely describe the bicycle with 23 parameters (11+11+1=23). See figure
+%XXX.
 
 \subsection{Parameter conversion}\label{model:parameter_conversion}
-We make a slight addition to the physical parameters presented
-in~\cite{Meijaard2007} by modelling the wheels as tori instead of thin disks.
-This results in two extra parameters: the tori minor radii $t_\text{R}$ and
-$t_\text{F}$ of the rear and front wheels respectively. This brings the number
-of parameters from 25 to 27. Converting from these 27 parameters to the 23
-gyrostat parameters is always possible. However, the opposite is not generally
-true because the mapping is not injective (it is one-to-many). In all of the
-equations that follow, the symbols used for the parameters presented
+If the bicycle model in~\cite{Meijaard2007} is extended to use toroidal wheels
+(as opposed to knife edged), and all Meijaard parameters remain otherwise
+unchanged, a total of 27 parameters describe the bicycle model.  The two extra
+parameters are the rear and front wheel minor radii, which we denote with
+$t_\text{R}$ and $t_\text{F}$, respectively. The mapping from this 27
+dimensional parameter space to the 23 dimensional gyrostat parameter space is
+surjective -- distinct choices of Meijaard parameters can yield equivalent
+gyrostat parameters (and hence identical dynamics). The practical implication
+of this is that given a set of gyrostat parameters, it is not generally
+possible to determine a unique set of the Meijaard parameters. This should not
+be surprising given that it can be shown with dimensional analysis that the
+minimal parameter space (assuming $t_\text{R}=t_\text{F}=0$) is only 9
+dimensional~\cite{Sharp2008} (presumably it would be 11 dimensional if
+$t_\text{R}$ and $t_\text{F}$ are included, though this has not been
+verified.).
+
+In the equations that follow, the symbols used for the parameters presented
 in~\cite{Meijaard2007} are on the right side of the equality, while the symbols
 used to describe the gyrostat parameters are on the left of the equality. Some
 parameters have very similar symbols but should not be confused as being the
-same (i.e., $m_\text{R} \ne m_r$).
-
-Of the twenty three gyrostat parameters, six have identical counterparts in the
-Meijaard parameters
+same (i.e., $m_\text{f} \ne m_R$). Of the 23 gyrostat parameters, the following
+6 have identical counterparts in the Meijaard parameters
 \begin{align}
   J_r &= I_{\text{R}yy} \\
   R_r &= r_\text{R} \\
@@ -33,7 +339,7 @@ The rear and front gyrostat masses are trivially related
   m_r &= m_\text{B} + m_\text{R} \\
   m_f &= m_\text{H} + m_\text{F}
 \end{align}
-The mass center locations are related as
+With $s_\lambda=\sin\lambda$, $c_\lambda=\cos\lambda$, the mass center locations are related as
 \begin{align}
 a_r &= \frac{m_\text{B}}{m_\text{B} + m_\text{R}} \left(c_{\lambda} x_\text{B}
 - s_{\lambda} \left(r_\text{R} + t_\text{R} + z_\text{B}\right)\right) \\
@@ -53,66 +359,63 @@ t_{R}\right) \\
 c_f &= c_{\lambda} c - s_{\lambda} \left(r_\text{F} + t_\text{F}\right) \\
 l_s &= - c_{\lambda} \left(r_\text{F} - r_\text{R} + t_\text{F} - t_\text{R}\right) + s_{\lambda} w
 \end{align}
-The central inertia scalars of the two gyrostats are related to the Meijaard
-parameters as follows
+The central inertia scalars of the two gyrostats in terms of the Meijaard
+parameters are
 \begin{align}
 I_{rxx} &=
 I_{\text{R}xx} +
 c_\lambda^2 I_{\text{B}xx} - 2 s_\lambda c_\lambda I_{\text{B}xz} + s_\lambda^2
 I_{\text{B}zz} \notag\\
-&\quad + \frac{m_\text{R} m_\text{B}}{\left(m_\text{R} +
-m_\text{B}\right)}\left(c_\lambda \left(r_\text{R} + t_\text{R} +
-z_\text{B}\right) + s_\lambda x_\text{B}\right)^2 \\
+& + \frac{m_\text{R} m_\text{B}}{\left(m_\text{R} +
+m_\text{B}\right)}\left(s_\lambda x_\text{B} + c_\lambda \left(r_\text{R} +
+t_\text{R} + z_\text{B}\right)\right)^2 \\
 %
 I_{ryy} &= I_{\text{R}yy} + I_{\text{B}yy} \notag\\
-&\quad + \frac{m_\text{R} m_\text{B}}{\left(m_\text{R} + m_\text{B}\right)}
+& + \frac{m_\text{R} m_\text{B}}{\left(m_\text{R} + m_\text{B}\right)}
 \left(x_\text{B}^2 + \left(r_\text{R} + t_\text{R} + z_\text{B}\right)^2
 \right) \\
 %
 I_{rzz} &= I_{\text{R}xx} +
 s_\lambda^2 I_{\text{B}xx} + 2 s_\lambda c_\lambda I_{\text{B}xz} + c_\lambda^2
 I_{\text{B}zz} \notag\\
-&\quad + \frac{m_\text{R} m_\text{B}}{\left(m_\text{R} + m_\text{B}\right)}
+& + \frac{m_\text{R} m_\text{B}}{\left(m_\text{R} + m_\text{B}\right)}
 \left(c_{\lambda} x_\text{B} - s_\lambda \left(r_\text{R} + t_\text{R} +
 z_\text{B}\right)\right)^{2}\\
 %
-I_{rxz} &= \left(c_\lambda^2 - s_\lambda^2) I_{\text{B}xz}
+I_{rxz} &= \left(c_\lambda^2 - s_\lambda^2\right) I_{\text{B}xz}
 + s_\lambda c_\lambda \left(I_{\text{B}xx} - I_{\text{B}zz}\right) \notag\\
-&\quad - \frac{m_\text{B} m_\text{R}}{\left(m_\text{B} + m_\text{R}\right)}
+& - \frac{m_\text{B} m_\text{R}}{\left(m_\text{B} + m_\text{R}\right)}
 \left(c_\lambda x_\text{B} - s_\lambda \left(r_\text{R} + t_\text{R} +
-z_\text{B}\right)\right) \left(c_\lambda \left(r_\text{R} + t_\text{R} +
-z_\text{B}\right) + s_{\lambda} x_\text{B}\right) \\
+z_\text{B}\right)\right) \left(s_{\lambda} x_\text{B} + c_\lambda \left(r_\text{R} + t_\text{R} +
+z_\text{B}\right)\right) \\
 %
 I_{fxx} &= I_{\text{F}xx} +
 c_\lambda^2 I_{\text{H}xx} - 2 s_\lambda c_\lambda I_{\text{H}xz} + s_\lambda^2
 I_{\text{H}zz} \notag\\
-&\quad + \frac{m_\text{H} m_\text{F}}{\left(m_\text{F} + m_\text{H}\right)} \left(c_{\lambda}
-\left(r_\text{F} + t_\text{F} + z_\text{H}\right) - s_{\lambda} \left(w -
-x_\text{H}\right)\right)^{2}\\
+& + \frac{m_\text{H} m_\text{F}}{\left(m_\text{F} + m_\text{H}\right)} \left(- s_{\lambda} \left(w -
+x_\text{H}\right) + c_{\lambda}
+\left(r_\text{F} + t_\text{F} + z_\text{H}\right)\right)^{2}\\
 %
 I_{fyy} &= I_{\text{F}yy} + I_{\text{H}yy} \notag \\
-&\quad + \frac{m_\text{F} m_\text{H}}{\left(m_\text{F} + m_\text{H}\right)}
+& + \frac{m_\text{F} m_\text{H}}{\left(m_\text{F} + m_\text{H}\right)}
 \left(\left(w - x_\text{H}\right)^2 + \left(r_\text{F} + t_\text{F} +
 z_\text{H}\right)^2\right) \\
 %
 I_{fzz} &= I_{\text{F}xx} +
 s_\lambda^2 I_{\text{H}xx} + 2 s_\lambda c_\lambda I_{\text{H}xz} + c_\lambda^2
 I_{\text{H}zz} \notag\\
-&\quad + \frac{m_\text{F} m_\text{H}}{\left(m_\text{F} + m_\text{H}\right)} \left(c_{\lambda}
+& + \frac{m_\text{F} m_\text{H}}{\left(m_\text{F} + m_\text{H}\right)} \left(c_{\lambda}
 \left(w - x_\text{H}\right) + s_{\lambda} \left(r_\text{F} + t_\text{F} +
 z_\text{H}\right)\right)^{2}\\
 %
-I_{fxz} &= \left(c_\lambda^2 - s_\lambda^2) I_{\text{H}xz}
+I_{fxz} &= \left(c_\lambda^2 - s_\lambda^2\right) I_{\text{H}xz}
 + s_\lambda c_\lambda \left(I_{\text{H}xx} - I_{\text{H}zz}\right) \notag\\
-&\quad + \frac{m_\text{F} m_\text{H}}{\left(m_\text{F} + m_\text{H}\right)}
-\left(c_\lambda \left(w - x_\text{H}\right) + s_\lambda \left(r_\text{F} + t_\text{F} +
-z_\text{H}\right)\right) \left(c_\lambda \left(r_\text{F} + t_\text{F} +
-z_\text{H}\right) - s_{\lambda} \left(w - x_\text{H}\right)\right)
+& + \frac{m_\text{F} m_\text{H}}{\left(m_\text{F} + m_\text{H}\right)}
+\left(c_\lambda \left(w - x_\text{H}\right) + s_\lambda \left(r_\text{F} +
+t_\text{F} + z_\text{H}\right)\right) \left(- s_{\lambda} \left(w -
+x_\text{H}\right) + c_\lambda \left(r_\text{F} + t_\text{F} +
+z_\text{H}\right)\right)
 \end{align}
-
-
-
-
 
 \section{Kinematics}
 

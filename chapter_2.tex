@@ -6,28 +6,37 @@ two wheels, a frame, and a fork. These rigid bodies are assumed to be connected
 by three frictionless revolute joints: one between the rear wheel and frame,
 one between the front wheel and fork, and one between the bicycle frame and the
 fork. The rigid wheels are modelled as torii which make point contact with the
-ground plane. The frame and fork are each assumed to to be inertially inertial
+ground plane. The frame and fork are each assumed to to be inertially
 symmetric about in their respective $XZ$ planes. The revolute joint connecting
-the bicycle frame and fork is assumed to be parallel to the $Z$ axis of the
-bicycle frame and fork. It is assumed that each wheel mass center lies in the
+the frame and fork is assumed to be parallel to the $Z$ axis of the
+each respective body. It is assumed that each wheel mass center lies in the
 $XZ$ symmetry plane of the body to which it is connected, and that each wheel
 revolute joint axis is parallel to the $Y$ axis of each respective body.
 
 \section{Bicycle parameters}
-The choice of physical parameters used to describe the four rigid bodies, their
-interface with each other and the ground plane is of practical concern for
-several reasons: 1) measurement of the parameters on real bicycles, 2)
-simulation efficiency, 3) comparisons between models. Measurement of physical
-bicycle parameters is laborious and it is therefore beneficial to have a set of
-model parameters that are easily (and ideally directly) measurable on standard
-bicycles. The parameters used in~\cite{Meijaard2007} (this is not the first use
-of this parameter set, but it is the most clearly presented; hereafter we refer
-to these as the ``Meijaard parameters'') have been adopted by many
-authors~\cite{Sharp2008,Moore2010} as the \textit{de facto} set of parameters
-for describing bicycles. Further, many of the Meijaard parameters are
-immediately recognizable by everyday bicycle enthusiasts, for example wheelbase
-$w$, trail $c$, and steer axis tilt $\lambda$. For these reasons, this choice
-of parameters is indispensable.
+The physical parameters used to describe the four rigid bodies, their interface
+with each other and the ground plane is of practical concern for several
+reasons. The choice of parameters determines how many quantities must be
+measured or calculated when characterizing a real bicycle; some parameters are
+more difficult to measure than others. The choice of parameters has a direct
+effect on the complexity of the equations of
+motion~\cite{Wittenburg2008,Mitiguy2001}, and by extension, the computational
+cost associated with simulating or performing stability analysis of the
+equations. Most importantly, the choice of parameters can greatly affect the
+ease of understanding how changing a single parameter affects the dynamics.
+Finally, having a common, agreed upon set of parameters which permit direct
+comparisions is very valuable in communicating results to others -- if
+everybody uses different parameters to describe the same model, comparisons
+become difficult and error prone. We refer to the parameters used
+in~\cite{Meijaard2007} as the ``Meijaard parameters'' (this is not the first
+use of this parameter set, but it is the most clearly presented and widely
+distributed work describing the choice). The Meijaard parameters have been
+adopted as the \textit{de facto} by many authors~\cite{Sharp2008}. They can be
+measured reasonably simply~\cite{Moore2010b}, and many of the parameters are
+familiar to those outside academic circles (i.e., the bicycle industry, and
+everyday cyclists). Examples of commonly recognizable parameters available at
+your local bike shop include wheelbase $w$, trail $c$, and steer axis tilt
+$\lambda$. For these reasons, this choice of parameters is indispensable.
 
 There are strong reasons to prefer other choices of parameters. The Meijaard
 parameters are ideally suited to direct derivation of linearized equations of
@@ -190,7 +199,7 @@ to the steer axis. Thus, a total of twenty three parameters fully characterize
 the model. These parameters are shown in \autoref{model:tab:parameters}. Some
 of the parameters are illustrated in \autoref{model:fig:bicycle}.
 
-\begin{table}[ht]
+\begin{table}[h]
   \centering
   \begin{tabular}{rl}
     \toprule
@@ -209,11 +218,10 @@ of the parameters are illustrated in \autoref{model:fig:bicycle}.
     property of the rear or the front gyrostat, the first 11 parameters are
     subscripted with $r$ or $f$. For example, $m_r$ denotes the rear gyrostat
     mass, while $J_f$ denotes the front wheel spin moment of inertia. The steer
-  axis separation $l_s$ is a property of how the two gyrostats are connect and
+  axis separation $l_s$ is a property of how the two gyrostats are connected and
 hence is not subscripted in this fashion.}
   \label{model:tab:parameters}
 \end{table}
-
 \begin{figure}[h]
   \centering
   \begin{tikzpicture}[scale=4]
@@ -269,9 +277,28 @@ hence is not subscripted in this fashion.}
   \caption{Bicycle geometric parameters. As drawn, $b_r$, $a_f$, $b_f$, and $c_f$
   are all negative; this is typical for traditional bicycles. Note that
 each parameter is defined without reference to the configuration of the
-bicycle.}
+bicycle. Drawing the frame and fork is left as an exercise for the reader.}
   \label{model:fig:bicycle}
 \end{figure}
+
+Measuring the 23 (21 if the wheels are assumed to be knife edged) parameters
+for a real bicycle is very similar to the procedure described
+in~\cite{Moore2010b} except fewer measurements are needed. Instead of
+determining the mass, mass center locations, and mass distribution of four
+individual bodies, equivalent properties of only two cylindrical gyrostats need
+to be measured. Practically speaking, this means only two masses need to be
+measured (instead of four), the mass center locations and gyrostat inertia
+measurements should be performed with the rear wheel and frame (front wheel and
+fork) rigidly connected (i.e., wheel unable to spin), and the wheel moment of
+inertia about an axis in the wheel plane needn't be measured (the wheel spin
+inertia still does need to be measured, however). The time and energy savings
+of the experimenter is fairly minor, however, the measurement of the fork
+inertia can be problematic if the torsional pendulum stiffness is such that the
+oscillations frequency are relatively high; by measuring the inertia of the
+fork and wheel together, this is issue is mitigated to some degree. An
+alternative method is to measure the exact parameters as described
+in~\cite{Moore2010b}, and convert them to the gyrostat parameters as described
+in \autoref{model:parameter_conversion}.
 
 %The rear wheel is modelled as a rigid torus and is completely characterized by
 %5 constant parameters: the major and minor radii, the mass, and two moments of
@@ -318,7 +345,7 @@ be surprising given that it can be shown with dimensional analysis that the
 minimal parameter space (assuming $t_\text{R}=t_\text{F}=0$) is only 9
 dimensional~\cite{Sharp2008} (presumably it would be 11 dimensional if
 $t_\text{R}$ and $t_\text{F}$ are included, though this has not been
-verified.).
+verified).
 
 In the equations that follow, the symbols used for the parameters presented
 in~\cite{Meijaard2007} are on the right side of the equality, while the symbols

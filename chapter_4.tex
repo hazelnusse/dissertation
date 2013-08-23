@@ -49,13 +49,13 @@ casters, and electrical equipment). This section provides a high level overview
 of the construction; more details of each subsystem can be found in the
 subsequent subsections pertaining to each piece of equipment.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{images/IMG_20120928_153020.jpg}
   \caption{Robot bicycle viewed from the right side.}
   \label{rb:img:rightside}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,angle=-90]{images/IMG_20120928_153146.jpg}
   \caption{Robot bicycle viewed from the rear right side. The wireless antenna
@@ -63,13 +63,13 @@ subsequent subsections pertaining to each piece of equipment.
 struts to the bicycle frame can also be seen.}
   \label{rb:img:rearrightside}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,angle=-90]{images/IMG_20120928_153405.jpg}
   \caption{Robot bicycle viewed from the rear.}
   \label{rb:img:rear}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,angle=-90]{images/IMG_20120928_153321.jpg}
   \caption{Robot bicycle viewed from the rear left. The motor wiring exits the
@@ -78,7 +78,7 @@ struts to the bicycle frame can also be seen.}
     toothed kevlar belt combined with 100 tooth and 25 tooth pulleys.}
   \label{rb:img:rearleftside}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{images/IMG_20120928_153336.jpg}
   \caption{Close up of battery plate, fork motor mount, and digital motor
@@ -123,8 +123,7 @@ and then converting those parameters to the gyrostat parameter set using the
 equations presented in \autoref{model:parameter_conversion}. It was assumed
 that the wheel minor radius was zero (i.e., that the wheels were knife edged).
 The resulting parameters are presented in \autoref{rb:tab:parameters}.
-
-\begin{table}[ht]
+\begin{table}[htbp]
   \centering
   \begin{tabular}{rccl}
     \toprule
@@ -147,13 +146,12 @@ The resulting parameters are presented in \autoref{rb:tab:parameters}.
   \caption{Robot bicycle physical parameters.}
   \label{rb:tab:parameters}
 \end{table}
-
 \section{Electrical system description} \label{rb:sec:elec}
 \subsection{Microcontroller} \label{rb:subsec:mcu} All functionality related to
 control, measurement, and user interaction was implemented by programming an
 Olimex STM32-H407~\cite{OlimexSTM32H407} development board. A summary of the
 board functionality utilized are shown in Table \ref{rb:tab:mcu}.
-\begin{table}[h]
+\begin{table}[htbp]
   \centering
   \begin{tabular}{|l|l|}
     \hline
@@ -221,10 +219,10 @@ damage when the front fork spun more than 180 degrees from straight ahead
 (which happened several times in the testing phase of the robot bicycle
 design). The steer angle encoder was integrated into the steer
 motor~\cite{TeknicM3441} with the optical disc fixed to the motor shaft and
-provided 20000 quadrature counts per revolution ($\pi$e-4 rad / quadrature
+provided 20000 quadrature counts per revolution (\num{\pi e-4} rad / quadrature
 count) as well as an index signal once per revolution. The wheel optical
 encoders~\cite{USDigitalH5} provided an effective 800 quadrature counts per
-revolution ($4\pi$e-2 rad / quadrature count) without an index channel. The
+revolution (\num{.25 \pi e-2} rad / quadrature count) without an index channel. The
 wheel encoders were mounted with a custom aluminum adapter to the frame and
 fork disc brake mounting tabs. The rear wheel optical encoder is visible in
 \autoref{rb:img:rearleftside}; the front wheel optical encoder was mounted
@@ -259,7 +257,7 @@ this offset can be set during a fork homing procedure when the steer index is
 triggered.  This functionality was implemented in the \verb|homefork| function
 and was run every time the microcontroller was reset or powered up.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{images/20130711_163732_2.jpg}
   \caption{Calibration of steer angle encoder, accelerometer, and rate
@@ -291,7 +289,7 @@ $R$, then apply the following successive body-fixed ZXY rotations: $\alpha -
 \pi/2$, $\beta$, $\gamma$. The first rotation was offset by $-\pi/2$ so that
 all three angles were near zero.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=.6\textwidth,angle=90]{images/IMG_20130325_195226.jpg}
   \caption{Rate gyroscope and accelerometer sensor placement on bottom of
@@ -693,7 +691,7 @@ command in \autoref{rb:subsec:ui}) was also incorporated into the design; by
 default $a_d=0$ so that no disturbance was applied unless requested by the
 user.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
   \begin{tikzpicture}[
     block/.style={rectangle,draw,thick,minimum height=2em,minimum width=2em},
@@ -843,9 +841,8 @@ of each.
 
 \end{description}
 
-\section{Results} \label{rb:sec:experiments}
+\section{Experiments} \label{rb:sec:experiments}
 
-\subsection{Experiments conducted} \label{rb:subsec:experiments}
 On July 13, 2013, twenty eight experimental runs were performed on the Dairy
 Road basketball courts of the UC Davis campus (38.53794$^{\circ}$ North,
 121.759475$^{\circ}$ West). Oliver Lee and Dr. Mont Hubbard were stationed at the
@@ -867,86 +864,80 @@ took two arguments: speed set point and distance to travel before changing the
 set point to 1.0 m/s. At 1.0 m/s, it was easy to manually switch off the motors
 and catch the bicycle.
 \begin{center}
-  \begin{longtable}{| l | l | l | l | l | l | l |}
-  \hline
-  Run & Time (PST) & Speed (m/s) & $a_d$ (\num{1e-2} Nm) & $f_d$ (Hz) & $x$ (m) &
-  Direction \endhead
-  \hline
-  \multicolumn{7}{|p{.9\textwidth}|}{Yaw rate PI controller is designed such that
-  first 0dB cross-over frequency is 0.1 Hz. Additive disturbance torque is
-  $\sin\left(2\pi t \right)$.} \\
-  \hline
+  \begin{longtable}{lllllll}
+    \caption[Summary of experiments]{Runs 000--010 utilized a yaw rate PI
+      controller which explicitly specified 0.1 Hz 0dB cross-over frequency and
+      utilized a disturbance torque $d = a_d \sin\left(2\pi t\right)$. Runs
+      011--014, the firmware was updated to revised the disturbance torque to
+      be $d=a_d \sin\left(2\pi \left(t - t_i\right)\right)$ to ensure the
+      intial disturbance began at 0. For runs 015--028, the firmware was
+      updated to use a yaw rate PI controller which did not explicitly specify
+    the crossover frequency.}\label{rb:table:experiments_summary} \\
+  \toprule
+  Run & Time (PST) & Speed (m/s) & $a_d$ (\num{1e-2} Nm) & $f_d$ (Hz) & $x$ (m)
+  & Direction \\
+  \midrule
+  \endfirsthead
+  \caption[]{(continued)} \\
+  \toprule
+  Run & Time (PST) & Speed (m/s) & $a_d$ (\num{1e-2} Nm) & $f_d$ (Hz) & $x$ (m)
+  & Direction \\
+  \midrule
+  \endhead
   000 & 0641 & 2.0 & -- & -- & 30.0 & West \\
-  \hline
   001 & 0643 & 2.0 & -- & -- & 30.0 & West \\
-  \hline
   002 & 0644 & 3.0 & -- & -- & 30.0 & East \\
-  \hline
   003 & 0646 & 3.0 & -- & -- & 30.0 & West \\
-  \hline
   004 & 0647 & 4.0 & -- & -- & 30.0 & East \\
-  \hline
   005 & 0649 & 4.0 & -- & -- & 30.0 & West \\
-  \hline
   006 & 0650 & 4.0 & -- & -- & 60.0 & East \\
-  \hline
   007 & 0652 & 4.0 & -- & -- & 60.0 & East \\
-  \hline
   008 & 0656 & 2.0 & 0.5 & 1.0 & 30.0 & West \\
-  \hline
   009 & 0659 & 2.0 & 1.0 & 1.0 & 30.0 & East \\
-  \hline
   010 & 0701 & 2.0 & 1.0 & 1.0 & 30.0 & East \\
-  \hline
-  \multicolumn{7}{|p{.9\textwidth}|}{Changed additive disturbance torque to be
-  $A_d \sin\left(2\pi f_d \left(t - t_i\right)\right)$, where $t_i$ is the time at which
-  the disturbance is initially applied.} \\
-  \hline
   011 & 0714 & 2.0 & 1.0 & 1.0 & 30.0 & West \\
-  \hline
   012 & 0718 & 2.0 & 5.0 & 1.0 & 30.0 & East \\
-  \hline
   013 & 0721 & 2.0 & 5.0 & 1.0 & 30.0 & West \\
-  \hline
   014 & 0725 & 2.0 & -5.0 & 1.0 & 30.0 & East \\
-  \hline
-  \multicolumn{7}{|p{.9\textwidth}|}{Changed yaw rate PI controller design such that
-  first 0dB cross-over frequency is selected by Matlab's
-  pidtune() instead of specified to be 0.1 Hz} \\
-  \hline
   015 & 0754 & 2.0 & -- & -- & 30.0 & West \\
-  \hline
   016 & 0756 & 2.0 & -- & -- & 30.0 & East \\
-  \hline
   017 & 0757 & 4.0 & -- & -- & 30.0 & West \\
-  \hline
   018 & 0800 & 2.0 & 5.0 & 1.0 & 30.0 & East \\
-  \hline
   019 & 0808 & 2.0 & 5.0 & 5.0 & 30.0 & West \\
-  \hline
   020 & 0813 & 2.0 & 10.0 & 1.0 & 30.0 & West \\
-  \hline
   021 & 0815 & 2.0 & -- & -- & 30.0 & West \\
-  \hline
   022 & 0816 & 1.0 & -- & -- & 30.0 & East \\
-  \hline
   023 & 0818 & 1.0 & -- & -- & 30.0 & East \\
-  \hline
   024 & 0821 & 2.0 & -- & -- & 5.0 & East \\
-  \hline
   025 & 0824 & 2.0 & -- & -- & 60.0 & West \\
-  \hline
   026 & 0825 & 3.0 & -- & -- & 50.0 & East \\
-  \hline
   027 & 0827 & 3.0 & -- & -- & 50.0 & East \\
-  \hline
   028 & 0829 & 3.0 & -- & -- & 50.0 & East \\
-  \hline
+  \bottomrule
   \end{longtable}
-
 \end{center}
 
-\subsection{Results} \label{rb:subsec:results}
+\subsection{Representative behavior} \label{rb:subsec:representative}
+Three speeds were commanded during the 28 twenty eight runs: 1.0, 2.0, and 4.0
+m/s.
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[no markers,
+                 enlargelimits=false,
+                 xlabel=Time (s),
+                 ylabel=Forward speed (m / s),
+                 grid=major,
+                 legend pos=south east]
+    \addplot table[x=time,y=v]{images/000_time_v_v_c_20.000_40.005_decimated.dat};
+    \addlegendentry{Actual}
+    \addplot table [x=time,y=v_c]{images/000_time_v_v_c_20.000_40.005_decimated.dat};
+    \addlegendentry{Commanded}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Speed tracking.}
+  \label{rb:fig:velocity_tracking}
+\end{figure}
 
 \subsection{Discussion} \label{rb:subsec:discuss}
 

@@ -1,14 +1,15 @@
-%\documentclass[11pt]{ucdavisthesis}
-\documentclass[11pt,draft]{ucdavisthesis}
+\documentclass[11pt]{ucdavisthesis}
+%\documentclass[11pt,draft]{ucdavisthesis}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
-%\usepackage[us,nodayofweek,12hr]{datetime}
 \usepackage{siunitx}
+\sisetup{
+  retain-unity-mantissa=false
+}
 \usepackage{booktabs}
 \usepackage[Q=yes]{examplep}
 \usepackage{graphicx}
-%\usepackage{tabulary}
 \usepackage[
     abbreviate=false,
     backend=biber,
@@ -22,17 +23,14 @@
 \addbibresource{library.bib}
 \defbibheading{subbibliography}{\section*{References for Chapter \ref{refsection:\therefsection}}}
 
-% Make references start at number 0
-%\DeclareFieldFormat{labelnumber}{\decrease{#1}}
-%\newcounter{num}
-%\newcommand{\decrease}[1]{\setcounter{num}{#1}\addtocounter{num}{-1}\thenum}
-
+\usepackage{caption}
 \usepackage{longtable}
+\captionsetup{margin=10pt,font=small,labelfont=bf}
+
 \usepackage{tikz}
 \usetikzlibrary{arrows,calc,shapes,positioning}
-
-% Used for things I don't have a citation for
-\newcommand{\needscite}[1]{(need to cite #1)}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest,compat/show suggested version=false}
 
 % hyperref should come after biblatex (according to biblatex documentation),
 % and it should be loaded last (according to hypperef documentation.

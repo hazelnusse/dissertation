@@ -214,12 +214,12 @@ of the parameters are illustrated in \autoref{model:fig:bicycle}.
     $l_s$ & steer axis separation \\
     \bottomrule
   \end{tabular}
-  \caption{Bicycle gyrostat parameters. To distinguish whether they are a
-    property of the rear or the front gyrostat, the first 11 parameters are
-    subscripted with $r$ or $f$. For example, $m_r$ denotes the rear gyrostat
-    mass, while $J_f$ denotes the front wheel spin moment of inertia. The steer
-  axis separation $l_s$ is a property of how the two gyrostats are connected and
-hence is not subscripted in this fashion.}
+  \caption[Bicycle gyrostat parameters.]{Bicycle gyrostat parameters. To
+    distinguish whether they are a property of the rear or the front gyrostat,
+    the first 11 parameters are subscripted with $r$ or $f$. For example, $m_r$
+    denotes the rear gyrostat mass, while $J_f$ denotes the front wheel spin
+    moment of inertia. The steer axis separation $l_s$ is a property of how the
+    two gyrostats are connected and hence is not subscripted in this fashion.}
   \label{model:tab:parameters}
 \end{table}
 \begin{figure}[!htbp]
@@ -274,7 +274,7 @@ hence is not subscripted in this fashion.}
     \draw[dashed,draw=gray] ($(SAF) + (0, -.3cm)$) -- (sa_label);
     \node[label=above:Steer axis] at (sa_label) {};
   \end{tikzpicture}
-  \caption{Bicycle geometric parameters. As drawn, $b_r$, $a_f$, $b_f$, and $c_f$
+  \caption[Bicycle geometric parameters.]{Bicycle geometric parameters. As drawn, $b_r$, $a_f$, $b_f$, and $c_f$
   are all negative; this is typical for traditional bicycles. Note that
 each parameter is defined without reference to the configuration of the
 bicycle. Drawing the frame and fork is left as an exercise for the reader.}
@@ -444,7 +444,68 @@ x_\text{H}\right) + c_\lambda \left(r_\text{F} + t_\text{F} +
 z_\text{H}\right)\right)
 \end{align}
 
-\section{Kinematics}
+\section{Kinematics} \label{model:kinematics}
+
+Were the four bodies of the bicycle model to be disconnected and free to move
+in an arbitrary manner, the system would have 24 degrees of freedom (4 bodies,
+6 degrees of freedom per body). Accounting for the 3 revolute joints (wheel
+axes and steer axis) reduces the number of degrees of freedom from 24 to 9
+(each revolute joint removes 5 degrees of freedom). Requiring the lowest point
+of the rear wheel and front wheel to touch the horizontal ground plane removes
+two further degrees of freedom, resulting in 7 configuration degrees of
+freedom. A minimal choice of configuration variables is not practical (nor
+generally possible for all configurations) due to the complexity of the
+holonomic constraint\cite{Peterson2008a} and the fact that it is nonlinear and
+has multiple roots.
+
+The revolute joints and the requirement that the wheels make point contact with
+the ground plane are all configuration (holonomic) constraints. Without any
+further restrictions regarding the wheel contact with the ground, the system
+has 7 velocity degrees of freedom as well. If simulation or stability analysis
+of such a model is desired, a model for the forces at the wheel contact points
+is needed. If it is instead assumed that the wheels roll without slip (said
+another way, the wheel contact forces are whatever is necessary to prevent
+slip), 4 more degrees of freedom are removed (2 from each no slip assumption),
+yielding a system with 3 velocity degrees of freedom. The no slip assumptions
+do not constrain the configuration in any way, so the accessible configuration
+space remains 7 dimensional, but the dimension of the accessible velocity space
+is reduced from 7 to 3 under the no slip assumption.  The validity of this
+assumption is addressed in \autoref{chapter4}, and the remainder of this
+chapter assumes that the wheels do not slip relative to the ground (and hence
+the system has 3 velocity degrees of freedom).
+
+A wise choice of generalized coordinates can result in a reduction of the
+number of configuration constraints that need to be solved. A familiar example
+is the pendulum: using $x$ and $y$ to locate the pendulum mass and deriving the
+equations of motion in terms of $x$ and $y$ (and their derivatives) requires
+enforcing the constraint $l - \sqrt{x^2 + y^2} = 0$. This choice is ill advised
+and best avoided in favor of choosing a single generalized coordinate (i.e.,
+the pendulum angle $\theta$) which implicitly satisfies the length constraint.
+It is generally in the best interest of the analyst to introduce as few
+coordinates as possible so that needless configuration constraint equations are
+avoided.
+
+Similarly, a wise choice of generalized speeds can reduce or eliminate the
+number of velocity constraints that need to be solved. A familiar example of
+this is the rolling disk: only three generalized speeds are needed to fully
+describe the angular velocity of the disk \textit{and} the velocity of the disk
+mass center, and therefore no velocity constraint equations need to be solved
+explicitly to obtain the dynamic equations. If instead one introduces six
+generalized speeds (e.g., three for the disk angular velocity and three for the
+velocity of the mass center), three scalar constraint equations must be
+satisfied and hence only three of the generalized speeds can be chosen
+independently. Which to choose as independent in the case of the rolling disk
+is fairly obvious, but for more complicated systems this is not generally the
+case and care must be taken\cite{Reckdahl1996}. Just as in the case for
+generalized coordinates, it is in the interest of the analyst to introduce as
+few generalized speeds so that needless velocity constraint equations are
+avoided.
+
+With this wisdom in mind, we describe the configuration and velocity of the
+bicycle with 8 generalized coordinates and 6 speeds as we can. This choice
+results in 1 configuration (holonomic) constraint and 3 velocity (nonholonomic)
+constraints.
+
 
 \section{Dynamics}
 

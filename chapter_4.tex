@@ -1,4 +1,4 @@
-\chapter{Robot bicycle}
+\chapter{Robot bicycle} \label{chapter4}
 
 \section{Introduction and Motivation} \label{rb:sec:intro}
 
@@ -58,9 +58,10 @@ subsequent subsections pertaining to each piece of equipment.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,angle=-90]{images/IMG_20120928_153146.jpg}
-  \caption{Robot bicycle viewed from the rear right side. The wireless antenna
-  is visible behind the batteries, and the attachment of the training wheel
-struts to the bicycle frame can also be seen.}
+  \caption[Robot bicycle viewed from the rear right side.]{Robot bicycle viewed
+  from the rear right side. The wireless antenna is visible behind the
+  batteries, and the attachment of the training wheel struts to the bicycle frame
+  can also be seen.}
   \label{rb:img:rearrightside}
 \end{figure}
 \begin{figure}[htbp]
@@ -72,19 +73,21 @@ struts to the bicycle frame can also be seen.}
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,angle=-90]{images/IMG_20120928_153321.jpg}
-  \caption{Robot bicycle viewed from the rear left. The motor wiring exits the
-    left side of the rear wheel axle. The rear wheel optical encoder is mounted
-    to the rear disc brake tabs and is driven by the rear wheel with a
-    toothed kevlar belt combined with 100 tooth and 25 tooth pulleys.}
+  \caption[Robot bicycle viewed from the rear left.]{Robot bicycle viewed from
+    the rear left. The motor wiring exits the left side of the rear wheel axle.
+    The rear wheel optical encoder is mounted to the rear disc brake tabs and
+    is driven by the rear wheel with a toothed kevlar belt combined with 100
+    tooth and 25 tooth pulleys.}
   \label{rb:img:rearleftside}
 \end{figure}
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{images/IMG_20120928_153336.jpg}
-  \caption{Close up of battery plate, fork motor mount, and digital motor
-  drives. The cylindrical plug interfacing the fork motor spindle and the fork
-steer tube is visible inside the aluminum box section directly beneath the
-steer motor.}
+  \caption[Close up of battery plate, fork motor mount, and digital motor
+    drives.]{Close up of battery plate, fork motor mount, and digital motor
+    drives. The cylindrical plug interfacing the fork motor spindle and the fork
+    steer tube is visible inside the aluminum box section directly beneath the
+    steer motor.}
   \label{rb:img:leftsidecloseup}
 \end{figure}
 
@@ -209,7 +212,6 @@ microcontroller development board was a small 7.2V battery
 (\autoref{rb:subsec:batteries}) and the inertial measurement unit
 (\autoref{rb:subsec:sensors}).
 
-
 \subsection{Sensors} \label{rb:subsec:sensors}
 The robot bicycle was equipped with three optical encoders which measured the
 wheel angles and the steer angle. All three optical encoders were
@@ -260,11 +262,12 @@ and was run every time the microcontroller was reset or powered up.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{images/20130711_163732_2.jpg}
-  \caption{Calibration of steer angle encoder, accelerometer, and rate
+  \caption[Calibration of steer angle encoder, accelerometer, and rate
+    gyroscope.]{Calibration of steer angle encoder, accelerometer, and rate
     gyroscope ($\phi=-\pi/2$ configuration). The steer calibration fixture
     ensured $\delta=0$ and provided surfaces to rest the bubble levels (visible
     on far side of bicycle frame). Two turnbuckles were used to make minor
-  orientation adjustments to level the frame (visible on left side of image).}
+    orientation adjustments to level the frame (visible on left side of image).}
   \label{rb:img:calibration}
 \end{figure}
 
@@ -292,11 +295,12 @@ all three angles were near zero.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=.6\textwidth,angle=90]{images/IMG_20130325_195226.jpg}
-  \caption{Rate gyroscope and accelerometer sensor placement on bottom of
-  battery support plate. The top tube clamshell bracket is visible on the right side of
-the image (forward end of battery plate). On the left side of the image the
-seat post is partially visible. The mounting hardware for the battery box is also
-visible.}
+  \caption[Rate gyroscope and accelerometer sensor placement.]{Rate gyroscope
+    and accelerometer sensor placement on bottom of battery support plate. The
+    top tube clamshell bracket is visible on the right side of the image
+    (forward end of battery plate). On the left side of the image the seat post
+    is partially visible. The mounting hardware for the battery box is also
+    visible.}
   \label{rb:img:imuplacement}
 \end{figure}
 
@@ -306,7 +310,7 @@ $\bm{s}_z$) in six unique orientations. The six orientations are those that
 would be obtained if $R$ were aligned with and fixed to the edges of a perfect
 cube and the cube was laid on a level surface on each of its six sides.  These
 six configurations correspond to the following bicycle orientations:
-$\phi=\pm\pi/2$ (frame plane horizontal), $\phi=0$ and $\theta_R = \{-\pi/2, 0,
+$\phi=\pm\pi/2$ (frame plane horizontal), $\phi=0$ and $\theta_r = \{-\pi/2, 0,
 \pi/2, \pi\}$ (frame plane vertical, two horizontal steer axis orientations and
 two vertical steer axis orientations). The sensed acceleration in the three sensor
 directions was recorded for approximately sixty seconds while the bicycle was
@@ -486,6 +490,21 @@ Since a rate table or other convenient means of calibrating the gyroscope
 sensitivities was not available, the manufacturer published gyroscope
 sensitivities were used.
 
+Two LEDs and a momentary switch were mounted on the right side of the bicycle.
+The green LED was illuminated when the lateral acceleration was relatively
+small compared to the total acceleration: $\frac{|\bm{a} \cdot
+\uv{r}{y}|}{||\bm{a}||} < \frac{\pi}{180}$; this visually indicated when the
+bicycle frame plane was nearly vertical. Similarly, the yellow LED was
+illuminated when the steer angle was less than 1$^\circ = \frac{\pi}{180}$ rad.
+Finally, the momentary switch was mounted on the right side of the steer motor
+mount. When depressed, the switch grounded a microcontroller pin and indicated
+that the bicycle was being balanced manually; when released, the pin state was
+pulled up to +3.3V and indicated the bicycle was not being balanced manually.
+The state of this pin was sampled and recorded along with all other sensor
+signals; when the switch was closed, a 0 was recorded, when the switch was
+open, a 1 was recorded (see \autoref{rb:fig:run000a} for an example of the
+signal).
+
 \subsection{Actuators} \label{rb:subsec:actuators}
 The robot bicycle was equipped with a rear wheel hub motor to drive the rear
 wheel and a fork motor to steer the bicycle. Both motors were brushless DC
@@ -516,9 +535,9 @@ constant was determined experimentally by applying a constant rear wheel
 current $I_R$ with while the wheel was off the ground and measuring the angular
 response. The spin inertia $J_r$ of the rear wheel was measured
 (\autoref{rb:subsec:parameters}), and the idealized DC motor equation
-$J_r\ddot{\theta}_R = K_t I_r$ was integrated twice with respect to time
-(constant current assumed and $\theta_R(0)=\dot{\theta}_R(0) = 0$) to obtain
-$\theta = \frac{K_t I_r}{2J_r}t^2$. A least squares fit was then used to
+$J_r\ddot{\theta}_r = K_t I_r$ was integrated twice with respect to time
+(constant current assumed and $\theta_r(0)=\dot{\theta}_r(0) = 0$) to obtain
+$\theta_r = \frac{K_t I_r}{2J_r}t^2$. A least squares fit was then used to
 estimate $K_t=6.6$ Nm/A. Since a PI speed controller was implemented to control
 rear wheel rate, it was not critical to know $K_t$ precisely (PI controllers
 perform reasonably well even when system parameters are not well known); for
@@ -622,7 +641,7 @@ the complete list is viewable in the source code.
   \item[Rear wheel and steer angles and rates] Units of rad, rad/s. Rear wheel
     angle and angular rate, steer angle and angular rate. Rear wheel angular
     rate was determined by a 100ms moving average of an ideal derivative
-    ($\dot{\theta}_R \approx \Delta\theta_R / \Delta t$), steer angular rate
+    ($\dot{\theta}_r \approx \Delta\theta_r / \Delta t$), steer angular rate
     was obtained by a low pass filtered ideal derivative ($G(s)=s/(s+20\pi)$).
     This difference was necessary because the discretization error of the rear
     wheel encoder was 2 orders of magnitude higher than that of the steer
@@ -656,7 +675,7 @@ wheel torque command exceeded the allowable torque, it was saturated and the
 integrator state was not updated. This technique prevented integrator windup
 and was simple to implement. The control law was
 \begin{align}
-  e_i &= \dot{\theta}_{R,i,\text{commanded}} - \dot{\theta}_{R,i} \\
+  e_i &= \dot{\theta}_{r,i,\text{commanded}} - \dot{\theta}_{r,i} \\
   \tau_{i,\text{desired}} &= K_p e_i + x_{i-1}\\
   x_{i} &= \left\{
       \begin{matrix}
@@ -744,10 +763,10 @@ user.
     \draw[connector] (C_yr.west) -| node[auto] {$\dot{\hat{\psi}}$} (outer_sum.south);
 
   \end{tikzpicture}
-  \caption{Yaw rate control block diagram. The bicycle state is $x=[\phi,
-  \delta, \dot{\phi}, \dot{\delta}]$, $\hat{x}$ is the state estimate, input to
-  the bicycle is steer torque $\tau_\delta$, the measurements are $y =
-  [\delta, \dot{\phi}]$.}
+  \caption[Yaw rate control block diagram.]{Yaw rate control block diagram. The
+    bicycle state is $x=[\phi, \delta, \dot{\phi}, \dot{\delta}]$, $\hat{x}$ is
+    the state estimate, input to the bicycle is steer torque $\tau_\delta$, the
+    measurements are $y = [\delta, \dot{\phi}]$.}
   \label{rb:fig:yr_block_diagram}
 \end{figure}
 The state feedback gain $K$ was computed by discretizing the plant model and
@@ -851,7 +870,7 @@ robot bicycle each run. To begin each run, Oliver Lee operated the laptop and
 issued commands to configure the filename (following a naming convention $<$run
 number$>$.dat), speed set point, distance to travel before reducing the speed
 set point to 1.0 m/s, and optionally, an additive sinusoidal disturbance steer
-torque of magnitude $a_d$ cNm and frequency $f_d$ Hz. Dr. Hubbard took notes
+torque of magnitude $a_d$ (\num{1e-2} Nm) and frequency $f_d$ Hz. Dr. Hubbard took notes
 about each run and coordinated with Oliver Lee to ensure commands issued to robot
 were consistent with his notes. Prior to issuing a non-zero speed set point
 command, I held the bicycle near the reference configuration (as indicated by
@@ -865,7 +884,7 @@ set point to 1.0 m/s. At 1.0 m/s, it was easy to manually switch off the motors
 and catch the bicycle.
 \begin{center}
   \begin{longtable}{lllllll}
-    \caption[Summary of experiments]{Runs 000--010 utilized a yaw rate PI
+    \caption[Summary of experiments.]{Runs 000--010 utilized a yaw rate PI
       controller which explicitly specified 0.1 Hz 0dB cross-over frequency and
       utilized a disturbance torque $d = a_d \sin\left(2\pi t\right)$. Runs
       011--014, the firmware was updated to revised the disturbance torque to
@@ -917,259 +936,279 @@ and catch the bicycle.
   \end{longtable}
 \end{center}
 
-\subsection{Representative behavior} \label{rb:subsec:representative}
-Three speeds were commanded during the 28 twenty eight runs: 1.0, 2.0, and 4.0
-m/s.
+\subsection{Results} \label{rb:subsec:results}
+The speed and steer angle response to a step in commanded speed is shown in
+\autoref{rb:fig:run000a}. Prior to the step, the bicycle was held in a nearly
+stationary upright zero steer configuration.  During the transition from 0 m/s
+the bicycle was manually guided until a speed of approximately 1.0 m/s was
+reached, at which point the bicycle was left to accelerate further and balance
+solely via the yaw rate controller. The forward speed was achieved only by the
+action of the rear wheel motor, no manual pushing of the bicycle was performed.
+This speed response was typical of all runs.
+
+As described in \autoref{rb:subsec:yr_control}, controller gains were computed
+for forward speeds in the range of 0.5-10 m/s. However, due to the difficulty
+of balancing at low speeds, we found that enabling the yaw rate control system
+at speeds below 1.0 m/s proved problematic and would result in drastic steer
+torques when accelerating from 0 m/s to 1 m/s. For this reason, the threshold
+speed for state estimation was set to 1 m/s, effectively disabling any yaw rate
+control (i.e., $\tau_\delta = 0$) until the forward speed exceeded 1 m / s. This
+threshold was a one time trigger -- once this speed was reached, the controller
+remained enabled even if the speed went below 1 m/s (i.e., if the commanded
+speed was changed to be less than 1 m/s).
+
+Once the forward speed exceeded the estimation threshold speed, state
+estimation and control began. This event is visible in the steer angle estimate
+\ref{estimated_steer} of \autoref{rb:fig:run000a} at the time when the
+measured speed \ref{measured_v} crosses 1 m/s -- the steer angle estimate
+initial condition is set to the steer angle measurement at that time step.
+Similarly, the other estimator initial conditions were populated using the most
+recently available measurements, lean rate $\dot{\hat{\phi}}$ (from rate
+gyroscope), and steer rate $\dot{\delta}$ (from a low pass filtered numerical
+time derivative of steer). No direct measurement of lean $\phi$ was available,
+so the initial lean estimate $\hat{\phi}$ was zero for each run.  This latter
+initial condition was the motivation for ensuring that the bicycle was as close
+to $\phi=0$ at the beginning of each run -- doing so minimized the initial
+estimation error and helped ensure a smooth start.
+
+There is a noticeable difference between the measured steer
+\ref{measured_steer} and estimated steer \ref{estimated_steer}. This
+estimation error can be attributed several things: modelling errors,
+measurement errors, and gain and phase response of the state estimator.
+Modelling errors arise from inaccuracies of the measured physical parameters or
+unaccounted for dynamics.  Measurement errors arise from discretization error,
+imprecisely known sensor sensitivities and biases, and to a lesser degree,
+un-modelled sensors dynamics (the frequencies of interest in the bicycle are
+2-3 orders of magnitude smaller than the natural frequencies of typical MEMS
+rate gyroscopes). These modelling errors result in a steady state estimation
+error, similar to a pure proportional controller without any integral action.
+Finally, the state estimate is attenuated and delayed by some amount from the
+estimator inputs (steer torque $\tau_\delta$ and measurements of steer $\delta$
+and lean rate $\dot{\phi}$); this is a trade-off that cannot be avoided without
+introducing undesired amplification of high frequency sensor noise.
+
+%\begin{figure}[htbp]
+%  \centering
+%  \begin{tikzpicture}
+%    \begin{axis}[xlabel=Time (s),
+%                 ylabel=Forward speed (m / s),
+%                 legend pos=south east]
+%    \addplot table[x=time,y=v]{data/000-time-steer-steer_est-v-v_c-20.00-35.00-decimated.txt};
+%    \addlegendentry{Measured}
+%    \addplot table[x=time,y=v_c]{data/000-time-steer-steer_est-v-v_c-20.00-35.00-decimated.txt};
+%    \addlegendentry{Commanded}
+%    \end{axis}
+%  \end{tikzpicture}
+%  \caption{Forward speed response for run 000.}
+%  \label{rb:fig:velocity_tracking000}
+%\end{figure}
+%\begin{figure}[htbp]
+%  \centering
+%  \begin{tikzpicture}
+%    \begin{axis}[xlabel=Time (s),
+%                 ylabel=Steer angle (rad),
+%                 legend pos=north east]
+%    \addplot table[x=time,y=steer]{data/000-time-steer-steer_est-v-v_c-20.00-35.00-decimated.txt};
+%    \addlegendentry{Measured}
+%    \addplot table[x=time,y=steer_est]{data/000-time-steer-steer_est-v-v_c-20.00-35.00-decimated.txt};
+%    \addlegendentry{Estimated}
+%    \end{axis}
+%  \end{tikzpicture}
+%  \caption{Steer angle measurement and estimate for run 000.}
+%  \label{rb:fig:steer_response000}
+%\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      y axis style/.style={
+      yticklabel style=#1,
+      ylabel style=#1,
+      y axis line style=#1,
+      ytick style=#1
+      },
+      scale only axis,
+      axis y line*=left,
+      axis x line*=bottom,
+      xlabel=Time (s),
+      ylabel=m / s,
+      y axis style=red!75!black
+    ]
+    \addplot[red] table[
+      x=time,
+      y=v
+    ]{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt};
+    \label{measured_v}
+    \addplot[red,dashed] table[
+      x=time,
+      y=v_c
+    ]{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt};
+    \label{commanded_v}
+    \addplot[green] table[
+      x=time,
+      y=hw_button
+    ]{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt};
+    \label{hw_button}
+    \end{axis}
+    \begin{axis}[
+      y axis style/.style={
+        yticklabel style=#1,
+        ylabel style=#1,
+        y axis line style=#1,
+        ytick style=#1
+      },
+      scale only axis,
+      axis y line*=right,
+      axis x line=none,
+      ylabel=rad,
+      y axis style=blue!75!black,
+      legend pos=outer north east
+    ]
+    %\addlegendimage{/pgfplots/refstyle=measured_v}\addlegendentry{Measured}
+    %\addlegendimage{/pgfplots/refstyle=commanded_v}\addlegendentry{Commanded}
+    \addplot[blue] table[
+      x=time,
+      y=steer
+    ]{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt};
+    \label{measured_steer}
+    %\addlegendentry{Measured}
+    \addplot[blue,dashed] table[
+      x=time,
+      y=steer_est
+    ]{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt};
+    \label{estimated_steer}
+    %\addlegendentry{Estimated}
+    \end{axis}
+  \end{tikzpicture}
+  \caption[Run 000 speed and steer response.]{Run 000, measured speed
+    \ref{measured_v} $v = -\dot{\theta}_r R_r$, commanded speed
+    \ref{commanded_v} $v_c$, measured steer angle \ref{measured_steer}
+    $\delta$, and estimated steer angle \ref{estimated_steer}
+    $\hat{\delta}$. The momentary switch state \ref{hw_button} indicates
+    the bicycle was released at $t$=21.56s, shortly before state estimation began
+    at $t$=21.62s (\ref{measured_v} $v$ = 1 m / s). See
+    \ref{rb:subsec:sensors} for a description of this switch.}
+  \label{rb:fig:run000a}
+\end{figure}
+
+Estimates of steer rate $\dot{\hat{\delta}}$ and lean rate $\dot{\phi}$ are
+shown in \autoref{rb:fig:run000b}, \autoref{rb:fig:run000c}, respectively. In
+comparison to the steer and steer estimate signals, these signals are much
+noisier. Visible in both is the sudden change in the estimator state (at
+$t$=21.62) when the estimation threshold speed is reached.
+
 \begin{figure}[htbp]
   \centering
   \begin{tikzpicture}
-    \begin{axis}[no markers,
-                 enlargelimits=false,
-                 xlabel=Time (s),
-                 ylabel=Forward speed (m / s),
-                 grid=major,
-                 legend pos=south east]
-    \addplot table[x=time,y=v]{images/000_time_v_v_c_20.000_40.005_decimated.dat};
-    \addlegendentry{Actual}
-    \addplot table [x=time,y=v_c]{images/000_time_v_v_c_20.000_40.005_decimated.dat};
-    \addlegendentry{Commanded}
+    \begin{axis}[xlabel=Time (s),
+                 ylabel=Lean rate (rad / s),
+                 legend pos=north east]
+    \addplot table[
+      x=time,
+      y=gyro_x]{data/000-time-gyro_x-lean_rate_est-20.00-30.00-decimated.txt};
+    \addlegendentry{Measured}
+    \addplot table[
+      x=time,
+      y=lean_rate_est]{data/000-time-gyro_x-lean_rate_est-20.00-30.00-decimated.txt};
+    \addlegendentry{Estimated}
     \end{axis}
   \end{tikzpicture}
-  \caption{Speed tracking.}
-  \label{rb:fig:velocity_tracking}
+  \caption[Run 000 lean rate measured and estimated.]{The lean rate measurement
+  was obtained by transforming rate gyroscope measurements from the sensor
+  fixed axes to the lean frame fixed axes (constant frame pitch $\theta$ was
+  assumed).}
+  \label{rb:fig:run000b}
 \end{figure}
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[xlabel=Time (s),
+                 ylabel=Steer rate (rad / s),
+                 legend pos=north east]
+    \addplot table[
+      x=time,
+      y=steer_rate]{data/000-time-steer_rate-steer_rate_est-20.00-30.00-decimated.txt};
+    \addlegendentry{Measured}
+    \addplot table[
+      x=time,
+      y=steer_rate_est]{data/000-time-steer_rate-steer_rate_est-20.00-30.00-decimated.txt};
+    \addlegendentry{Estimated}
+    \end{axis}
+  \end{tikzpicture}
+  \caption[Run 000 steer rate measured and estimated.]{The steer rate
+    ``measurement'' was the result of applying a low pass filtered ideal
+    derivative $G(s) = s/(s+20\pi)$ to the steer angle measurement. The noise
+    in this signal is directly proportional to steer angle quantization error
+    and inversely proportional to sample period.}
+  \label{rb:fig:run000c}
+\end{figure}
+
+%\begin{figure}[htbp]
+%  \centering
+%  \begin{tikzpicture}
+%  \begin{axis}[
+%      y axis style/.style={
+%      yticklabel style=#1,
+%      ylabel style=#1,
+%      y axis line style=#1,
+%      ytick style=#1
+%      },
+%      scale only axis,
+%      axis y line*=left,
+%      axis x line*=bottom,
+%      xlabel=Time (s),
+%      ylabel=rad / s
+%      y axis style=red!75!black
+%    ]
+%    \addplot[red] table[
+%      x=time,
+%      y=gyro_x
+%    ]{data/000-time-gyro_x-lean_rate_est-20.00-30.00-decimated.txt};
+%    \label{measured_lean_rate}
+%    \addplot[black] table[
+%      x=time,
+%      y=lean_rate_est
+%    ]{data/000-time-gyro_x-lean_rate_est-20.00-30.00-decimated.txt};
+%    \label{estimated_lean_rate}
+%    \end{axis}
+%    \begin{axis}[
+%      y axis style/.style={
+%        yticklabel style=#1,
+%        ylabel style=#1,
+%        y axis line style=#1,
+%        ytick style=#1
+%      },
+%      scale only axis,
+%      axis y line*=right,
+%      axis x line=none,
+%      ylabel=rad / s,
+%      y axis style=blue!75!black,
+%      legend pos=outer north east
+%    ]
+%    %\addlegendimage{/pgfplots/refstyle=measured_v}\addlegendentry{Measured}
+%    %\addlegendimage{/pgfplots/refstyle=commanded_v}\addlegendentry{Commanded}
+%    \addplot[blue] table[
+%      x=time,
+%      y=steer_rate
+%    ]{data/000-time-steer_rate-steer_rate_est-20.00-30.00-decimated.txt};
+%    \label{measured_steer_rate}
+%    %\addlegendentry{Measured}
+%    \addplot[brown] table[
+%      x=time,
+%      y=steer_rate_est
+%    ]{data/000-time-steer_rate-steer_rate_est-20.00-30.00-decimated.txt};
+%    \label{estimated_steer_rate}
+%    %\addlegendentry{Estimated}
+%    \end{axis}
+%  \end{tikzpicture}
+%  \caption[Steer rate measurement and estimate for run 000.]{}
+%  \label{rb:fig:run000b}
+%\end{figure}
+
+
+
 
 \subsection{Discussion} \label{rb:subsec:discuss}
 
 
-
-
-%
-%\section{Yaw rate controller}
-%The objective of the yaw rate controller is twofold: 1) stabilize the roll and
-%steer dynamics, and 2) track a reference yaw rate $\dot{\psi}_r$.  Because the
-%lateral dynamics are dependent on $\dot{\theta}_R$, yaw rate controller gains
-%were computed at 101 values of $\dot{\theta}_R$, logarithmically spaced between
-%$10^{-0.5}$ and $10^1$ m / s. Using logarithmic spacing instead of linear
-%spacing has the effect of providing relatively higher controller gain density
-%at lower speeds than at higher speeds. This is important because the bicycle is
-%relatively more unstable at lower speeds than at higher speeds and the unstable
-%dynamics change with speed more quickly below the weave critical speed than
-%they do above the capsize speed.  Put simply, a bicycle is more difficult to
-%balance at low speeds and careful gain selection is more important at low
-%speeds than at high speeds.
-%
-%The yaw rate controller has four measurements which are used to compute the
-%applied steer torque: 1) rear wheel rate, 2) steer angle, 3) roll rate, and 4)
-%yaw rate. First, the rear wheel rate measurement is used to look up the
-%controller gains which were designed for the bicycle in forward steady cruise
-%with rear wheel rates above and below the measurement.  The remaining three
-%measurements are used as inputs to the state equations (at each speed).  The
-%two state updates are linearly interpolated at the current speed measurement to
-%obtain the actual state update.  This interpolated state update is then used to
-%compute the output steer torque.
-%
-%The design of the controller (at each speed) involves two independent steps: 1)
-%solve the discrete algebraic Riccati equation (DARE) associated with a LQR
-%optimal control problem to compute the optimal state feedback gain, and 2)
-%solve the DARE associated with an optimal estimation problem to compute the
-%optimal filter gain which is used to compute the state estimate. The state
-%estimate is then used in place of the true state in the LQR controller. The
-%design of the controller and estimator are described below.
-%
-%\subsection{LQR yaw rate controller with integral action}
-%The four states of the bicycle model are roll $\phi$, steer $\delta$, roll rate
-%$\dot{\phi}$, and, steer rate $\dot{\delta}$.  These four states are augmented
-%with a fifth state, the time integral of yaw rate error
-%$\int\dot{\psi}-\dot{\psi}_r dt$.  This five dimensional state is denoted by
-%$x_k$. A block diagram of the state feedback control topology is shown below.
-%
-%\begin{tikzpicture}[auto, node distance=2cm,>=latex']
-%  % We start by placing the blocks
-%  \node [input, name=input] {};
-%  \node [sum, right of=input] (sum) {};
-%  \node [block, right of=sum] (integrator) {$\frac{T_s}{z-1}$};
-%  \node [block, right of=integrator] (gain) {$K_c$};
-%  \node [block, right of=gain] (bicycle) {Bicycle};
-%  % We draw an edge between the controller and system block to 
-%  % calculate the coordinate u. We need it to place the measurement block. 
-%  \draw [->] (sum) -- node[name=e] {$e$} (integrator);
-%  \draw [->] (integrator) -- node[name=xi] {} (gain);
-%  \draw [->] (gain) -- node[name=u] {$\tau_{\delta}$} (bicycle);
-%  \node [output, right of=bicycle] (output) {};
-%  \coordinate [above of=u] (tmp1);  % 
-%  \coordinate [below of=xi] (tmp2);  % 
-%
-%  % Once the nodes are placed, connecting them is easy. 
-%  \draw [draw,->] (input) -- node {$\dot{\psi}_r$} (sum);
-%  %\draw [->] (sum) -- node {$e$} (controller);
-%  \draw [->] (bicycle) -- node [name=y] {$\dot{\psi}$} (output);
-%  %\draw [->] (y) -- (tmp1) -- (gain);
-%  \draw [->] (y) |- (tmp2) -| node[pos=0.99] {$-$} (sum);
-%\end{tikzpicture}
-%
-%TODO: Finish block diagram
-%
-%\begin{align}
-%\label{eq:augmented_plant}
-%    x_{k+1} & =
-%  \begin{bmatrix}
-%    A & 0 \\
-%    -C_{\dot{\psi}} T_s & 1
-%  \end{bmatrix}
-%    x_{k} +
-%  \begin{bmatrix}
-%    B_{\delta} \\ 0
-%  \end{bmatrix}
-%    u_k \\
-%\label{eq:augmented_plant_simple}
-%  & = A_{cp} x_{k} + B_{cp} u_k
-%\end{align}
-%The $A$ matrix is the bicycle system dynamics matrix, $B_{\delta}$ is the
-%bicycle input matrix associated with steer torque inputs, and, $C_{\dot{\psi}}$
-%is the output matrix associated with measurement of yaw rate $\dot{\psi}$, all
-%converted to discrete time using sample time $T_s$.  Subscript ``cp'' denotes
-%``controlled plant''.
-%
-%The controller seeks the sequence of control inputs $u^*_k$, $k \geq 0$, which
-%minimizes the quadratic cost function
-%\begin{align}
-%  J(u) = \sum_{k=0}^{\infty} x_k^T Q x_k + r u_k^2
-%\label{eq:LQRcost}
-%\end{align}
-%for any initial state $x_0$. $Q \in \mathbf{R}^{5 \times 5}, Q = Q^T \geq 0$
-%is the state weighting matrix, and $r$ is the positive real control control
-%weighting. The solution to the optimal control problem is the linear state
-%feedback
-%\begin{align}
-%\label{eq:linear_state_feedback}
-%u^*_k & = -(r + B_{cp} P^*_c B_{cp})^{-1} B_{cp}^T P_c^* A_{cp} x_k \\
-%      & = K_c x_k
-%\end{align}
-%where $P^*_c$ is the the unique, symmetric positive definite solution of the
-%DARE
-%\begin{align}
-%\label{eq:DARE_controller}
-%A_{cp}^T (P_c - P_c B_{cp} (r + B_{cp}^T P_c B_{cp})^{-1} B_{cp}^T
-%P_c) A_{cp} + Q & = 0
-%\end{align}
-%The linear state feedback gain $K_c \in \mathbf{R}^{1 \times 5}$ stabilizes the
-%bicycle and provides zero steady state tracking error to a reference yaw rate.
-%This gain is computed at each speed with the following $Q$ and $r$ weightings
-%\begin{align}
-%Q &= \mathrm{diag}(1, 1, 1, 1, 1) \\
-%r &= 1
-%\end{align}
-%TODO: plot of LQR weightings vs. rear wheel rate.
-%
-%\subsection{State estimator}
-%The state estimator is designed to estimate the five states in
-%\ref{eq:augmented_plant_simple}. The state equations must be modified to
-%include the input reference yaw rate and the measurement equations. The state
-%and output equations of the plant to be estimated are
-%\begin{align}
-%    x_{k+1} & =
-%  \begin{bmatrix}
-%    A & 0 \\
-%    -C_{\dot{\psi}} T_s & 1
-%  \end{bmatrix} x_{k} +
-%  \begin{bmatrix}
-%    B_{\delta} & 0 \\ 0 & T_s
-%  \end{bmatrix}
-%  \begin{bmatrix}
-%    u_k \\ r_k
-%  \end{bmatrix}
-%  + w_k \\
-%  & = A_{ep} x_k + B_{ep} \begin{bmatrix} u_k \\ r_k \end{bmatrix} + w_k \\
-%  y_k & =
-%  \begin{bmatrix}
-%    0 & 1 & 0 & 0 & 0\\ % Steer angle measurement
-%    0 & 0 & 1 & 0 & 0\\ % Roll rate measurement
-%    0 & 0 & 0 & 0 & 1    % Integral of yaw rate error measurement
-%  \end{bmatrix}
-%    x_{k} + v_k \\
-%  &= C_{ep} x_k + v_k
-%\label{eq:estimated_plant}
-%\end{align}
-%where the subscript ``ep'' denotes ``estimated plant'', $C_m \in \mathbf{R}^{2\times4}$ represents the measurement output matrix
-%associated with measuring steer angle and roll rate.  The third output of this
-%plant is integral of yaw rate error, which we assume to have a direct
-%measurement of.  Process noise $w_k$ and measurement noise $v_k$ are assumed to
-%have zero mean and covariance $W$ and $V$ respectively.
-%
-%The state estimate is computed in two steps: a prediction step that
-%extrapolates the state estimate based on assumed dynamics, and a correction
-%step which uses the most recent measurements.  The two steps are
-%\begin{align}
-%  \hat{x}_{k+1} & = A_{ep} \bar{x}_k + B_{ep} \begin{bmatrix} u_k \\ r_k \end{bmatrix} \\
-%  \bar{x}_{k+1} & = \hat{x}_{k+1} + K_e (y_{k+1} - C_{ep} \hat{x}_{k+1})
-%\end{align}
-%These can be combined into a single state space equation
-%\begin{align}
-%\bar{x}_{k+1} & = (I - K_e C_{ep}) A_{ep} \bar{x}_k
-%            + \begin{bmatrix}(I - K_e C_{ep}) B_{ep} & K_e \end{bmatrix}
-%              \begin{bmatrix} u_k \\ r_k \\ y_{k+1} \end{bmatrix}
-%\end{align}
-%Where $K_e$ is the estimator gain. In order for the estimator states to
-%converge to the true state, the error dynamics must be stable.  The error
-%dynamics are
-%\begin{align}
-%  \bar{e}_{k+1} & \triangleq x_{k+1} - \bar{x}_{k+1} \\
-%  & = A_{ep} x_k + B_{ep} \begin{bmatrix} u_k \\ r_k \end{bmatrix} - (I - K_e C_{ep}) A_{ep} \bar{x}_k
-%    - \begin{bmatrix}(I - K_e C_{ep}) B_{ep} & K_e \end{bmatrix}
-%              \begin{bmatrix} \tilde{u}_k \\ \tilde{y}_{k+1} \end{bmatrix} \\
-%              & = (I - K_e C_{ep}) A_{ep} (x_k - \bar{x}_k) \\
-%              & = (I - K_e C_{ep}) A_{ep} \bar{e}_k
-%\label{eq:estimator_error}
-%\end{align}
-%The error dynamics are stable if and only if $(I - K_e C_{ep}) A_{ep}$ has all
-%eigenvalues inside the closed unit circle.  The pair $(A_{ep}, C_{ep} A_{ep})$
-%must be observable for arbitrary eigenvalue assignment.
-%
-%The estimator gain $K_e$ is chosen to be
-%\begin{align}
-%K_e & = P_e^* C_{ep}^T (C_{ep} P_e^* C_{ep}^T + V)^{-1}
-%\end{align}
-%where $P_e^*$ is the unique, symmetric, positive definite solution of the
-%DARE
-%\begin{align}
-%\label{eq:DARE_observer}
-%A_{ep}(P_e - P_e C_{ep}^T(C_{ep} P_e C_{ep}^T + V)^{-1} C_{ep} P_e) A_{ep}^T -
-%P_e + W &= 0
-%\end{align}
-%The solution to the DARE was found using the Schur vector technique of Laub
-%\cite{Laub1979}
-%
-%\subsection{Closed loop dynamics}
-%The bicycle state equations along with the estimator state equations are
-%\begin{align}
-%x_{k+1} & = A_{ep} x_k + B_{ep} \begin{bmatrix} u_k \\ r_k \end{bmatrix} \\
-%\bar{x}_{k+1} & = (I - K_e C_{ep}) A_{ep} \bar{x}_k +
-%  \begin{bmatrix} (I - K_e C_{ep}) B_{ep} & K_e \end{bmatrix}
-%  \begin{bmatrix} u_k \\ r_k \\ y_{k+1} \end{bmatrix}
-%\end{align}
-%Using the feedback law $u_k = K_c \bar{x}_k$ and the measurement equations
-%$y_{k+1} = C_{ep} x_{k+1}$, the closed loop dynamics of the combined system
-%becomes
-%\begin{align}
-%  x_{k+1} & = A_{ep} x_k + \begin{bmatrix} B_{\delta} \\ 0 \end{bmatrix} K_c
-%  \bar{x}_k + \begin{bmatrix} 0 \\ T_s \end{bmatrix} r_k \\
-%  \bar{x}_{k+1} & = K_e C_{ep} A_{ep} x_k + \begin{bmatrix} (I - K_e C_{ep})
-%  A_{ep} + \begin{bmatrix} B_{\delta} \\ 0 \end{bmatrix} K_c \end{bmatrix}
-%  \bar{x}_k + \begin{bmatrix} 0 \\ T_s \end{bmatrix} r_k
-%\end{align}
-%
-%\subsection{Implementation}
-%Since the controller design has an augmented state that is not part of the
-%bicycle, and this state is not measured from a physical sensor, both this
-%``measurement'' loop, and the control loop, can be closed in the implementation
-%of the controller.  The resulting state space equations have five states (four
-%bicycle state estimates and the integral of yaw rate error), three inputs (yaw
-%rate reference, steer angle measurement, and roll rate measurement), and, one
-%output (steer torque).
-%
-%
-%
-%\section{Introduction}
-%
-%\section{System identification experiments}

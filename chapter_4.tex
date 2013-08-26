@@ -242,22 +242,24 @@ following steps:
 \begin{itemize}
   \item Suspend the bicycle frame from the ceiling and remove both wheels.
   \item Rigidly mount the steer calibration fixture into the wheel dropouts,
-    thereby setting $\delta=0$.
-  \item Turn on the microcontroller on and call the \verb|calibrate| function.
-    This function zeros the steer encoder count and waits for the steer encoder
-    index.
+    thereby setting the steer angle $\delta=0$.
+  \item Turn on the microcontroller on and issue the \verb|calibrate| (see
+    \autoref{rb:subsec:ui} command. This calls a function which zeros the
+    steer encoder count and waits for the steer encoder index.
   \item Remove the fixture from the front dropouts, and rotate the fork left to
-    right 16 times.
+    right 16 times. This causes the \verb|calibrate| command to record the
+    steer encoder count each time the steer index signal transitions from low
+    to high or high to low.
   \item Record the steer offset presented by the \verb|calibrate| function. The
-    offset is a signed integer number of quadrature counts the index is away
+    offset is the signed integer number of quadrature counts the index is away
     from $\delta=0$.
 \end{itemize}
-On microcontroller power up or reset, the steer encoder count is set to zero
-regardless of the position of the fork. By permanently recording the number of
-quadrature counts the steer index is from from the zero steer configuration,
-this offset can be set during a fork homing procedure when the steer index is
-triggered.  This functionality was implemented in the \verb|homefork| function
-and was run every time the microcontroller was reset or powered up.
+On microcontroller reset, the steer encoder count is set to zero regardless of
+the position of the fork. By permanently recording the number of quadrature
+counts the steer index is from from the zero steer configuration, this offset
+can be set during a fork homing procedure when the steer index is triggered.
+This functionality was implemented in the \verb|homefork| function and was run
+every time the microcontroller was reset.
 
 \begin{figure}[htbp]
   \centering
@@ -636,29 +638,37 @@ the complete list is viewable in the source code.
   \item[System state] 32-bit unsigned integer whose bits are set high or low
     depending on the Boolean state of the following: Rear motor enable, steer
     motor enable, rear motor fault, steer motor fault, sample buffer
-    encode/initialization/overflow error, hardware button
+    encode/initialization/overflow error, momentary switch
     (\autoref{rb:subsec:sensors}), IMU communication error, filesystem error.
   \item[Rear wheel and steer angles and rates] Units of rad, rad/s. Rear wheel
-    angle and angular rate, steer angle and angular rate. Rear wheel angular
-    rate was determined by a 100ms moving average of an ideal derivative
-    ($\dot{\theta}_r \approx \Delta\theta_r / \Delta t$), steer angular rate
-    was obtained by a low pass filtered ideal derivative ($G(s)=s/(s+20\pi)$).
-    This difference was necessary because the discretization error of the rear
-    wheel encoder was 2 orders of magnitude higher than that of the steer
-    encoder.
+    angular rate was determined by applying a low pass filter ($G_(s) = 20 \pi
+    / (s + 20 \pi)$) to a 100ms moving average of an ideal derivative
+    ($\dot{\theta}_r \approx \Delta\theta_r / \Delta t$). This effectively
+    reduced the sample rate used for computing the rear wheel rate and hence
+    reduced the effect of discretization error.  The moving average approach
+    for obtaining the rear wheel rate was used because the discretization error
+    of the rear wheel encoder was much higher than that of the steer angle
+    encoder (800 vs. 20000 quadrature counts per revolution).  Also, commanded
+    forward speeds (and by extension rear wheel rates) we constants, so the
+    delay associated with a moving average did not present any problems.  Steer
+    angular rate was obtained by a low pass filtered ideal derivative
+    ($G(s)=20\pi s/(s+20\pi)$).
   \item[Commanded rear wheel rate and yaw rate] Units of rad/s. By
     default, these both start at 0 rad/s and change once the \verb|speed| or
     \verb|yaw_rate| commands are issued. Speed was specified in m/s but
     converted to rear wheel rate by dividing by rear wheel radius.
-  \item[Motor torques] Units of Nm. The torque commanded by rear motor
-    controller and the fork motor controller. Each signal was divided by the
-    respective motor torque constant to calculate the current command in units
-    of Amperes.
+  \item[Motor torques] Units of N m. The torque commanded by rear motor
+    controller and the fork motor controller. When generating the command to
+    the digital motor drives, each signal was divided by the respective motor
+    torque constant to calculate the current command in units of Amperes.
   \item[Frame angular velocity, sensor acceleration] Units of rad/s, m/s$^2$.
     Both quantities were computed by applying the sensitivities, biases, and
     direction cosine matrix to map raw measurements to appropriately scaled
     measurments in the bicycle body-fixed frame.
     (\autoref{rb:subsec:sensors}).
+  \item[State estimates] Units of rad, rad / s. The four states of the
+    linearized bicycle model were estimated at each time step and recorded;
+    these state estimates were used in the feedback control law.
 \end{description}
 
 
@@ -670,10 +680,10 @@ the commanded yaw rate.
 
 \subsection{Rear wheel rate controller} \label{rb:subsec:rw_control}
 The rear wheel rate controller was a discrete time proportional-integral (PI)
-controller with conditional integration. Whenever the desired rear
-wheel torque command exceeded the allowable torque, it was saturated and the
-integrator state was not updated. This technique prevented integrator windup
-and was simple to implement. The control law was
+controller with conditional integration. If the desired rear wheel torque
+command exceeded the allowable torque, it was saturated and the integrator
+state was not updated. This technique prevented integrator windup and was
+simple to implement. The control law was
 \begin{align}
   e_i &= \dot{\theta}_{r,i,\text{commanded}} - \dot{\theta}_{r,i} \\
   \tau_{i,\text{desired}} &= K_p e_i + x_{i-1}\\
@@ -809,10 +819,10 @@ into the firmware and gain scheduling was used to compute the actual control
 law based on the measured speed. During a experimental run, the measured speed
 was used to perform a binary search into the array to find the matrices
 associated with speeds bounding the measured speed. A linear interpolation of
-the state update and control law were performed using these nearest two speeds.
-An implication of this is that estimation and control was not possible below
-0.5m/s. This turned out not to be a problem as long as the bicycle was started
-from a standstill near the upright reference configuration.
+the state estimate update and control law were performed using these nearest
+two speeds.  An implication of this is that estimation and control was not
+possible below 0.5m/s. This turned out not to be a problem as long as the
+bicycle was started from a near the upright reference configuration.
 
 \subsection{User interface} \label{rb:subsec:ui}
 The following list details the available commands and gives a brief description
@@ -1136,11 +1146,11 @@ $t$=21.62) when the estimation threshold speed is reached.
     \addlegendentry{Estimated}
     \end{axis}
   \end{tikzpicture}
-  \caption[Run 000 steer rate measured and estimated.]{The steer rate
-    ``measurement'' was the result of applying a low pass filtered ideal
-    derivative $G(s) = s/(s+20\pi)$ to the steer angle measurement. The noise
-    in this signal is directly proportional to steer angle quantization error
-    and inversely proportional to sample period.}
+  \caption[Run 000 steer rate measured and estimated.]{The measured steer rate
+    was the result of applying a low pass filtered ideal derivative $G(s) =
+    20\pi s/(s+20\pi)$ to the steer angle measurement. The noise in this signal
+    is directly proportional to steer angle quantization error and inversely
+    proportional to sample period.}
   \label{rb:fig:run000c}
 \end{figure}
 

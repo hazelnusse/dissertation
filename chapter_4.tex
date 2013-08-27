@@ -999,6 +999,7 @@ introducing undesired amplification of high frequency sensor noise.
 
 \begin{figure}
   \pgfplotsset{set layers}
+  \pgfplotstableread{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt}\runzerofirstplot
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -1015,20 +1016,11 @@ introducing undesired amplification of high frequency sensor noise.
       ylabel=m / s,
       y axis style=red!75!black
     ]
-    \addplot[red] table[
-      x=time,
-      y=v
-    ]{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt};
+    \addplot[red] table[x=time, y=v]{\runzerofirstplot};
     \label{measured_v}
-    \addplot[red,dashed] table[
-      x=time,
-      y=v_c
-    ]{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt};
+    \addplot[red,dashed] table[x=time,y=v_c]{\runzerofirstplot};
     \label{commanded_v}
-    \addplot[green] table[
-      x=time,
-      y=hw_button
-    ]{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt};
+    \addplot[green] table[x=time,y=hw_button]{\runzerofirstplot};
     \label{hw_button}
     \end{axis}
     \begin{axis}[
@@ -1047,16 +1039,10 @@ introducing undesired amplification of high frequency sensor noise.
     ]
     %\addlegendimage{/pgfplots/refstyle=measured_v}\addlegendentry{Measured}
     %\addlegendimage{/pgfplots/refstyle=commanded_v}\addlegendentry{Commanded}
-    \addplot[blue] table[
-      x=time,
-      y=steer
-    ]{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt};
+    \addplot[blue] table[x=time,y=steer]{\runzerofirstplot};
     \label{measured_steer}
     %\addlegendentry{Measured}
-    \addplot[blue,dashed] table[
-      x=time,
-      y=steer_est
-    ]{data/000-time-hw_button-steer-steer_est-v-v_c-20.00-30.00-decimated.txt};
+    \addplot[blue,dashed] table[x=time,y=steer_est]{\runzerofirstplot};
     \label{estimated_steer}
     %\addlegendentry{Estimated}
     \end{axis}
@@ -1079,6 +1065,7 @@ noisier. Visible in both is the sudden change in the estimator state (at
 $t$=21.62) when the estimation threshold speed is reached.
 \begin{figure}[htbp]
   \pgfplotsset{set layers}
+  \pgfplotstableread{data/000-time-gyro_x-lean_rate_est-20.00-30.00-decimated.txt}\runzerosecondplot
   \centering
   \begin{tikzpicture}
     \begin{axis}[xlabel=Time (s),
@@ -1086,13 +1073,9 @@ $t$=21.62) when the estimation threshold speed is reached.
                  axis x line*=bottom,
                  axis y line*=left,
                  legend pos=outer north east]
-    \addplot table[
-      x=time,
-      y=gyro_x]{data/000-time-gyro_x-lean_rate_est-20.00-30.00-decimated.txt};
+    \addplot table[x=time,y=gyro_x]{\runzerosecondplot};
     \addlegendentry{Measured}
-    \addplot table[
-      x=time,
-      y=lean_rate_est]{data/000-time-gyro_x-lean_rate_est-20.00-30.00-decimated.txt};
+    \addplot table[x=time,y=lean_rate_est]{\runzerosecondplot};
     \addlegendentry{Estimated}
     \end{axis}
   \end{tikzpicture}
@@ -1103,6 +1086,7 @@ $t$=21.62) when the estimation threshold speed is reached.
   \label{rb:fig:run000b}
 \end{figure}
 \begin{figure}[htbp]
+  \pgfplotstableread{data/000-time-steer_rate-steer_rate_est-20.00-30.00-decimated.txt}\runzerothirdplot
   \pgfplotsset{set layers}
   \centering
   \begin{tikzpicture}
@@ -1111,13 +1095,9 @@ $t$=21.62) when the estimation threshold speed is reached.
                  axis x line*=bottom,
                  axis y line*=left,
                  legend pos=outer north east]
-    \addplot table[
-      x=time,
-      y=steer_rate]{data/000-time-steer_rate-steer_rate_est-20.00-30.00-decimated.txt};
+    \addplot table[x=time,y=steer_rate]{\runzerothirdplot};
     \addlegendentry{Measured}
-    \addplot table[
-      x=time,
-      y=steer_rate_est]{data/000-time-steer_rate-steer_rate_est-20.00-30.00-decimated.txt};
+    \addplot table[x=time,y=steer_rate_est]{\runzerothirdplot};
     \addlegendentry{Estimated}
     \end{axis}
   \end{tikzpicture}
@@ -1132,6 +1112,7 @@ The time response of rear wheel torque and the steer torque $\tau_\delta$ is
 shown in \autoref{rb:fig:run000_torques}.
 \begin{figure}
   \pgfplotsset{set layers}
+  \pgfplotstableread{data/000-time-T_rw-T_rw_desired-T_s-T_s_desired-20.00-30.00-decimated.txt}\runzerotorque
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -1148,15 +1129,9 @@ shown in \autoref{rb:fig:run000_torques}.
       ylabel=Rear wheel torque (N m),
       y axis style=red!75!black
     ]
-    \addplot[red] table[
-      x=time,
-      y=T_rw
-    ]{data/000-time-T_rw-T_rw_desired-T_s-T_s_desired-20.00-30.00-decimated.txt};
+    \addplot[red] table[x=time, y=T_rw]{\runzerotorque};
     \label{rb:fig:T_rw}
-    \addplot[red,dashed] table[
-      x=time,
-      y=T_rw_desired
-    ]{data/000-time-T_rw-T_rw_desired-T_s-T_s_desired-20.00-30.00-decimated.txt};
+    \addplot[red,dashed] table[x=time,y=T_rw_desired]{\runzerotorque};
     \label{rb:fig:T_rw_desired}
     \end{axis}
     \begin{axis}[
@@ -1172,10 +1147,7 @@ shown in \autoref{rb:fig:run000_torques}.
       ylabel=Steer torque (N m),
       y axis style=blue!75!black
     ]
-    \addplot[blue] table[
-      x=time,
-      y=T_s
-    ]{data/000-time-T_rw-T_rw_desired-T_s-T_s_desired-20.00-30.00-decimated.txt};
+    \addplot[blue] table[x=time,y=T_s]{\runzerotorque};
     \label{rb:fig:T_s}
     \end{axis}
   \end{tikzpicture}
@@ -1188,15 +1160,6 @@ shown in \autoref{rb:fig:run000_torques}.
     \autoref{rb:fig:run000c}.}
   \label{rb:fig:run000_torques}
 \end{figure}
-
-The frequency content of the measured signals gives an indication of the
-dynamics that are excited. The transfer function from the applied steer torque
-to the measured signals (rate gyroscope, accelerometer, steer angle encoder)
-can be computed by taking the discrete Fourier transform (DFT) of the measured
-signals and dividing it by the DFT of the applied input. Since the dynamics of
-the bicycle are speed dependent, the FFT should be computed on a portion of the
-time response which has nearly constant speed.
-
 
 \subsection{Discussion} \label{rb:subsec:discuss}
 The transfer function from the input steer torque $\tau_\delta$ to an output
@@ -1212,27 +1175,25 @@ data during which the speed is nearly constant. For $n$ real data points $x_0
 \end{align}
 This output sequence possesses Hermitian symmetry ($X_k = X_{n-k}^*$), so half
 of the output is redundant (the second half is the complex conjugate of the
-first half, in reverse order). Therefor, the result of the DFT of a sequence
-of $n$ real numbers is a sequence of $n/2 + 1$ complex numbers, where the
-division by 2 is rounded down. The first element of this output sequence, $X_0$
-is always real and represents $n$ times the mean of the input sequence $x_k$
-(i.e., $E\{x_k\} = n X_0$). The magnitude of the remaining $n/2$ complex
-numbers can be interpreted $\frac{1}{2}$ the magnitude of the frequency
+first half, in reverse order). Therefore, the result of the DFT of a sequence of
+$n$ real numbers is a sequence of $n/2 + 1$ complex numbers, where the division
+by 2 is rounded down. The first element of this output sequence, $X_0$ is
+always real and represents $n$ times the mean of the input sequence $x_k$
+(i.e., $E\{x_k\} = n X_0$). The magnitude of each of the remaining
+$\frac{n}{2}$ complex numbers is $\frac{1}{2}$ the magnitude of the frequency
 response, at frequencies evenly spaced between 0 and the Nyquist frequency
 ($f_s / 2$). In practice, to obtain the magnitude portion of the frequency
 response, one needs to compute $\frac{2}{N} |X_k|$ for $k = 1 \ldots n/2$, and
 $\frac{1}{N} |X_0|$ for the DC component. However, to estimate a transfer
 function given the DFT of the input and output of a linear system, only the
-ratio of the DFTs need to be considered, so this scaling is unnecessary (it can
-be performed on each signal but the effect will cancelled out when computing
-the ratio).
+ratio of the DFTs need to be considered, so this scaling is unnecessary.
 
 Estimates of $|\frac{\delta}{\tau_\delta}(j\omega)|$ and
 $|\frac{\dot{\phi}}{\tau_\delta}(j\omega)|$ were computed for three different
-speeds: 1, 2, and 3 m/s. The time series data was selected over a time interval
-during which the forward speed of the bicycle was nearly constant. Since the
-sampling frequency was 200Hz, all frequency responses are plotted up to 100Hz
-(the Nyquist frequency).
+commanded speeds: 1, 2, and 4 m / s. The time series data was selected over a
+time interval during which the forward speed of the bicycle was nearly
+constant. Since the sampling frequency was 200Hz, all frequency responses are
+plotted up to 100Hz (the Nyquist frequency).
 \begin{figure}[htbp]
   \pgfplotstableread{data/024-time-T_s-gyro_x-steer-v-21.00-26.00-decimated.txt}\runtwentyfourtime
   \centering
@@ -1264,9 +1225,10 @@ sampling frequency was 200Hz, all frequency responses are plotted up to 100Hz
   \end{tikzpicture}
   \caption[Steer, lean rate, steer torque time response at 1.0 m / s.]{Run 024 steer,
   lean rate, steer torque and speed response to $v_c=1.0$ m / s, $\mu_v=0.959$
-m / s, $\sigma_v=0.0157$ m / s. The run continued until $t$ = 41s with very
-similar response.}
-  \label{rb:fig:run000_tr}
+  m / s, $\sigma_v=0.0157$ m / s. The run continued until $t$ = 41s with very
+  similar response. Steer torque saturated repeatedly at
+  $\tau_{\delta,max}=\pm4.511$ N m.}
+  \label{rb:fig:run024_tr}
 \end{figure}
 \begin{figure}[htbp]
   \pgfplotstableread{data/024-freq-T_s-gyro_x-steer-v-21.00-41.00-fft_decimated.txt}\runtwentyfourfreq
@@ -1299,6 +1261,78 @@ similar response.}
   steer and lean rate frequency response, $v_c=1.0$ m / s, $\mu_v=0.959$ m / s,
   $\sigma_v=0.0157$ m / s.  DFT of steer, lean rate, and steer torque signals was
   computed for $t \in$ [21s, 41s] (4001 time points).}
-  \label{rb:fig:run000_fr}
+  \label{rb:fig:run024_fr}
+\end{figure}
+Control of bicycles is more difficult at low speeds. This fact manifests itself
+as large state feedback gains which increase noise sensitivity.  This effect is
+clearly apparent in \autoref{rb:fig:run024_tr} where high frequency, large
+magnitude (saturating) steer torque oscillations were observed.
+
+\begin{figure}[htbp]
+  \pgfplotstableread{data/007-time-T_s-gyro_x-steer-v-21.00-31.00-decimated.txt}\runseventime
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[xlabel=Time (s),
+      ylabel={rad, rad / s},
+      scale only axis,
+      axis x line*=bottom,
+      axis y line*=left,
+      legend pos=outer north east,
+      name=steerrollrate]
+      \addplot table[x=time,y=steer] {\runseventime}; \addlegendentry{Steer angle}
+      \addplot table[x=time,y=gyro_x] {\runseventime}; \addlegendentry{Lean rate}
+    \end{axis}
+    \begin{axis}[
+      at={(steerrollrate.below south west)},
+      yshift=-0.1cm,
+      anchor=north west,
+      scale only axis,
+      xlabel=Time (s),
+      ylabel={torque (N m), speed (m / s)},
+      axis x line*=bottom,
+      axis y line*=left,
+      legend pos=outer north east,
+      name=torquespeed]
+      \addplot table[x=time,y=T_s] {\runseventime}; \addlegendentry{Steer torque}
+      \addplot table[x=time, y=v] {\runseventime}; \addlegendentry{Forward speed}
+    \end{axis}
+  \end{tikzpicture}
+  \caption[Steer, lean rate, steer torque time response at 4.0 m / s.]{Run 007 steer,
+  lean rate, steer torque and speed response to $v_c=4.0$ m / s, $\mu_v=3.949$
+  m / s, $\sigma_v=0.0225$ m / s.}
+  \label{rb:fig:run007_tr}
+\end{figure}
+\begin{figure}[htbp]
+  \pgfplotstableread{data/007-freq-T_s-gyro_x-steer-v-21.00-31.00-fft_decimated.txt}\runsevenfreq
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[xlabel=Frequency (Hz),
+      ylabel=$|\frac{\delta}{\tau_\delta}|$,
+      scale only axis,
+      axis x line*=bottom,
+      axis y line*=left,
+      legend pos=outer north east,
+      name=torquetosteer]
+      \addplot table[x=freq,y=steer] {\runsevenfreq};
+    \end{axis}
+    \begin{axis}[
+      at={(steerrollrate.below south west)},
+      yshift=-0.1cm,
+      anchor=north west,
+      scale only axis,
+      xlabel=Frequency (Hz),
+      ylabel=$|\frac{\dot{\phi}}{\tau_\delta}|$,
+      axis x line*=bottom,
+      axis y line*=left,
+      legend pos=outer north east,
+      name=torquetoleanrate]
+      \addplot table[x=freq,y=gyro_x] {\runsevenfreq};
+    \end{axis}
+  \end{tikzpicture}
+  \caption[Steer and lean rate frequency response to $v_c=4.0$ m / s.]{Run 024
+  steer and lean rate frequency response, $v_c=4.0$ m / s, $\mu_v=3.949$ m / s,
+  $\sigma_v=0.0225$ m / s.  DFT of steer, lean rate, and steer torque signals was
+  computed for $t \in$ [21s, 31s] (2001 time points).}
+  \label{rb:fig:run007_fr}
 \end{figure}
 

@@ -83,7 +83,7 @@ subsequent subsections pertaining to each piece of equipment.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{images/IMG_20120928_153336.jpg}
-  \caption[Close up of battery plate, fork motor mount, and digital motor
+  \caption[Battery plate, fork motor mount, and digital motor
     drives.]{Close up of battery plate, fork motor mount, and digital motor
     drives. The cylindrical plug interfacing the fork motor spindle and the fork
     steer tube is visible inside the aluminum box section directly beneath the
@@ -252,7 +252,7 @@ following steps:
     to high or high to low.
   \item Record the steer offset presented by the \verb|calibrate| function. The
     offset is the signed integer number of quadrature counts the index is away
-    from $\delta=0$.
+    from steer $\delta=0$.
 \end{itemize}
 On microcontroller reset, the steer encoder count is set to zero regardless of
 the position of the fork. By permanently recording the number of quadrature
@@ -997,38 +997,8 @@ estimator inputs (steer torque $\tau_\delta$ and measurements of steer $\delta$
 and lean rate $\dot{\phi}$); this is a trade-off that cannot be avoided without
 introducing undesired amplification of high frequency sensor noise.
 
-%\begin{figure}[htbp]
-%  \centering
-%  \begin{tikzpicture}
-%    \begin{axis}[xlabel=Time (s),
-%                 ylabel=Forward speed (m / s),
-%                 legend pos=south east]
-%    \addplot table[x=time,y=v]{data/000-time-steer-steer_est-v-v_c-20.00-35.00-decimated.txt};
-%    \addlegendentry{Measured}
-%    \addplot table[x=time,y=v_c]{data/000-time-steer-steer_est-v-v_c-20.00-35.00-decimated.txt};
-%    \addlegendentry{Commanded}
-%    \end{axis}
-%  \end{tikzpicture}
-%  \caption{Forward speed response for run 000.}
-%  \label{rb:fig:velocity_tracking000}
-%\end{figure}
-%\begin{figure}[htbp]
-%  \centering
-%  \begin{tikzpicture}
-%    \begin{axis}[xlabel=Time (s),
-%                 ylabel=Steer angle (rad),
-%                 legend pos=north east]
-%    \addplot table[x=time,y=steer]{data/000-time-steer-steer_est-v-v_c-20.00-35.00-decimated.txt};
-%    \addlegendentry{Measured}
-%    \addplot table[x=time,y=steer_est]{data/000-time-steer-steer_est-v-v_c-20.00-35.00-decimated.txt};
-%    \addlegendentry{Estimated}
-%    \end{axis}
-%  \end{tikzpicture}
-%  \caption{Steer angle measurement and estimate for run 000.}
-%  \label{rb:fig:steer_response000}
-%\end{figure}
-
 \begin{figure}
+  \pgfplotsset{set layers}
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -1094,11 +1064,11 @@ introducing undesired amplification of high frequency sensor noise.
   \caption[Run 000 speed and steer response.]{Run 000, measured speed
     \ref{measured_v} $v = -\dot{\theta}_r R_r$, commanded speed
     \ref{commanded_v} $v_c$, measured steer angle \ref{measured_steer}
-    $\delta$, and estimated steer angle \ref{estimated_steer}
-    $\hat{\delta}$. The momentary switch state \ref{hw_button} indicates
-    the bicycle was released at $t$=21.56s, shortly before state estimation began
-    at $t$=21.62s (\ref{measured_v} $v$ = 1 m / s). See
-    \ref{rb:subsec:sensors} for a description of this switch.}
+    $\delta$, and estimated steer angle \ref{estimated_steer} $\hat{\delta}$.
+    The momentary switch state \ref{hw_button} indicates the bicycle was
+    released at $t$ = 21.56s, shortly before state estimation began at $t$ =
+    21.62s (\ref{measured_v} $v$ = 1 m / s). See \ref{rb:subsec:sensors} for a
+    description of this switch.}
   \label{rb:fig:run000a}
 \end{figure}
 
@@ -1107,13 +1077,15 @@ shown in \autoref{rb:fig:run000b}, \autoref{rb:fig:run000c}, respectively. In
 comparison to the steer and steer estimate signals, these signals are much
 noisier. Visible in both is the sudden change in the estimator state (at
 $t$=21.62) when the estimation threshold speed is reached.
-
 \begin{figure}[htbp]
+  \pgfplotsset{set layers}
   \centering
   \begin{tikzpicture}
     \begin{axis}[xlabel=Time (s),
                  ylabel=Lean rate (rad / s),
-                 legend pos=north east]
+                 axis x line*=bottom,
+                 axis y line*=left,
+                 legend pos=outer north east]
     \addplot table[
       x=time,
       y=gyro_x]{data/000-time-gyro_x-lean_rate_est-20.00-30.00-decimated.txt};
@@ -1124,18 +1096,21 @@ $t$=21.62) when the estimation threshold speed is reached.
     \addlegendentry{Estimated}
     \end{axis}
   \end{tikzpicture}
-  \caption[Run 000 lean rate measured and estimated.]{The lean rate measurement
-  was obtained by transforming rate gyroscope measurements from the sensor
-  fixed axes to the lean frame fixed axes (constant frame pitch $\theta$ was
-  assumed).}
+  \caption[Run 000 lean rate measured and estimated.]{Run 000 steer rate
+    measured and estimated. The lean rate measurement was obtained by
+    transforming rate gyroscope measurements from the sensor fixed axes to the
+    lean frame fixed axes (constant frame pitch $\theta$ was assumed).}
   \label{rb:fig:run000b}
 \end{figure}
 \begin{figure}[htbp]
+  \pgfplotsset{set layers}
   \centering
   \begin{tikzpicture}
     \begin{axis}[xlabel=Time (s),
                  ylabel=Steer rate (rad / s),
-                 legend pos=north east]
+                 axis x line*=bottom,
+                 axis y line*=left,
+                 legend pos=outer north east]
     \addplot table[
       x=time,
       y=steer_rate]{data/000-time-steer_rate-steer_rate_est-20.00-30.00-decimated.txt};
@@ -1146,79 +1121,184 @@ $t$=21.62) when the estimation threshold speed is reached.
     \addlegendentry{Estimated}
     \end{axis}
   \end{tikzpicture}
-  \caption[Run 000 steer rate measured and estimated.]{The measured steer rate
-    was the result of applying a low pass filtered ideal derivative $G(s) =
-    20\pi s/(s+20\pi)$ to the steer angle measurement. The noise in this signal
-    is directly proportional to steer angle quantization error and inversely
-    proportional to sample period.}
+  \caption[Run 000 steer rate measured and estimated.]{Run 000 steer rate
+    measured and estimated. Measured steer rate was the result of applying a
+    low pass filtered ideal derivative $G(s) = 20\pi s/(s+20\pi)$ to the steer
+    angle measurement. The noise in this signal is directly proportional to
+    steer angle quantization error and inversely proportional to sample period.}
   \label{rb:fig:run000c}
 \end{figure}
+The time response of rear wheel torque and the steer torque $\tau_\delta$ is
+shown in \autoref{rb:fig:run000_torques}.
+\begin{figure}
+  \pgfplotsset{set layers}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      y axis style/.style={
+      yticklabel style=#1,
+      ylabel style=#1,
+      y axis line style=#1,
+      ytick style=#1
+      },
+      scale only axis,
+      axis y line*=left,
+      axis x line*=bottom,
+      xlabel=Time (s),
+      ylabel=Rear wheel torque (N m),
+      y axis style=red!75!black
+    ]
+    \addplot[red] table[
+      x=time,
+      y=T_rw
+    ]{data/000-time-T_rw-T_rw_desired-T_s-T_s_desired-20.00-30.00-decimated.txt};
+    \label{rb:fig:T_rw}
+    \addplot[red,dashed] table[
+      x=time,
+      y=T_rw_desired
+    ]{data/000-time-T_rw-T_rw_desired-T_s-T_s_desired-20.00-30.00-decimated.txt};
+    \label{rb:fig:T_rw_desired}
+    \end{axis}
+    \begin{axis}[
+      y axis style/.style={
+        yticklabel style=#1,
+        ylabel style=#1,
+        y axis line style=#1,
+        ytick style=#1
+      },
+      scale only axis,
+      axis y line*=right,
+      axis x line=none,
+      ylabel=Steer torque (N m),
+      y axis style=blue!75!black
+    ]
+    \addplot[blue] table[
+      x=time,
+      y=T_s
+    ]{data/000-time-T_rw-T_rw_desired-T_s-T_s_desired-20.00-30.00-decimated.txt};
+    \label{rb:fig:T_s}
+    \end{axis}
+  \end{tikzpicture}
+  \caption[Run 000 rear wheel and steer torque response.]{Run 000 rear wheel
+    and steer torque response. Rear wheel torque \ref{rb:fig:T_rw} and desired
+    rear wheel torque \ref{rb:fig:T_rw_desired} (saturation occured for $t \in$
+    [20.88s, 21.57s]). Steer torque \ref{rb:fig:T_s} did not saturate. The
+    effect of the positive initial spike in steer torque is visible in
+    \autoref{rb:fig:run000a}, \autoref{rb:fig:run000b}, and
+    \autoref{rb:fig:run000c}.}
+  \label{rb:fig:run000_torques}
+\end{figure}
 
-%\begin{figure}[htbp]
-%  \centering
-%  \begin{tikzpicture}
-%  \begin{axis}[
-%      y axis style/.style={
-%      yticklabel style=#1,
-%      ylabel style=#1,
-%      y axis line style=#1,
-%      ytick style=#1
-%      },
-%      scale only axis,
-%      axis y line*=left,
-%      axis x line*=bottom,
-%      xlabel=Time (s),
-%      ylabel=rad / s
-%      y axis style=red!75!black
-%    ]
-%    \addplot[red] table[
-%      x=time,
-%      y=gyro_x
-%    ]{data/000-time-gyro_x-lean_rate_est-20.00-30.00-decimated.txt};
-%    \label{measured_lean_rate}
-%    \addplot[black] table[
-%      x=time,
-%      y=lean_rate_est
-%    ]{data/000-time-gyro_x-lean_rate_est-20.00-30.00-decimated.txt};
-%    \label{estimated_lean_rate}
-%    \end{axis}
-%    \begin{axis}[
-%      y axis style/.style={
-%        yticklabel style=#1,
-%        ylabel style=#1,
-%        y axis line style=#1,
-%        ytick style=#1
-%      },
-%      scale only axis,
-%      axis y line*=right,
-%      axis x line=none,
-%      ylabel=rad / s,
-%      y axis style=blue!75!black,
-%      legend pos=outer north east
-%    ]
-%    %\addlegendimage{/pgfplots/refstyle=measured_v}\addlegendentry{Measured}
-%    %\addlegendimage{/pgfplots/refstyle=commanded_v}\addlegendentry{Commanded}
-%    \addplot[blue] table[
-%      x=time,
-%      y=steer_rate
-%    ]{data/000-time-steer_rate-steer_rate_est-20.00-30.00-decimated.txt};
-%    \label{measured_steer_rate}
-%    %\addlegendentry{Measured}
-%    \addplot[brown] table[
-%      x=time,
-%      y=steer_rate_est
-%    ]{data/000-time-steer_rate-steer_rate_est-20.00-30.00-decimated.txt};
-%    \label{estimated_steer_rate}
-%    %\addlegendentry{Estimated}
-%    \end{axis}
-%  \end{tikzpicture}
-%  \caption[Steer rate measurement and estimate for run 000.]{}
-%  \label{rb:fig:run000b}
-%\end{figure}
-
-
+The frequency content of the measured signals gives an indication of the
+dynamics that are excited. The transfer function from the applied steer torque
+to the measured signals (rate gyroscope, accelerometer, steer angle encoder)
+can be computed by taking the discrete Fourier transform (DFT) of the measured
+signals and dividing it by the DFT of the applied input. Since the dynamics of
+the bicycle are speed dependent, the FFT should be computed on a portion of the
+time response which has nearly constant speed.
 
 
 \subsection{Discussion} \label{rb:subsec:discuss}
+The transfer function from the input steer torque $\tau_\delta$ to an output
+measurement (i.e., steer $\delta$ or lean rate $\dot{\phi}$) can be estimated
+by computing the ratio of the forward discrete Fourier transform (DFT) of the
+selected output to the forward DFT of the input steer torque.  Because the
+dynamics are speed dependent, the select input and output should be time series
+data during which the speed is nearly constant. For $n$ real data points $x_0
+\ldots x_{n-1}$, the forward DFT is given by
+\begin{align} X_k &=
+  \sum_{j=0}^{n-1} x_j e^{-2 \pi j k \sqrt{-1} / n} \quad k = 0 \ldots n-1
+  \label{rb:dft}
+\end{align}
+This output sequence possesses Hermitian symmetry ($X_k = X_{n-k}^*$), so half
+of the output is redundant (the second half is the complex conjugate of the
+first half, in reverse order). Therefor, the result of the DFT of a sequence
+of $n$ real numbers is a sequence of $n/2 + 1$ complex numbers, where the
+division by 2 is rounded down. The first element of this output sequence, $X_0$
+is always real and represents $n$ times the mean of the input sequence $x_k$
+(i.e., $E\{x_k\} = n X_0$). The magnitude of the remaining $n/2$ complex
+numbers can be interpreted $\frac{1}{2}$ the magnitude of the frequency
+response, at frequencies evenly spaced between 0 and the Nyquist frequency
+($f_s / 2$). In practice, to obtain the magnitude portion of the frequency
+response, one needs to compute $\frac{2}{N} |X_k|$ for $k = 1 \ldots n/2$, and
+$\frac{1}{N} |X_0|$ for the DC component. However, to estimate a transfer
+function given the DFT of the input and output of a linear system, only the
+ratio of the DFTs need to be considered, so this scaling is unnecessary (it can
+be performed on each signal but the effect will cancelled out when computing
+the ratio).
 
+Estimates of $|\frac{\delta}{\tau_\delta}(j\omega)|$ and
+$|\frac{\dot{\phi}}{\tau_\delta}(j\omega)|$ were computed for three different
+speeds: 1, 2, and 3 m/s. The time series data was selected over a time interval
+during which the forward speed of the bicycle was nearly constant. Since the
+sampling frequency was 200Hz, all frequency responses are plotted up to 100Hz
+(the Nyquist frequency).
+\begin{figure}[htbp]
+  \pgfplotstableread{data/024-time-T_s-gyro_x-steer-v-21.00-26.00-decimated.txt}\runtwentyfourtime
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[xlabel=Time (s),
+      ylabel={rad, rad / s},
+      scale only axis,
+      axis x line*=bottom,
+      axis y line*=left,
+      legend pos=outer north east,
+      name=steerrollrate]
+      \addplot table[x=time,y=steer] {\runtwentyfourtime}; \addlegendentry{Steer angle}
+      \addplot table[x=time,y=gyro_x] {\runtwentyfourtime}; \addlegendentry{Lean rate}
+    \end{axis}
+    \begin{axis}[
+      at={(steerrollrate.below south west)},
+      yshift=-0.1cm,
+      anchor=north west,
+      scale only axis,
+      xlabel=Time (s),
+      ylabel={torque (N m), speed (m / s)},
+      axis x line*=bottom,
+      axis y line*=left,
+      legend pos=outer north east,
+      name=torquespeed]
+      \addplot table[x=time,y=T_s] {\runtwentyfourtime}; \addlegendentry{Steer torque}
+      \addplot table[x=time, y=v] {\runtwentyfourtime}; \addlegendentry{Forward speed}
+    \end{axis}
+  \end{tikzpicture}
+  \caption[Steer, lean rate, steer torque time response at 1.0 m / s.]{Run 024 steer,
+  lean rate, steer torque and speed response to $v_c=1.0$ m / s, $\mu_v=0.959$
+m / s, $\sigma_v=0.0157$ m / s. The run continued until $t$ = 41s with very
+similar response.}
+  \label{rb:fig:run000_tr}
+\end{figure}
+\begin{figure}[htbp]
+  \pgfplotstableread{data/024-freq-T_s-gyro_x-steer-v-21.00-41.00-fft_decimated.txt}\runtwentyfourfreq
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[xlabel=Frequency (Hz),
+      ylabel=$|\frac{\delta}{\tau_\delta}|$,
+      scale only axis,
+      axis x line*=bottom,
+      axis y line*=left,
+      legend pos=outer north east,
+      name=torquetosteer]
+      \addplot table[x=freq,y=steer] {\runtwentyfourfreq};
+    \end{axis}
+    \begin{axis}[
+      at={(steerrollrate.below south west)},
+      yshift=-0.1cm,
+      anchor=north west,
+      scale only axis,
+      xlabel=Frequency (Hz),
+      ylabel=$|\frac{\dot{\phi}}{\tau_\delta}|$,
+      axis x line*=bottom,
+      axis y line*=left,
+      legend pos=outer north east,
+      name=torquetoleanrate]
+      \addplot table[x=freq,y=gyro_x] {\runtwentyfourfreq};
+    \end{axis}
+  \end{tikzpicture}
+  \caption[Steer and lean rate frequency response to $v_c=1.0$ m / s.]{Run 024
+  steer and lean rate frequency response, $v_c=1.0$ m / s, $\mu_v=0.959$ m / s,
+  $\sigma_v=0.0157$ m / s.  DFT of steer, lean rate, and steer torque signals was
+  computed for $t \in$ [21s, 41s] (4001 time points).}
+  \label{rb:fig:run000_fr}
+\end{figure}
 

@@ -31,7 +31,6 @@
 \usetikzlibrary{arrows,calc,shapes,positioning}
 \usepackage{pgfplots}
 \pgfplotsset{
-  set layers,
   compat=newest,
   compat/show suggested version=false,
   every axis legend/.append style={
@@ -40,9 +39,7 @@
   every axis/.append style={
     no markers,
     enlargelimits=false,
-    grid=major,
-    axis x line=bottom,
-    axis y line=left,
+    grid=major
   }
 }
 

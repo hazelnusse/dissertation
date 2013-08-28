@@ -3,6 +3,7 @@
 
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{bm}
 \usepackage{siunitx}
 \sisetup{
   retain-unity-mantissa=false
@@ -54,8 +55,9 @@
     xetex
 ]{hyperref}
 
-\newcommand{\bm}[1]{\mathbf{#1}}
-\newcommand{\uv}[2]{\hat{\mathbf{#1}}_{#2}}
+%\newcommand{\bm}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\uv}[2]{\hat{\boldsymbol{#1}}_{#2}}
 \allowdisplaybreaks[1]
 \begin{document}
 

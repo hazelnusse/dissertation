@@ -25,7 +25,7 @@ cost associated with simulating or performing stability analysis of the
 equations. Most importantly, the choice of parameters can greatly affect the
 ease of understanding how changing a single parameter affects the dynamics.
 Finally, having a common, agreed upon set of parameters which permit direct
-comparisions is very valuable in communicating results to others -- if
+comparisons is very valuable in communicating results to others -- if
 everybody uses different parameters to describe the same model, comparisons
 become difficult and error prone. We refer to the parameters used
 in~\cite{Meijaard2007} as the ``Meijaard parameters'' (this is not the first
@@ -40,20 +40,20 @@ $\lambda$. For these reasons, this choice of parameters is indispensable.
 
 There are strong reasons to prefer other choices of parameters. The Meijaard
 parameters are ideally suited to direct derivation of linearized equations of
-motion, about the upright zero steer configuration. The reason for this is that
-the Meijaard parameters are defined with respect to the bicycle \textit{in the
-upright zero steer configuration} and with respect to a set of body fixed
-coordinates that are aligned with the inertial frame \textit{only in this
+motion, about the reference configuration (lean and steer equal to zero). The
+reason for this is that the Meijaard parameters are defined with respect to the
+bicycle \textit{reference configuration} and with respect to a set of body
+fixed coordinates that are aligned with the inertial frame \textit{only in this
 configuration}. Deriving nonlinear equations of motion with this parameter set
 is cumbersome and requires a number of intermediate geometric quantities to be
-introduced. A serious disadvantage of the Meijaard parameter set is the
-coupling between the parameters. Consider, for example, a parameter study
-investigating the effect of front wheel radius on stability. Using the Meijaard
-parameters, a naive approach might be to choose a set of parameters and compare
-the eigenvalues for that set with the eigenvalues when only the wheel front
-wheel radius is changed. Unfortunately, this does not represent the act of
-taking a real bicycle (with some set of parameters) and simply changing the
-front wheel to one with identical mass and inertia but different radius.
+introduced. Perhaps the most serious disadvantage of the Meijaard parameter set
+is the coupling between the parameters. Consider, for example, a parameter
+study investigating the effect of front wheel radius on stability.  Using the
+Meijaard parameters, a naive approach might be to choose a set of parameters
+and compare the eigenvalues for that set with the eigenvalues when only the
+wheel front wheel radius is changed. Unfortunately, this does not represent the
+act of taking a real bicycle (with some set of parameters) and simply changing
+the front wheel to one with identical mass and inertia but different radius.
 Changing the front wheel radius of a real bicycle changes the steer axis tilt,
 wheelbase, trail, center of mass locations relative to the rear wheel contact,
 and, by virtue of the inertia scalars being defined relative to an inertial
@@ -77,9 +77,9 @@ changed (on a real bicycle) in order to keep the Meijaard parameters constant.
 Stated simply, one is not comparing effect of only front wheel radius, but the
 effect of changing the front wheel radius and thirteen other parameters. The
 practical utility of such a comparison is dubious at best. While this issue
-\textit{can} be addressed by carefully changing the thirteen coupled parameters,
-to our knowledge, no parameter study to date has done this. This is a rarely
-stated, but critical, downside of the Meijaard parameters.
+\textit{can} be addressed by carefully changing the thirteen coupled
+parameters, to our knowledge, no parameter study to date has done this. This is
+a rarely stated, but critical, downside of the Meijaard parameters.
 
 The easiest way to remedy the issue of parameter coupling is to choose physical
 parameters which can be defined independent of configuration. This is standard
@@ -130,7 +130,7 @@ fully describe the two composing bodies. First consider a carrier $A$ with a
 set of mutually perpendicular axes $X$, $Y$, $Z$ intersecting at the mass
 center $A^*$ of $A$. $A$ has mass $m_A$, and let $\uv{a}{x}, \uv{a}{y},
 \uv{a}{z}$ be unit vectors parallel to $X$, $Y$, $Z$, respectively, and express
-the inertia dyadic of $A$ for $A^*$ as $\bm{I}^{A/A^*} =
+the inertia dyadic of $A$ for $A^*$ as $\bs{I}^{A/A^*} =
 I_{Axx}\uv{a}{x}\uv{a}{x} + I_{Ayy}\uv{a}{y}\uv{a}{y} +
 I_{Azz}\uv{a}{z}\uv{a}{z} + I_{Axz}(\uv{a}{x}\uv{a}{z} + \uv{a}{z}\uv{a}{x})$.
 $A$ is inertially symmetric about the $XZ$ plane. Attached to $A$ with a
@@ -138,9 +138,9 @@ revolute joint is rotor $B$ with mass $m_B$. Fixed to $B$ is a set of
 mutually perpendicular axes $X'$, $Y'$, $Z'$, intersecting at the mass center
 $B^*$ of $B$. Let the revolute joint axis be $Y'\parallel Y$, assume that $B^*$
 lies in the $XY$ plane, and express the inertia dyadic of $B$ for $B^*$ as
-$\bm{I}^{B/B^*} = I\uv{a}{x}\uv{a}{x} + J\uv{a}{y}\uv{a}{y} +
+$\bs{I}^{B/B^*} = I\uv{a}{x}\uv{a}{x} + J\uv{a}{y}\uv{a}{y} +
 I\uv{a}{z}\uv{a}{z}$ (i.e., $B$ is inertially symmetric about the $Y'$ axis).
-Let $\bm{r}^{B^*A^*} = a \uv{a}{x} + b \uv{a}{z}$ be the position vector
+Let $\bs{r}^{B^*A^*} = a \uv{a}{x} + b \uv{a}{z}$ be the position vector
 from the mass center of rotor $B$ to the mass center of carrier $A$.  Let $G^*$
 denote the center of mass of $A$ and $B$ and let us refer to the cylindrical
 gyrostat simply as $G$. The cylindrical gyrostat has mass
@@ -149,13 +149,13 @@ gyrostat simply as $G$. The cylindrical gyrostat has mass
 \end{align}
 and the position vector from $B^*$ to $G^*$ is
 \begin{align}
-  \bm{r}^{B^*G^*} &= \frac{m_A}{m_A + m_B}\left(a \uv{a}{x} + b \uv{a}{z}\right)
+  \bs{r}^{B^*G^*} &= \frac{m_A}{m_A + m_B}\left(a \uv{a}{x} + b \uv{a}{z}\right)
 \end{align}
 The inertia dyadic of $G$ for $G^*$ is
 \begin{align}
-  \bm{I}^{G/G^*} &= \bm{I}^{A/G^*} + \bm{I}^{B/G^*} \notag \\
-                 &= \bm{I}^{A/A^*} + \bm{I}^{A^*/G^*} + \bm{I}^{B/B^*} +
-                 \bm{I}^{B^*/G^*} \notag \\
+  \bs{I}^{G/G^*} &= \bs{I}^{A/G^*} + \bs{I}^{B/G^*} \notag \\
+                 &= \bs{I}^{A/A^*} + \bs{I}^{A^*/G^*} + \bs{I}^{B/B^*} +
+                 \bs{I}^{B^*/G^*} \notag \\
 %
                  &= \underbrace{\left(I + I_{Axx} + \frac{m_A m_B}{m_A + m_B}
                b^2 \right)}_{\triangleq I_{Gxx}}
@@ -172,9 +172,9 @@ The inertia dyadic of $G$ for $G^*$ is
                \right)}_{\triangleq I_{Gxz}}
                \left(\uv{a}{x}\uv{a}{z} + \uv{a}{z}\uv{a}{x}\right)
 \end{align}
-where $\bm{I}^{A^*/G^*}$ denotes the inertia dyadic relative to $G^*$ of a
+where $\bs{I}^{A^*/G^*}$ denotes the inertia dyadic relative to $G^*$ of a
 (fictitious) particle situated at $A^*$ and having a mass $m_A$ (similarly for
-$\bm{I}^{B^*/G^*}$)~\cite{Kane1985}. Describing the dynamics of a gyrostat in
+$\bs{I}^{B^*/G^*}$)~\cite{Kane1985}. Describing the dynamics of a gyrostat in
 terms of $m_G, I_{Gxx}, I_{Gyy}, I_{Gzz}, I_{Gzz}, I_{Gxz}$, and $J$ (six
 parameters) is substantially simpler than describing simpler than describing
 the dynamics in terms of the parameters fundamental to each individual rigid
@@ -222,7 +222,7 @@ of the parameters are illustrated in \autoref{model:fig:bicycle}.
     two gyrostats are connected and hence is not subscripted in this fashion.}
   \label{model:tab:parameters}
 \end{table}
-\begin{figure}[!htbp]
+\begin{figure}[htbp]
   \centering
   \begin{tikzpicture}[scale=4]
     %% Define constants
@@ -246,6 +246,10 @@ of the parameters are illustrated in \autoref{model:fig:bicycle}.
     \coordinate (RO) at ($(RWO) + (\ar, -\br)$);
     \coordinate (FO) at ($(FWO) + (\af, -\bf)$);
     %% Draw important parts
+    \node at ($(RWO) + (0,-.08cm)$) {$RW^*$};
+    \node at ($(FWO) + (0.08cm,-.08cm)$) {$FW^*$};
+    \node at ($(RO) + (0,.1cm)$) {$R^*$};
+    \node at ($(FO) + (0,-.1cm)$) {$F^*$};
     \draw[draw=gray,dashed] (RWO) circle (\Rr);
     \draw[draw=gray,dashed] (FWO) circle (\Rf);
     \draw (RWO) circle (\Rr-\rr);
@@ -268,17 +272,28 @@ of the parameters are illustrated in \autoref{model:fig:bicycle}.
     \draw[->] (FWO) -- node[right] {$b_f$} ++(0, -\bf);
     \draw[->] ++($(FWO) + (0, -\bf)$) -- node[above] {$a_f$} ++(\af, 0);
     % Draw dots at center of wheels
-    \filldraw (RWO) circle (.01cm);
-    \filldraw (FWO) circle (.01cm);
+    \filldraw (RWO) circle (.005cm);
+    \filldraw (FWO) circle (.005cm);
+    \filldraw (SAH) circle (.005cm);
+    \filldraw (SAF) circle (.005cm);
+    \filldraw (RO) circle (.005cm);
+    \filldraw (FO) circle (.005cm);
     \coordinate (sa_label) at ($(SAH) + (0, .3cm)$);
+    \coordinate (sah_label) at ($(SAH) + (.1cm, -.05cm)$);
     \draw[dashed,draw=gray] ($(SAF) + (0, -.3cm)$) -- (sa_label);
     \node[label=above:Steer axis] at (sa_label) {};
+    \node[label=$SA_h$] at (sah_label) {};
   \end{tikzpicture}
-  \caption[Bicycle geometric parameters.]{Bicycle geometric parameters. As drawn, $b_r$, $a_f$, $b_f$, and $c_f$
-  are all negative; this is typical for traditional bicycles. Note that
-each parameter is defined without reference to the configuration of the
-bicycle. Drawing the frame and fork is left as an exercise for the reader.}
-  \label{model:fig:bicycle}
+  \caption[Bicycle geometric parameters.]{Bicycle geometric parameters. Not
+    shown are the $X$ and $Z$ the gyrostat carriers which point to the right
+    and down, respectively. As drawn, $b_r$, $a_f$, $b_f$, and $c_f$ are all
+    negative; this is typical for traditional bicycles. Note that each
+    parameter is defined without reference to the configuration of the bicycle.
+    The head of the steer axis $SA_h$ is the point on top the steer axis and
+    the foot of the steer axis $SA_f$ (not pictured) is the point on the bottom
+    of the steer axis, both of which are fixed with respect to the gyrostat
+    carriers $R$ and $F$.}
+\label{model:fig:bicycle}
 \end{figure}
 
 Measuring the 23 (21 if the wheels are assumed to be knife edged) parameters
@@ -308,13 +323,13 @@ in \autoref{model:parameter_conversion}.
 %fork. It is assumed that the two axes are perpendicular, that the frame is
 %inertially symmetric about the plane perpendicular to the wheel spin axis, and
 %that the steer axis lies in this symmetry plane. The bicycle frame is equipped
-%with a dextral set of unit vectors: $\bm{r}_x, \bm{r}_y, \bm{r}_z=\bm{r}_x
-%\times \bm{r}_y$ with $\bm{r}_y$ parallel the wheel axis and $\bm{r}_z$
+%with a dextral set of unit vectors: $\bs{r}_x, \bs{r}_y, \bs{r}_z=\bs{r}_x
+%\times \bs{r}_y$ with $\bs{r}_y$ parallel the wheel axis and $\bs{r}_z$
 %parallel to the steer axis. As described, the rear frame is completely
 %characterized by 8 parameters: one distance between the wheel and steer axes as
 %measured in the symmetry plane along a line perpendicular to the steer axis,
 %two distances between the wheel spin axis and the mass center in the symmetry
-%plane, the mass, and four central inertia scalars ($\bm{r}_x$ and $\bm{r}_z$
+%plane, the mass, and four central inertia scalars ($\bs{r}_x$ and $\bs{r}_z$
 %are not assumed to be principal axes). If the rear wheel plane symmetry is
 %constrained to lie in the bicycle symmetry plane, 13 parameters to completely
 %describe these two bodies. Treated together, we can compute the combined mass,
@@ -324,8 +339,8 @@ in \autoref{model:parameter_conversion}.
 %separately. By describing the rear frame and rear wheel in terms of these
 %combined parameters rather than the parameters intrinsic to each individual
 %body, we use 2 fewer parameters. The same arguments apply to the  front fork
-%and front wheel (replacing $\bm{r}_x, \bm{r}_y, \bm{r}_z$ with $\bm{f}_x,
-%\bm{f}_y, \bm{f}_z$, respectively). With one final parameter describing the
+%and front wheel (replacing $\bs{r}_x, \bs{r}_y, \bs{r}_z$ with $\bs{f}_x,
+%\bs{f}_y, \bs{f}_z$, respectively). With one final parameter describing the
 %distance along the steer axis between the two bicycle frame and fork, we
 %completely describe the bicycle with 23 parameters (11+11+1=23). See figure
 %XXX.
@@ -337,7 +352,7 @@ unchanged, a total of 27 parameters describe the bicycle model.  The two extra
 parameters are the rear and front wheel minor radii, which we denote with
 $t_\text{R}$ and $t_\text{F}$, respectively. The mapping from this 27
 dimensional parameter space to the 23 dimensional gyrostat parameter space is
-surjective -- distinct choices of Meijaard parameters can yield equivalent
+surjective -- distinct choices of Meijaard parameters can yield identical
 gyrostat parameters (and hence identical dynamics). The practical implication
 of this is that given a set of gyrostat parameters, it is not generally
 possible to determine a unique set of the Meijaard parameters. This should not
@@ -443,6 +458,35 @@ t_\text{F} + z_\text{H}\right)\right) \left(- s_{\lambda} \left(w -
 x_\text{H}\right) + c_\lambda \left(r_\text{F} + t_\text{F} +
 z_\text{H}\right)\right)
 \end{align}
+The numerical values of the benchmark parameter set presented
+in~\cite{Meijaard2007} convert to the gyrostat parameters shown in
+\autoref{model:table:parameters}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{rccl}
+    \toprule
+    & {Rear gyrostat} & {Front gyrostat} & {Units} \\
+    \midrule
+    $I_{xx}$ &   7.684799791449106 &    0.4335379755311007  & \si{\kg\m\squared} \\
+    $I_{yy}$ &   11.99931034482759 &    0.5746857142857142  & \si{\kg\m\squared} \\
+    $I_{zz}$ &   5.315110553378478 &    0.1481477387546135  & \si{\kg\m\squared} \\
+    $I_{xz}$ &   4.262158094617231 &  0.005332503757935524  & \si{\kg\m\squared} \\
+         $J$ &                0.12 &                  0.28  & \si{\kg\m\squared} \\
+         $m$ &                  87 &                     7  & \si{\kg}     \\
+         $R$ &                 0.3 &                  0.35  & \si{\m}      \\
+         $r$ &                   0 &                     0  & \si{\m}\\
+         $a$ &  0.4599058376856177 & -0.003411905099535333  & \si{\m}\\
+         $b$ & -0.4669419422355365 &   -0.2114010400161699  & \si{\m}\\
+         $c$ &  0.9534570696121847 &   -0.0320714267276193  & \si{\m}\\
+         $l_s$ & \multicolumn{2}{c}{0.2676445084476887} &  \si{\m} \\
+  \bottomrule
+  \end{tabular}
+  \caption[Benchmark bicycle parameters converted to gyrostat
+    parameters.]{Benchmark bicycle parameters converted to gyrostat parameters.
+    Parameters shown to 15 or more decimal places are not exact.}
+  \label{model:table:parameters}
+\end{table}
 
 \section{Kinematics} \label{model:kinematics}
 
@@ -455,22 +499,21 @@ of the rear wheel and front wheel to touch the horizontal ground plane removes
 two further degrees of freedom, resulting in 7 configuration degrees of
 freedom. A minimal choice of configuration variables is not practical (nor
 generally possible for all configurations) due to the complexity of the
-holonomic constraint\cite{Peterson2008a} and the fact that it is nonlinear and
-has multiple roots.
+holonomic constraint (it is nonlinear and has multiple
+roots)~\cite{Peterson2008a}.
 
 The revolute joints and the requirement that the wheels make point contact with
-the ground plane are all configuration (holonomic) constraints. Without any
-further restrictions regarding the wheel contact with the ground, the system
-has 7 velocity degrees of freedom as well. If simulation or stability analysis
-of such a model is desired, a model for the forces at the wheel contact points
-is needed. If it is instead assumed that the wheels roll without slip (said
+the ground plane are configuration (holonomic) constraints. Without any further
+restrictions regarding the wheel contact with the ground, the system has 7
+velocity degrees of freedom as well. If simulation or stability analysis of
+such a model is desired, a model for the forces at the wheel contact points is
+needed. If it is instead assumed that the wheels roll without slip (said
 another way, the wheel contact forces are whatever is necessary to prevent
-slip), 4 more degrees of freedom are removed (2 from each no slip assumption),
-yielding a system with 3 velocity degrees of freedom. The no slip assumptions
+slip), 4 more degrees of freedom are removed (2 from each no-slip assumption),
+yielding a system with 3 velocity degrees of freedom. The no-slip assumptions
 do not constrain the configuration in any way, so the accessible configuration
 space remains 7 dimensional, but the dimension of the accessible velocity space
-is reduced from 7 to 3 under the no slip assumption.  The validity of this
-assumption is addressed in \autoref{chapter4}, and the remainder of this
+is reduced from 7 to 3 under the assumption of no-slip.  The remainder of this
 chapter assumes that the wheels do not slip relative to the ground (and hence
 the system has 3 velocity degrees of freedom).
 
@@ -481,9 +524,9 @@ equations of motion in terms of $x$ and $y$ (and their derivatives) requires
 enforcing the constraint $l - \sqrt{x^2 + y^2} = 0$. This choice is ill advised
 and best avoided in favor of choosing a single generalized coordinate (i.e.,
 the pendulum angle $\theta$) which implicitly satisfies the length constraint.
-It is generally in the best interest of the analyst to introduce as few
-coordinates as possible so that needless configuration constraint equations are
-avoided.
+It is generally in the interest of the analyst to introduce the minimal
+number of coordinates possible so that needless configuration constraint
+equations are avoided.
 
 Similarly, a wise choice of generalized speeds can reduce or eliminate the
 number of velocity constraints that need to be solved. A familiar example of
@@ -497,15 +540,203 @@ satisfied and hence only three of the generalized speeds can be chosen
 independently. Which to choose as independent in the case of the rolling disk
 is fairly obvious, but for more complicated systems this is not generally the
 case and care must be taken\cite{Reckdahl1996}. Just as in the case for
-generalized coordinates, it is in the interest of the analyst to introduce as
-few generalized speeds so that needless velocity constraint equations are
-avoided.
+generalized coordinates, it is generally in the interest of the analyst to
+introduce the minimal number of generalized speeds as possible so that needless
+velocity constraint equations are avoided.
 
 With this wisdom in mind, we describe the configuration and velocity of the
-bicycle with 8 generalized coordinates and 6 speeds as we can. This choice
-results in 1 configuration (holonomic) constraint and 3 velocity (nonholonomic)
-constraints.
+bicycle with 8 generalized coordinates and 6 speeds. This choice results in 1
+configuration constraint and 3 velocity constraints. With the exception of
+frame pitch the coordinates used are identical to the coordinates presented
+in~\cite{Meijaard2007}.
+
+Let $X_NY_NZ_N$ be a set of mutually perpendicular axes fixed in a Newtonian
+frame $N$, intersecting at the inertial origin $N^*$, with the positive $Z$
+axis pointing down into the ground plane and parallel to the local
+gravitational field. Let $\uv{n}{x}, \uv{n}{y}, \uv{n}{z}$ be a set of dextral
+unit vectors aligned with $X, Y, Z,$ respectively. Similarly let the rear
+gyrostat carrier $R$ and the front gyrostat carrier $F$ be equipped with axes
+$X_RY_RZ_R$ and $X_FY_FZ_F$, respectively, each intersecting at their
+respective gyrostat mass centers $R^*$ and $F^*$. Let $Z_R \parallel Z_F$ also
+be parallel to the steer axis $SA$. Further, let the wheel spin axis of each
+carrier be parallel to $Y_R$ and $Y_F$, respectively. Let $\uv{r}{x},
+\uv{r}{y}, \uv{r}{z}$ be a set of dextral unit vectors aligned with $X_R, Y_R,
+Z_R$, respectively, and similarly let $\uv{f}{x}, \uv{f}{y}, \uv{f}{z}$ be a
+set of dextral unit vectors aligned with $X_F, Y_F, Z_F$, respectively.
+
+To orient $R$ relative to $N$, first align $X_RY_RZ_R$ with $X_NY_NZ_N$ then
+apply a sequence of body fixed $ZXY$ rotations: yaw $\psi$, lean $\phi$, and
+pitch $\theta$. The two intermediate frames in the sequence of rotations are
+the instantaneous yaw frame $Y$ and the instantaneous lean frame $L$. To orient
+$F$ relative to $R$, first align $X_FY_FZ_F$ with $X_RY_RZ_R$ (and note that
+$Z_R \parallel SA \parallel Z_F$, then a apply a right handed rotation to $F$
+about SA by steer angle $\delta$. Finally, to orient the wheels relative to
+their respective carrier, apply simple right handed rotations of the wheel
+relative to the carrier by angles $\theta_r$ and $\theta_f$, respectively.
+These six rotations completely define the orientation of all frames relative to
+each other. 
+
+The position of the gyrostat mass centers relative to the wheel centers is
+defined by the choice of parameters $a_r, b_r, a_f, b_f$ (see
+\autoref{model:fig:bicycle}). The from the rear wheel center $RW^*$ to the rear
+gyrostat mass center $R^*$ is $\bs{r}^{RW^*R^*} = a_r \uv{r}{x} + b_r
+\uv{r}{z}$; similarly the position from the front wheel center $FW^*$ to the
+front gyrostat mass center $F^*$ is $\bs{r}^{FW^*F^*} = a_f \uv{f}{x} + b_f
+\uv{f}{z}$. The position from the rear wheel center to the front wheel center
+is $\bs{r}^{RW^*FW^*} = c_r \uv{r}{x} + l_s \uv{r}{z} - c_f \uv{f}{x}$. We
+introduce the final two generalized coordinates $x$ and $y$, to locate the rear
+wheel ground contact $P$, The position from the inertial origin $N^*$ to the
+rear wheel ground contact $P$ is $\bs{r}^{N^*RW^*} = x \uv{n}{x} + y
+\uv{n}{y}$. The position from $P$ to the rear wheel center $RW^*$ is as
+$\bs{r}^{PRW^*} = - r_r \uv{y}{z} - R_r \uv{l}{z}$ ($\uv{y}{z}$ is the downwards
+vertical unit vector of the instantaneous yaw frame $Y$, and $\uv{l}{z}$ is the
+result of rotating $\uv{y}{z}$ be lean angle $\phi$).  The remaining point is
+the front wheel ground contact $Q$. To define the position from the front wheel
+center $FW^*$ to $Q$ we introduce the unit vector
+\begin{align}
+  \uv{g}{z} &= \frac{\uv{y}{z} - (\uv{f}{y} \cdot \uv{y}{z})
+  \uv{f}{y}}{|\uv{y}{z} - (\uv{f}{y} \cdot \uv{y}{z})
+  \uv{f}{y}|}
+\end{align}
+which is the projection of the downwards vertical vector $\uv{y}{z}=\uv{n}{z}$
+onto the front wheel plane ($\uv{f}{y}$ is normal to the front wheel plane).
+The position from the front wheel center is now be simply written as
+$\bs{r}^{FW^*Q} = R_f \uv{g}{z} + r_f \uv{y}{z}$. The eight generalized
+coordinates used to fully orient the four bodies and locate each of the mass
+centers summarized in \autoref{model:tab:coordinates}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{ccc}
+    \toprule
+    Coordinate & Description & Units \\
+    \midrule
+    $\psi$ & Bicycle frame yaw angle & \si{\radian} \\
+    $\phi$ & Bicycle frame lean angle & \si{\radian} \\
+    $\theta$ & Bicycle frame pitch angle  & \si{\radian} \\
+    $\delta$ & Steer angle & \si{\radian} \\
+    $\theta_r$ & Rear wheel angle & \si{\radian} \\
+    $\theta_f$ & Front wheel angle & \si{\radian} \\
+    $x$ & Rear wheel contact $P$ $X_N$ measure number & \si{\m} \\
+    $y$ & Rear wheel contact $P$ $Y_N$ measure number & \si{\m} \\
+    \bottomrule
+  \end{tabular}
+  \caption[Bicycle generalized coordinates.]{Bicycle generalized coordinates.
+    In the upright $\phi=0$ zero steer $\delta=0$ configuration, the pitch
+    angle $\theta$ is equal to the steer axis tilt $\lambda$ of the benchmark
+    parameter set. This is in contrast to the pitch $\theta_{\text{B}}$ defined
+    in~\cite{Meijaard2007}, which is zero in the same configuration. The two
+    pitch coordinates are related as $\theta = \theta_{\text{B}} + \lambda$;
+    the other 7 coordinates are identical.}
+  \label{model:tab:coordinates}
+\end{table}
+
+In order to maintain contact with the ground plane the following configuration
+constraint must be satisfied
+\begin{align}
+  \bs{r}^{PQ} \cdot \uv{y}{z} &= 0
+\end{align}
+which is the mathematical statement that the lowest point of the front wheel
+must lie in the ground plane. The dot product on the left hand side depends on
+the three coordinates lean $\phi$, pitch $\theta$, steer $\delta$, and seven
+geometric parameters (the wheel radii $R_r, r_r, R_f, r_f$, and the distances
+$c_r, c_f$, and $l_s$). We introduce a vector $q\in\mathbb{R}^3$ for the three
+coordinates and a vector $p\in\mathbb{R}^7$ for the parameters involved in this
+constraint
+\begin{align}
+  q &\triangleq \left[\phi, \theta, \delta\right]\label{model:q_min}\\
+  p &\triangleq \left[R_r, r_r, R_f, r_f, c_r, c_f, l_s\right]
+  \label{model:constraint_parameters}
+\end{align}
+we can write the configuration constraint concisely as
+\begin{align}
+  f_c(q, p) &= 0
+  \label{model:f_c}
+\end{align}
+where $f_c : \mathbb{R}^3 \times \mathbb{R}^7 \mapsto \mathbb{R}$.  The three
+elements of $q$ cannot be varied independent and most often the pitch $\theta$
+is selected to be a dependent coordinate.
+
+The angular velocity of the four bodies and the velocity of the gyrostat mass
+centers can be defined with only six generalized speeds. These six generalized
+speeds are defined as follows
+\begin{align}
+  u_{1} &\triangleq \dot{\psi} \\
+  u_{2} &\triangleq \dot{\phi} \\
+  u_{3} &\triangleq \dot{\theta} \\
+  u_{4} &\triangleq \dot{\delta} \\
+  u_{5} &\triangleq \dot{\theta}_r \\
+  u_{6} &\triangleq \dot{\theta}_f
+\end{align}
+The angular velocity of the four bodies relative to the $N$ is fully
+established by the following relations
+\begin{align}
+  {}^{N}\bs{\omega}^{R} &= u_1 \uv{y}{z} + u_2 \uv{l}{x} + u_3\uv{r}{y} \\
+  {}^{R}\bs{\omega}^{F} &= u_4 \uv{r}{z} = u_4 \uv{f}{z} \\
+  {}^{R}\bs{\omega}^{RW} &= u_5 \uv{r}{y} \\
+  {}^{F}\bs{\omega}^{FW} &= u_6 \uv{f}{y}
+\end{align}
+The velocity of the gyrostat mass centers $R^*$ and $F^*$, relative to $N$, are
+obtained by assuming the wheel contacts $P$ and $Q$ do not slip relative to the
+ground plane (i.e., ${}^{N}\bs{v}^{P} = {}^{N}\bs{v}^{Q} = \bs{0}$) and applying the two
+point velocity theorem to form the velocity of the wheel centers as follows
+\begin{align}
+  {}^{N}\bs{v}^{RW^*} &= {}^{N}\bs{\omega}^{RW} \times \bs{r}^{PRW^*} \\
+  {}^{N}\bs{v}^{R^*} &= {}^{N}\bs{v}^{RW^*} + {}^{N}\bs{\omega}^{R} \times \bs{r}^{RW^*R^*} \\
+  {}^{N}\bs{v}^{FW^*} &= {}^{N}\bs{\omega}^{FW} \times \bs{r}^{QFW^*} \\
+  {}^{N}\bs{v}^{F^*} &= {}^{N}\bs{v}^{FW^*} + {}^{N}\bs{\omega}^{F} \times \bs{r}^{FW^*F^*}
+\end{align}
+The velocity constraints are obtained by equating the velocity of a point on
+the steer axis obtained in two separate, but equally valid ways. Because the
+steer axis is fixed in both gyrostat carriers, the velocity of this point
+obtained with the two approaches must be equal. The velocity of the head of the
+steer axis $SA_h$ (see \autoref{model:fig:bicycle}) is obtained by working from
+the rear contact $P$ through the rear wheel $RW$ and bicycle frame $R$
+\begin{align}
+  {}^{N}\bs{v}^{SA_h}_r &= {}^{N}\bs{v}^{RW^*} + {}^{N}\bs{\omega}^{R} \times \bs{r}^{RW^*SA_h}
+\end{align}
+while working from the front contact point $Q$ through the front wheel $FW$ and
+fork $F$ gives
+\begin{align}
+  {}^{N}\bs{v}^{SA_h}_f &= {}^{N}\bs{v}^{FW^*} + {}^{N}\bs{\omega}^{F} \times \bs{r}^{FW^*SA_h}
+\end{align}
+where $_r$ and $_f$ denote which set of bodies were used to when obtaining the
+velocity of $SA_h$. The velocity constraints in vector form are then
+\begin{align}
+  {}^{N}\bs{v}^{SA_h}_r - {}^{N}\bs{v}^{SA_h}_f &= \bs{0}
+  \label{model:eq:f_v_vec}
+\end{align}
+Taking the dot product of \autoref{model:eq:f_v_vec} with any three
+perpendicular vectors (i.e., $\uv{r}{x}, \uv{r}{y}, \uv{r}{z}$), yields three
+scalar equations which are linear in the 6 generalized speeds $u_1 \dots u_6$.
+These three scalar equations can be written in matrix form as
+\begin{align}
+  B(q, p) u &= 0
+  \label{model:eq:f_v_matrix}
+\end{align}
+where $B\in\mathbb{R}^{3 \times 6}$, $u\in\mathbb{R}^{6 \times 1}$ and $p$ and
+$q$ are defined in \autoref{model:q_min} and
+\autoref{model:constraint_parameters}, respectively. By choosing three of the
+six generalized speeds as independent, it is possible to solve
+\autoref{model:eq:f_v_matrix} for the other three (dependent) speeds.
+Typically, lean rate $\dot{\phi} = u_2$, steer rate $\dot{\delta} = u_4$, and
+one of the wheel rates ($\dot{\theta}_r = u_5$ or $\dot{\theta}_f = u_6$) are
+chosen to be the independent speeds.
 
 
 \section{Dynamics}
+A large portion of the complexity of the bicycle dynamic equations is caused by
+the velocity constraints. However, careful book keeping of the kinematic
+quantities using a symbolic computer algebra system such as SymPy~\cite{SymPy}
+makes forming the dynamic equations much less tedious. The kinematics as
+presented in \autoref{model:kinematics} were programmed into a Python script
+which derives the dynamic equations of motion using Kane's
+method~\cite{Kane1985}. The symbolic equations were exported to C++ files which
+were then compiled into a software library~\cite{libbicycle} which provides
+efficient and convenient functionality to compute eigenvalues, calculate ground
+reaction forces, compute linearized system dynamics matrices, and perform
+numerical simulation. This library was used to compute all the system dynamics
+matrices used in the design of the control system presented in
+\autoref{chapter4}.
+
 

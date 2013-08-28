@@ -1,15 +1,63 @@
-\chapter{Introduction}
-\section{Motivation}
+\chapter{Introduction} \label{chapter1}
+As early as 3350BC, humans utilized wheels to ease their lives. For more than
+five thousand years, wheels were used for many things in many ways, but it
+wasn't until 1817 when Karl von Drais invented the ``running machine'': the
+first single-track two-wheeled balancing vehicle. Developments to the ``running
+machine'', notably pneumatic tires (1845), pedalled drive trains (1866), steel
+spoked wheels (1868), two-speed hub gear (1896), and butted frame tubes (1897)
+resulted in what we would comfortably call a bicycle~\cite{Wilson2004}. The
+technology of the bicycle has been under constant development, but by the early
+1900's the form of the bicycle had stabilized to a large degree. A mathematical
+framework for the motion of bicycle began around this same
+time~\cite{Whipple1899}. Since Whipple's work, hundreds of authors have approach
+the analysis of bicycles and motorcycles, with many different goals: some to
+simply understand how this amazing machine can balance, others to understand
+how humans are able to control bicycles, and still others to understand how the
+design of the vehicle can be adjusted to meet some desired requirements.
 
-As early as 3350BC, homo sapiens utilized wheels to ease
-their lives NEEDCITATION--OldestWheel. For more than five thousand years, wheels were
-used for many things in many ways, but it wasn't until 1817 when Karl von Drais
-invented the ``running machine'': the first single-track two-wheeled balancing
-vehicle. Developments to the ``running machine'', notably pnuematic tires (1845),
-pedalled drivetrains (1866), steel spoked wheels (1868), two-speed hub gear
-(1896), and butted tubes (1897) resulted in what we would comfortably call a
-bicycle. The technology of the bicycle has been under constant development, but
-by the early 1900's the form of the bicycle had stabilized to a large degree:
-pnuematic tires, spoked wheels, hand or foot brakes, and a drivetrain with one
-or more gears. A mathematical framework for the motion of bicycle began
-around this same time\cite{Whipple1899}.
+It took more than 100 years for the academic community to come to agreement on
+how the model presented by Whipple in 1899 should behave. This model makes a
+large number of simplifying assumptions to render the analysis tractable.
+Models which include many more degrees of freedom or less restrictive modelling
+assumptions are much less well understood. The benchmark paper by
+Meijaard~\cite{Meijaard2007} went a long way to reducing the fallacies and
+misinformation about how bicycles behave. The same type of benchmarking needs
+to be applied to more complicated models before there can be any hope of having
+an intelligent discussion of their dynamics.
+
+The first goal of this dissertation is to improve the understanding
+understanding of mechanistic aspects of bicycle modelling, in particular the
+Whipple model. \autoref{chapter2} presents the derivation of nonlinear
+equations of motion for the Whipple bicycle model which have been verified to
+give identical results as those results presented by well established
+researchers in the field. While the results are equivalent to previous work,
+the derivation utilizes a unique choice of parameters which offer several
+advantages over other common choices.  In particular, fewer parameters are need
+to describe the same class of bicycles, the parameters are not coupled as are
+the common choice of parameters, and the parameters exploit the front/rear
+geometric symmetry of the bicycle to streamline the derivation and clarify the
+resulting dynamic equations.
+
+The second goal of this dissertation is to present a clear and explicit
+treatment of the linearization of the nonlinear equations of motion for systems
+with configuration and velocity constraints. The bicycle is such a system, and
+the work of \autoref{chapter3} generalizes techniques which were initially
+developed to linearize the bicycle dynamic equations. The techniques presented
+in \autoref{chapter3} address common analysis tasks such as stability analysis
+and formulation of correct linearized state space equations for use in control
+system design. All of the techniques presented in \autoref{chapter3} have been
+applied to the bicycle model and the results have been validated numerically.
+
+Finally, the modelling techniques of \autoref{chapter2} and the linearization
+techniques of \autoref{chapter3} are applied to the non trivial task of
+building a robot bicycle which permits experimental validation of the Whipple
+model. Only a handful of studies to date have performed rigorous experimental
+validation of the Whipple model. In particular, none of the studies to date
+tackle the issue of experimentally validating the dynamic behavior outside the
+stable speed range. The real time control system (implemented using the
+techniques of \autoref{chapter2} and \autoref{chapter3}) permits exactly this.
+
+It is my sincere hope that is work is useful to students and researchers of
+dynamics, control, and those interested in two-wheeled vehicles. The bicycle
+has provided me with a fertile playground for all of these topics and I have no
+doubt it will continue to do so for many years to come.

@@ -153,7 +153,7 @@ The resulting parameters are presented in \autoref{rb:tab:parameters}.
 \subsection{Microcontroller} \label{rb:subsec:mcu} All functionality related to
 control, measurement, and user interaction was implemented by programming an
 Olimex STM32-H407~\cite{OlimexSTM32H407} development board. A summary of the
-board functionality utilized are shown in Table \ref{rb:tab:mcu}.
+board functionality utilized is shown in Table \ref{rb:tab:mcu}.
 \begin{table}[htbp]
   \centering
   \begin{tabular}{|l|l|}
@@ -182,7 +182,7 @@ The C++11~\cite{C++11} programming language was used to implement all
 functionality executed on the development board CPU. Certain language features
 such as dynamic memory allocation, runtime type information, and exceptions
 were not used due to associated overhead (generated code size or runtime
-efficiency). The compiler used was Version 4.7 (update 2) of the GCC ARM
+efficiency). The compiler Version 4.7 (update 2) of the GCC ARM
 Embedded~\cite{gccARMEmbedded} tool chain was used to compile and link source
 code to machine executable code. This ARM maintained version of GCC is
 customized to generate efficient machine instructions for ARM embedded
@@ -215,7 +215,7 @@ microcontroller development board was a small 7.2V battery
 \subsection{Sensors} \label{rb:subsec:sensors}
 The robot bicycle was equipped with three optical encoders which measured the
 wheel angles and the steer angle. All three optical encoders were
-differentially signalled for noise robustness. The front wheel encoder mounted
+differentially signalled for noise robustness. The front wheel encoder was mounted
 to the fork but was left disconnected during all experiments due to risk of
 damage when the front fork spun more than 180 degrees from straight ahead
 (which happened several times in the testing phase of the robot bicycle
@@ -243,7 +243,7 @@ following steps:
   \item Suspend the bicycle frame from the ceiling and remove both wheels.
   \item Rigidly mount the steer calibration fixture into the wheel dropouts,
     thereby setting the steer angle $\delta=0$.
-  \item Turn on the microcontroller on and issue the \verb|calibrate| (see
+  \item Turn the microcontroller on and issue the \verb|calibrate| (see
     \autoref{rb:subsec:ui} command. This calls a function which zeros the
     steer encoder count and waits for the steer encoder index.
   \item Remove the fixture from the front dropouts, and rotate the fork left to
@@ -256,7 +256,7 @@ following steps:
 \end{itemize}
 On microcontroller reset, the steer encoder count is set to zero regardless of
 the position of the fork. By permanently recording the number of quadrature
-counts the steer index is from from the zero steer configuration, this offset
+counts the steer index is from the zero steer configuration, this offset
 can be set during a fork homing procedure when the steer index is triggered.
 This functionality was implemented in the \verb|homefork| function and was run
 every time the microcontroller was reset.
@@ -580,7 +580,7 @@ electrical panel with velcro and a small bungee cord.
 The SLA batteries were securely fastened to the bicycle frame with a
 1/4''x4''x18'' steel plate to support the bottom of the batteries, and a sheet
 metal box on either end of the plate to maintain the lateral and longitudinal
-position of the batteries on the relative to the plate. The plate was rigidly
+position of the batteries relative to the plate. The plate was rigidly
 attached to the bicycle frame with a steel seat post on the rear end and a
 steel top tube bracket on the forward end. The seat post and bracket were
 welded to the bottom of the plate such that when the seat post was inserted
@@ -649,7 +649,7 @@ the complete list is viewable in the source code.
     for obtaining the rear wheel rate was used because the discretization error
     of the rear wheel encoder was much higher than that of the steer angle
     encoder (800 vs. 20000 quadrature counts per revolution).  Also, commanded
-    forward speeds (and by extension rear wheel rates) we constants, so the
+    forward speeds (and by extension rear wheel rates) were constants, so the
     delay associated with a moving average did not present any problems.  Steer
     angular rate was obtained by a low pass filtered ideal derivative
     ($G(s)=20\pi s/(s+20\pi)$).
@@ -670,7 +670,6 @@ the complete list is viewable in the source code.
     linearized bicycle model were estimated at each time step and recorded;
     these state estimates were used in the feedback control law.
 \end{description}
-
 
 \section{Feedback control system}
 Two independent control systems were implemented: A rear wheel rate controller
@@ -699,8 +698,8 @@ where $x_{i}, \tau_{i,\text{desired}}$, and  $\tau_{i}$ are the integrator
 state, the desired rear wheel torque, and the saturated rear wheel torque,
 respectively, all for time step $i$. The maximum torque was limited by the
 maximum current of the digital motor drive, $\tau_{\text{max}}$ = 158Nm (the
-max motor current was configured to be 24.0A, and a rear motor torque was
-estimated to be 6.6Nm/A). Through repeated experimentation, we found that a
+max motor current was configured to be 24.0A, and a rear motor torque constant
+was estimated to be 6.6Nm/A). Through repeated experimentation, we found that a
 gain of $K_p =50$ and an integration time constant of $T_i = 2000$ provided
 sufficiently fast response, no steady state tracking error, and no noticeable
 oscillatory behavior that can be present when integral action is used.
@@ -875,24 +874,25 @@ of each.
 
 On July 13, 2013, twenty eight experimental runs were performed on the Dairy
 Road basketball courts of the UC Davis campus (38.53794$^{\circ}$ North,
-121.759475$^{\circ}$ West). Oliver Lee and Dr. Mont Hubbard were stationed at the
-northeast corner of the east court, while I travelled east and west with the
-robot bicycle each run. To begin each run, Oliver Lee operated the laptop and
-issued commands to configure the filename (following a naming convention $<$run
-number$>$.dat), speed set point, distance to travel before reducing the speed
-set point to \SI{1.0}{\m\per\s}, and optionally, an additive sinusoidal disturbance steer
-torque of magnitude $a_d$ (\SI{1e-2}{\N\m}) and frequency $f_d$ (\si{\Hz}). Dr. Hubbard took notes
-about each run and coordinated with Oliver Lee to ensure commands issued to robot
-were consistent with his notes. Prior to issuing a non-zero speed set point
-command, I held the bicycle near the reference configuration (as indicated by
-two LED's which turned on when IMU lateral acceleration and steer angle were
-less than \SI{0.01}{\m\per\s\squared} and 1.0 deg, respectively), then ran along side the
-bicycle as it travelled east to west or west to East. At the end of each run, I
-would turn of the main power switches to each motor and catch the bicycle to
-prevent it from falling on its casters.  The speed command issued by Oliver
-took two arguments: speed set point and distance to travel before changing the
-set point to \SI{1.0}{\m\per\s}. At \SI{1.0}{\m\per\s}, it was easy to manually switch off the motors
-and catch the bicycle.
+121.759475$^{\circ}$ West). Oliver Lee and Dr. Mont Hubbard were stationed at
+the northeast corner of the east court, while I travelled east and west with
+the robot bicycle each run. To begin each run, Oliver Lee operated the laptop
+and issued commands to configure the filename (following a naming convention
+$<$run number$>$.dat), speed set point, distance to travel before reducing the
+speed set point to \SI{1.0}{\m\per\s}, and optionally, an additive sinusoidal
+disturbance steer torque of magnitude $a_d$ (\SI{1e-2}{\N\m}) and frequency
+$f_d$ (\si{\Hz}). Dr. Hubbard took notes about each run and coordinated with
+Oliver Lee to ensure commands issued to robot were consistent with his notes.
+Prior to issuing a non-zero speed set point command, I held the bicycle near
+the reference configuration (as indicated by two LED's which turned on when IMU
+lateral acceleration and steer angle were less than \SI{0.01}{\m\per\s\squared}
+and 1.0 deg, respectively), then ran along side the bicycle as it travelled
+east to west or west to east. At the end of each run, I would turn of the main
+power switches to each motor and catch the bicycle to prevent it from falling
+on its casters.  The speed command issued by Oliver took two arguments: speed
+set point and distance to travel before changing the set point to
+\SI{1.0}{\m\per\s}. At \SI{1.0}{\m\per\s}, it was easy to manually switch off
+the motors and catch the bicycle.
 \begin{center}
   \begin{longtable}{lllllll}
     \caption[Summary of experiments.]{Runs 000--010 utilized a yaw rate PI
@@ -947,7 +947,7 @@ and catch the bicycle.
   \end{longtable}
 \end{center}
 
-\subsection{Results} \label{rb:subsec:results}
+\subsection{Example results} \label{rb:subsec:results}
 The speed and steer angle response to a step in commanded speed is shown in
 \autoref{rb:fig:run000a}. Prior to the step, the bicycle was held in a nearly
 stationary upright zero steer configuration.  During the transition from
@@ -989,7 +989,7 @@ There is a noticeable difference between the measured steer
 estimation error can be attributed several things: modelling errors,
 measurement errors, and gain and phase response of the state estimator.
 Modelling errors arise from inaccuracies of the measured physical parameters or
-unaccounted for dynamics.  Measurement errors arise from discretization error,
+unaccounted-for dynamics. Measurement errors arise from discretization error,
 imprecisely known sensor sensitivities and biases, and to a lesser degree,
 un-modelled sensors dynamics (the frequencies of interest in the bicycle are
 2-3 orders of magnitude smaller than the natural frequencies of typical MEMS
@@ -1057,7 +1057,7 @@ introducing undesired amplification of high frequency sensor noise.
   \label{rb:fig:run000a}
 \end{figure}
 
-Estimates of steer rate $\dot{\hat{\delta}}$ and lean rate $\dot{\phi}$ are
+Estimates of steer rate $\dot{\hat{\delta}}$ and lean rate $\dot{\hat{\phi}}$ are
 shown in \autoref{rb:fig:run000b}, \autoref{rb:fig:run000c}, respectively. In
 comparison to the steer and steer estimate signals, these signals are much
 noisier. Visible in both is the sudden change in the estimator state (at
@@ -1225,7 +1225,7 @@ plotted up to \SI{100}{\Hz} (the Nyquist frequency).
   \end{tikzpicture}
   \caption[Steer, lean rate, steer torque time response at
     \SI{1.0}{\m\per\s}.]{Run 024 steer, lean rate, steer torque and speed
-    response to $v_c=\SI{1.0}{\m\per\s}$. The run continued until $t=\SI{41}{\s}$
+    response, $v_c=\SI{1.0}{\m\per\s}$. The run continued until $t=\SI{41}{\s}$
     with very similar response. Steer torque saturated repeatedly at
     $\tau_{\delta,\max}=\pm\SI{4.511}{\N\m}$.}
   \label{rb:fig:run024_tr}
@@ -1257,8 +1257,8 @@ plotted up to \SI{100}{\Hz} (the Nyquist frequency).
       \addplot table[x=freq,y=gyro_x] {\runtwentyfourfreq};
     \end{axis}
   \end{tikzpicture}
-  \caption[Steer and lean rate frequency response to
-    $v_c=\SI{1.0}{\m\per\s}$.]{Run 024 steer and lean rate frequency response,
+  \caption[Steer and lean rate frequency response at
+    \SI{1.0}{\m\per\s}.]{Run 024 steer and lean rate frequency response,
     $v_c=\SI{1.0}{\m\per\s}$.  DFT of steer, lean rate, and steer torque
     signals was computed for $t \in [\SI{21}{s}, \SI{41}{s}]$ (4001 time
     points).}
@@ -1309,8 +1309,8 @@ associated with this state being an angle as opposed to a rate.
       \addplot table[x=time, y=v] {\runseventime}; \addlegendentry{Forward speed}
     \end{axis}
   \end{tikzpicture}
-  \caption[Steer, lean rate, steer torque time response at 4.0 m / s.]{Run 025 steer,
-    lean rate, steer torque and speed response to $v_c=\SI{2.0}{\m\per\s}$.}
+  \caption[Steer, lean rate, steer torque time response at \SI{4.0}{\m\per\s}.]{Run 025 steer,
+    lean rate, steer torque and speed response, $v_c=\SI{2.0}{\m\per\s}$.}
   \label{rb:fig:run025_tr}
 \end{figure}
 \begin{figure}[htbp]
@@ -1396,7 +1396,7 @@ are less extreme as in the case when $v_c=\SI{1.0}{\m\per\s}$.
     \end{axis}
   \end{tikzpicture}
   \caption[Steer, lean rate, steer torque time response at \SI{4.0}{\m\per\s}.]{Run 007 steer,
-    lean rate, steer torque and speed response to $v_c=\SI{4.0}{\m\per\s}$.}
+    lean rate, steer torque and speed response, $v_c=\SI{4.0}{\m\per\s}$.}
   \label{rb:fig:run007_tr}
 \end{figure}
 \begin{figure}[htbp]

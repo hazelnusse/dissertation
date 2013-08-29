@@ -645,12 +645,12 @@ tabulated in \autoref{model:tab:coordinates}.
     \bottomrule
   \end{tabular}
   \caption[Bicycle generalized coordinates.]{Bicycle generalized coordinates.
-    In the upright $\phi=0$ zero steer $\delta=0$ configuration, the pitch
-    angle $\theta$ is equal to the steer axis tilt $\lambda$ of the Meijaard
-    parameter set. This is in contrast to the pitch $\theta_{\text{B}}$ defined
-    in~\cite{Meijaard2007}, which is zero in the same configuration. The two
-    pitch coordinates are related as $\theta = \theta_{\text{B}} + \lambda$;
-    the other 7 coordinates are identical.}
+    In the reference configuration ($\phi= \delta=0$), the pitch angle $\theta$
+    is equal to the steer axis tilt $\lambda$ of the Meijaard parameter set.
+    This is in contrast to the pitch $\theta_{\text{B}}$ defined
+    in~\cite{Meijaard2007}, which is zero in the reference configuration. The
+    two pitch coordinates are related as $\theta = \theta_{\text{B}} +
+    \lambda$; the other 7 coordinates are identical.}
   \label{model:tab:coordinates}
 \end{table}
 
@@ -758,8 +758,7 @@ and are freely available on the internet~\cite{libbicycle}.
 It is important to note that all of velocity and accelerations described above
 in general depend on both independent and dependent speeds, and their time
 derivatives (in the case of acceleration and angular acceleration). This can be
-dealt with in several ways and is further discussed in \label{model:dynamics}.
-
+dealt with in several ways and is further discussed in \autoref{model:dynamics}.
 
 \section{Dynamics} \label{model:dynamics}
 The active forces and torques acting on the bicycle come from terrestrial gravitational

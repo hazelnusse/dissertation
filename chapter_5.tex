@@ -1,17 +1,18 @@
 \chapter{Conclusions and Future Work}
 The nonlinear equations of motion for the bicycle model described in
-\autoref{chapter2} were formulated using bicycle gyrostat parameters and
-subsequently linearized using the linearization procedure described in
-\autoref{chapter3}. These linearized equations were found to match  match
-previously published eigenvalues for a set of benchmark parameters, thereby
-establishing that no mistakes were made in the derivation. However, this does
-not establish the soundness of the modelling assumptions. The use of the
-linearized dynamic equations to design a control system that balances the
-bicycle both in simulation and in practice does however, to some degree,
-establish that the Whipple bicycle model is at least descriptive for a control
-system based upon its assumptions to keep an unmanned bicycle from falling
-over. To what degree the Whipple model is accurate and how exactly to quantify
-the degree to which it is accurate was not concretely established by this work.
+\hyperref[chapter2]{Chapter 2} were formulated using bicycle gyrostat
+parameters and subsequently linearized using the linearization procedure
+described in \hyperref[chapter3]{Chapter 3}. These linearized equations were
+found to match  match previously published eigenvalues for a set of benchmark
+parameters, thereby establishing that no mistakes were made in the derivation.
+However, this does not establish the soundness of the modelling assumptions.
+The use of the linearized dynamic equations to design a control system that
+balances the bicycle both in simulation and in practice does however, to some
+degree, establish that the Whipple bicycle model is at least descriptive for a
+control system based upon its assumptions to keep an unmanned bicycle from
+falling over. To what degree the Whipple model is accurate and how exactly to
+quantify the degree to which it is accurate was not concretely established by
+this work.
 
 There are several areas where this issue can be addressed. A more careful
 measurement of all of the physical parameters of the bicycle would be an
@@ -19,16 +20,16 @@ inexpensive way to improve the knowledge of the assumed plant. At the some
 time, issues such as inertial asymmetries of the four rigid bodies in the real
 bicycle should be either eliminated or if it is not possible to eliminate
 entirely, quantified. This may necessitate the need to reformulate the model of
-\autoref{chapter2} to include inertial asymmetries. An addition to the model
-such as allowing for the mass center of the frame and fork to lie outside the
-plane of the wheel, would be a simple addition, and similar such additions
-could be added if necessary. Other improvements in the design of the state
-estimator (i.e., a reduced order observer) would also be worth testing to see
-if they improve the performance characteristics of the controller. A final high
-value, low cost, would be to use a higher resolution optical encoder (a drop in
-replacement encoder exists that would yield 20000 quadrature counts per wheel
-revolution). This improvement would to reduce discretization jitter in the
-speed measurement which in turn would reduce jitter in the gain scheduling
+\hyperref[chapter2]{Chapter 2} to include inertial asymmetries. An addition to
+the model such as allowing for the mass center of the frame and fork to lie
+outside the plane of the wheel, would be a simple addition, and similar such
+additions could be added if necessary. Other improvements in the design of the
+state estimator (i.e., a reduced order observer) would also be worth testing to
+see if they improve the performance characteristics of the controller. A final
+high value, low cost, would be to use a higher resolution optical encoder (a
+drop in replacement encoder exists that would yield 20000 quadrature counts per
+wheel revolution). This improvement would to reduce discretization jitter in
+the speed measurement which in turn would reduce jitter in the gain scheduling
 lookup. It is unclear whether this concern is actually justified, but
 nevertheless, it is a simple and cheap fix.
 
@@ -40,12 +41,12 @@ there was no space for it to go. This could be mitigated by a larger area to
 conduct the experiments, but also may be addressable by refinement of the
 control system and how the disturbance signals are applied.
 
-Circular motions (i.e., $\dot{\psi}_c \ne 0$) of the bicycle were not attempted
-due to lack of space and time. The theory of steady turning bicycles is less
-developed than that of bicycles travelling in a straight line, so there is
-substantial room for investigations of steady turns, both in terms of numerical
-studies of the model, as well as experimental validations of the model in
-operating conditions other then upright steady forward cruise.
+Commanding circular motions (i.e., $\dot{\psi}_c \ne 0$) of the robotic bicycle
+were not attempted due to lack of space and time. The theory of steady turning
+bicycles is less developed than that of bicycles travelling in a straight line,
+so there is substantial room for investigations of steady turns, both in terms
+of numerical studies of the model, as well as experimental validations of the
+model in operating conditions other then upright steady forward cruise.
 
 With the improvements mentioned, more rigorous system identification
 experiments would be possible and the validity of the inadequacies of the

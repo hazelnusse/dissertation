@@ -1,5 +1,5 @@
-\chapter{Symbolic linearization of equations of motion of constrained multibody
-systems} \label{chapter3}
+\chapter{Linearization of equations of motion of constrained multibody systems}
+\label{chapter3}
 \section{Introduction}
 \label{sec:intro}
 
@@ -113,7 +113,7 @@ same rolling disk example to illustrate its validity and an example of its
 application. Finally, we discuss other details and nuances of the procedure and
 its use, as well as directions for future work.
 
-\section{Kane's Method, briefly}
+\section{Kane's method, briefly}
 \label{sec:kane_method}
 To familiarize the reader with Kane's method, some concepts relating to its use
 will be described.  The first is the use of generalized speeds in addition to
@@ -473,7 +473,7 @@ if a term contains a $\dot{u}$ it is placed into $f_2$ and if not it is placed
 into $f_3$. The motivation for this organizational scheme will be made apparent
 in Section \ref{sec:derivations}.
 
-\section{Dynamics Example}
+\section{Rolling disk}
 \label{sec:example}
 To illustrate Kane's method in the presence of configuration and velocity
 constraints, we consider a thin disk $C$ rolling without slip on a horizontal
@@ -1014,7 +1014,7 @@ point of linearization. Note that the only requirement on this point of
 linearization is that it satisfy all the equations in Table
 \ref{table:assumptions}; it may or may not be an equilibrium point.
 
-\section{Dynamics Example, Revisited}
+\section{Rolling disk, revisited}
 \label{sec:example_revisited}
 As shown at the end of Section \ref{sec:example}, obtaining correct linearized
 equations in the presence of constraints requires a technique other than
@@ -1205,8 +1205,8 @@ and linearization point).
 The procedure has been implemented symbolically in the
 \texttt{sympy.physics.mechanics} sub-module of the open source symbolic
 manipulator SymPy~\cite{SymPy}. In addition to the rolling disk example, we
-have also applied it to the exteneded Whipple bicycle model described in
-\autoref{chapter2}~\cite{libbicycle}, and obtained results that matched (to at
+have also applied it to the extended Whipple bicycle model described in
+\hyperref[chapter2]{Chapter 2}~\cite{libbicycle}, and obtained results that matched (to at
 least 14 digits) the eigenvalues published for a benchmark set of
 parameters~\cite{Meijaard2007}. This latter example provides a challenging and
 rigorous test of the procedure which strongly indicates both its utility and

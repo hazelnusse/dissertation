@@ -807,13 +807,13 @@ explicitly.
 The kinematics as presented in \autoref{model:kinematics} along with the active
 forces mentioned above were programmed into a Python script which derives the
 dynamic equations of motion using Kane's method~\cite{Kane1985}. The equations
-of motion were linearized using the techniques described in \autoref{chapter3}.
+of motion were linearized using the techniques described in \hyperref[chapter3]{Chapter 3}.
 The symbolic equations were exported to C++ files which were can be compiled
 into a software library~\cite{libbicycle} which provides efficient and
 convenient functionality to compute eigenvalues, calculate ground reaction
 forces, form linearized system dynamics matrices, and perform numerical
 simulation. This library was used to compute all the system dynamics matrices
-used in the design of the control system presented in \autoref{chapter4}.
+used in the design of the control system presented in \hyperref[chapter4]{Chapter 4}.
 
 Configuration and velocity constraints require the analyst to make several
 choices derivation of the equations of motion. The presence of dependent speeds
@@ -880,11 +880,11 @@ become unwieldy for large systems, however this approach but may be fine for
 small systems.
 
 The general form of the equations of motion and the associated constraint
-equations is presented in \autoref{table:assumptions} of \autoref{chapter3}. To
-follow the notation of presented in that table, for the model of the bicycle
-presented in this chapter, there are $n=8$ generalized coordinates, $l=1$
-configuration constraints, $o=6$ generalized speeds, $m=3$ velocity constraint
-equations, and $s=3$ exogenous inputs (one torque applied at each revolute
-joint).
+equations is presented in \autoref{table:assumptions} of
+\hyperref[chapter3]{Chapter 3}. To follow the notation of presented in that
+table, for the model of the bicycle presented in this chapter, there are $n=8$
+generalized coordinates, $l=1$ configuration constraints, $o=6$ generalized
+speeds, $m=3$ velocity constraint equations, and $s=3$ exogenous inputs (one
+torque applied at each revolute joint).
 
 

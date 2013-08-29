@@ -277,18 +277,18 @@ A combined rate gyroscope and accelerometer MEMS
 sensor~\cite{InvensenseMPU6050} was fixed to the underside of the battery pack
 plate as shown in \autoref{rb:img:imuplacement}. The gyroscope and
 accelerometer sensor axes were assumed to be aligned with each other since they
-are manufactured on the same piece of silicon. The sensor $\bm{s}_x-\bm{s}_y$
+are manufactured on the same piece of silicon. The sensor $\uv{s}{x}-\uv{s}{y}$
 plane was approximately parallel to the plane of the battery plate, with
-$\bm{s}_y$ pointed approximately forward, $\bm{s}_y$ to the left, and
-$\bm{s}_z$ down.
+$\uv{s}{y}$ pointed approximately forward, $\uv{s}{y}$ to the left, and
+$\uv{s}{z}$ down.
 
 As described in Chapter 1, the bicycle model introduces set of dextral unit
-vectors fixed to the rear frame $R$ of the bicycle, with $\bm{r}_z$ parallel to
-the steer axis and down, $\bm{r}_y$ perpendicular to the frame plane and to the
-right, and $\bm{r}_x = \bm{r}_y \times \bm{r}_z$ ($\bm{r}_x$ points forward and
+vectors fixed to the rear frame $R$ of the bicycle, with $\uv{r}{z}$ parallel to
+the steer axis and down, $\uv{r}{y}$ perpendicular to the frame plane and to the
+right, and $\uv{r}{x} = \uv{r}{y} \times \uv{r}{z}$ ($\uv{r}{x}$ points forward and
 slightly up when the bicycle is in the reference configuration). Fixed to the sensor $S$
-are a set of dextral unit vectors with $\bm{s}_x$ and $\bm{s}_y$ in the plane
-of the integrated circuit, and $\bm{s}_z$ normal to the plane of the integrated
+are a set of dextral unit vectors with $\uv{s}{x}$ and $\uv{s}{y}$ in the plane
+of the integrated circuit, and $\uv{s}{z}$ normal to the plane of the integrated
 circuit. To orient the sensor relative to the bicycle, first align $S$ with
 $R$, then apply the following successive body-fixed ZXY rotations: $\alpha -
 \pi/2$, $\beta$, $\gamma$. The first rotation was offset by $-\pi/2$ so that
@@ -307,8 +307,8 @@ all three angles were near zero.
 \end{figure}
 
 To determine the three angles $\alpha$, $\beta$, and $\gamma$, the static
-acceleration was measured in three sensor directions ($\bm{s}_x$, $\bm{s}_y$,
-$\bm{s}_z$) in six unique orientations. The six orientations are those that
+acceleration was measured in three sensor directions ($\uv{s}{x}$, $\uv{s}{y}$,
+$\uv{s}{z}$) in six unique orientations. The six orientations are those that
 would be obtained if $R$ were aligned with and fixed to the edges of a perfect
 cube and the cube was laid on a level surface on each of its six sides.  These
 six configurations correspond to the following bicycle orientations:
@@ -330,11 +330,11 @@ dissipation which helped damp out vibrations. Once stationary (within the
 limits of the vibrating building), data collection was initiated.
 
 When at rest, the accelerometer senses the gravitational field as if it were
-accelerating \textit{upwards} at $g$, this corresponds to $-g\bm{n}_z$.
-Resolving $-g\bm{n}_z$ into the three sensor measurement directions yields
+accelerating \textit{upwards} at $g$, this corresponds to $-g\uv{n}{z}$.
+Resolving $-g\uv{n}{z}$ into the three sensor measurement directions yields
 \begin{align}
   \label{rb:eq:imux}
--g\bm{n}_z \cdot \bm{s}_x &= g \left(- s_{\alpha}
+  -g\uv{n}{z} \cdot \uv{s}{x} &= g \left(- s_{\alpha}
 s_{\beta} s_{\gamma}
 s_{\phi} + s_{\alpha}
 s_{\theta} c_{\gamma}
@@ -347,7 +347,7 @@ s_{\phi} c_{\alpha}
 c_{\gamma}\right) \\
 %
   \label{rb:eq:imuy}
--g\bm{n}_z \cdot \bm{s}_y &= g \left(- s_{\alpha}
+  -g\uv{n}{z} \cdot \uv{s}{y} &= g \left(- s_{\alpha}
 s_{\phi} c_{\beta} -
 s_{\beta} c_{\phi}
 c_{\theta} + s_{\theta}
@@ -355,7 +355,7 @@ c_{\alpha} c_{\beta}
 c_{\phi}\right) \\
 %
   \label{rb:eq:imuz}
--g\bm{n}_z \cdot \bm{s}_z &= g \left(s_{\alpha}
+  -g\uv{n}{z} \cdot \uv{s}{z} &= g \left(s_{\alpha}
 s_{\beta} s_{\phi}
 c_{\gamma} + s_{\alpha}
 s_{\gamma} s_{\theta}
@@ -376,9 +376,9 @@ acceleration sensor model was used
   \label{rb:eq:sensormodel}
   \left[
     \begin{matrix}
-      -g\bm{n}_z \cdot \bm{s}_x \\
-      -g\bm{n}_z \cdot \bm{s}_y \\
-      -g\bm{n}_z \cdot \bm{s}_z
+      -g\uv{n}{z} \cdot \uv{s}{x} \\
+      -g\uv{n}{z} \cdot \uv{s}{y} \\
+      -g\uv{n}{z} \cdot \uv{s}{z}
     \end{matrix}
   \right]
   &=
@@ -494,8 +494,8 @@ sensitivities were used.
 
 Two LEDs and a momentary switch were mounted on the right side of the bicycle.
 The green LED was illuminated when the lateral acceleration was relatively
-small compared to the total acceleration: $\frac{|\bm{a} \cdot
-\uv{r}{y}|}{||\bm{a}||} < \frac{\pi}{180}$; this visually indicated when the
+small compared to the total acceleration: $\frac{|\bs{a} \cdot
+\uv{r}{y}|}{||\bs{a}||} < \frac{\pi}{180}$; this visually indicated when the
 bicycle frame plane was nearly vertical. Similarly, the yellow LED was
 illuminated when the steer angle was less than 1$^\circ = \frac{\pi}{180}$ rad.
 Finally, the momentary switch was mounted on the right side of the steer motor
@@ -876,7 +876,8 @@ On July 13, 2013, twenty eight experimental runs were performed on the Dairy
 Road basketball courts of the UC Davis campus (38.53794$^{\circ}$ North,
 121.759475$^{\circ}$ West). Oliver Lee and Dr. Mont Hubbard were stationed at
 the northeast corner of the east court, while I travelled east and west with
-the robot bicycle each run. To begin each run, Oliver Lee operated the laptop
+the robot bicycle each run. The bicycle can be seen balancing in
+\autoref{rb:img:balancing}. To begin each run, Oliver Lee operated the laptop
 and issued commands to configure the filename (following a naming convention
 $<$run number$>$.dat), speed set point, distance to travel before reducing the
 speed set point to \SI{1.0}{\m\per\s}, and optionally, an additive sinusoidal
@@ -893,18 +894,25 @@ on its casters.  The speed command issued by Oliver took two arguments: speed
 set point and distance to travel before changing the set point to
 \SI{1.0}{\m\per\s}. At \SI{1.0}{\m\per\s}, it was easy to manually switch off
 the motors and catch the bicycle.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{images/balancing.jpg}
+  \caption{Taking the robot bicycle on a jog.}
+  \label{rb:img:balancing}
+\end{figure}
 \begin{center}
   \begin{longtable}{lllllll}
-    \caption[Summary of experiments.]{Runs 000--010 utilized a yaw rate PI
-      controller which explicitly specified the first 0db cross-over frequency
-      to be \SI{0.1}{Hz} and utilized a disturbance torque $d = a_d \sin\left(2\pi
-      t\right)$. The firmware was revised in Runs 011--014 to utilize a
-      disturbance torque $d=a_d \sin\left(2\pi \left(t - t_i\right)\right)$ to
-      ensure the initial disturbance began at 0 N m. For runs 015--028, the
-      firmware was updated to use a yaw rate PI controller which did not
-      explicitly specify the crossover frequency (instead it was selected
-      automatically by Matlab based on the plant dynamics).}%
-      \label{rb:table:experiments_summary} \\
+  \caption[Summary of experiments.]{Runs 000--010 utilized a yaw rate PI
+    controller which explicitly specified the first 0db cross-over frequency to
+    be \SI{0.1}{Hz} and utilized a disturbance torque $d = a_d \sin\left(2\pi
+    t\right)$. The firmware was revised in Runs 011--014 to utilize a
+    disturbance torque $d=a_d \sin\left(2\pi \left(t - t_i\right)\right)$ to
+    ensure the initial disturbance began at 0 N m. For runs 015--028, the
+    firmware was updated to use a yaw rate PI controller which did not
+    explicitly specify the crossover frequency (instead it was selected
+    automatically by Matlab based on the plant dynamics).}%
+  \label{rb:table:experiments_summary} \\
   \toprule
   Run & Time (PST) & Speed (\si{\m\per\s}) & $a_d$ (\SI{1e-2}{\N\m}) & $f_d$ (\si{Hz}) & $x$ (\si{\m}) & Direction \\
   \midrule
@@ -914,6 +922,10 @@ the motors and catch the bicycle.
   Run & Time (PST) & Speed (\si{\m\per\s}) & $a_d$ (\SI{1e-2}{\N\m}) & $f_d$ (\si{Hz}) & $x$ (\si{\m}) & Direction \\
   \midrule
   \endhead
+  \midrule
+  \endfoot
+  \bottomrule
+  \endlastfoot
   000 & 0641 & 2.0 & -- & -- & 30.0 & West \\
   001 & 0643 & 2.0 & -- & -- & 30.0 & West \\
   002 & 0644 & 3.0 & -- & -- & 30.0 & East \\
@@ -943,7 +955,6 @@ the motors and catch the bicycle.
   026 & 0825 & 3.0 & -- & -- & 50.0 & East \\
   027 & 0827 & 3.0 & -- & -- & 50.0 & East \\
   028 & 0829 & 3.0 & -- & -- & 50.0 & East \\
-  \bottomrule
   \end{longtable}
 \end{center}
 

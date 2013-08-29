@@ -32,7 +32,7 @@ respect to the states, evaluated at the equilibria point of interest.  However,
 when the system in questions has constraints, i.e., not all the states are
 independent, this process is not as straightforward.
 
-For a system system with constraints, Kane's dynamical equations\cite{Kane1985}
+For a system system with constraints, Kane's dynamical equations~\cite{Kane1985}
 are first order ODE's (in the generalized speeds) which include both the
 independent and dependent states (assuming the dependents states have not been
 algebraically eliminated). The kinematical and dynamical differential equations
@@ -59,25 +59,25 @@ system. Velocity constraints limit the speeds at which the configuration can
 change, either from configuration constraints (through time differentiation) or
 independent application. Velocity constraints most often appear in systems
 where there is rolling without slip or there are closed kinematic loops. In the
-context of this paper, acceleration constraints arise either from time
+context of this chapter, acceleration constraints arise either from time
 differentiated velocity constraints or similar kinematic considerations.
 
 % TODO: Improve literature review.
 Bottema appears to be the first author to have shown that special
-considerations are needed for linearizing nonholonomic systems
-\cite{Bottema1949}. While other authors have examined linearization of
+considerations are needed for linearizing nonholonomic
+systems~\cite{Bottema1949}. While other authors have examined linearization of
 nonholonomic systems, we have found that most techniques are not directly
 applicable to equations formed using Kane's method, and while we do not doubt
 that they \textit{could} be applied correctly, the details of how to do so, as
-far as the authors are aware, have not been explicitly presented. Kang et al.
-\cite{Kang2003} and Negrut and Ortiz \cite{Negrut2006} have both explored
+far as the authors are aware, have not been explicitly presented. Kang et
+al.~\cite{Kang2003} and Negrut and Ortiz~\cite{Negrut2006} have both explored
 linearization, but these methods have been developed for equations of motion
 found using Lagrange's method, which contain Lagrange multipliers (which are
 not present in equations of motion generated from Kane's method). Further, both
 of these papers lack a discussion of basic concepts such as how many quantities
 are independent, and in the case of eigenvalue computation, how many
-eigenvalues should be present. Minaker and Rieveley \cite{Minaker2010} and
-Schwab and Meijaard \cite{Schwab2003} both have developed techniques for
+eigenvalues should be present. Minaker and Rieveley~\cite{Minaker2010} and
+Schwab and Meijaard~\cite{Schwab2003} both have developed techniques for
 generating equations of motion (and linear forms thereof) using Lagrange's
 method; the work of Schwab and Meijaard can be applied symbolically while
 Minaker and Reiveley's approach is numeric in nature. Neither discuss the
@@ -85,17 +85,14 @@ choice of generalized speeds as in Kane's method: both form the equations of
 motion in terms of second time derivatives of the coordinates.  Further,
 neither of these works address constraints which cannot be eliminated (i.e.,
 nonlinear configuration constraints), nor do they address what approach should
-be taken when a single choice of dependent states may not suffice. While
-Neuman presents a symbolic (as opposed to numeric) formulation for
-linearization of the Q-matrix formulation of the Lagrangian\cite{Neuman1984},
-his work makes no mention of constrained systems and attempts to contact the
-author regarding the software (algebraic robot modeler -- Arm) as well as
-internet searches for the software have been fruitless.
+be taken when a single choice of dependent states may not suffice. While Neuman
+presents a symbolic (as opposed to numeric) formulation for linearization of
+the Q-matrix formulation of the Lagrangian~\cite{Neuman1984}, his work makes no
+mention of constrained systems and attempts to contact the author regarding the
+software (algebraic robot modeler -- Arm) as well as internet searches for the
+software have been fruitless.
 
-% What does it mean for the equations to be symbolic/analytic in nature?
-
-% TODO:reiterate limitations of model
-The goal of this paper is to definitively establish how the first time
+The goal of this chapter is to definitively establish how the first time
 derivative of all coordinates and speeds (independent \textit{and} dependent)
 depend, to first order, upon a selection of independent coordinates and
 independent speeds, for an arbitrary point of linearization. We demonstrate how
@@ -103,13 +100,11 @@ a reduced portion of these linearized equations can be used to perform standard
 stability analysis (i.e., for control system design or linear stability
 analysis). The formalism presented here is generic enough to cover most
 examples of time-varying constrained multibody systems with arbitrary external
-inputs and arbitrary specified quantities.
-% TODO: electronic supplementary material with examples for other methods
-% TODO: rewrite following sentences after e.s.m.
-The procedure was created for systems whose equations of motion have been
-derived with Kane's method. Although also applicable to dynamic system
-equations formulated using other methods, it is restricted to systems which can
-be completely described by a set of ODE's (i.e., DAE's needn't be solved).
+inputs and arbitrary specified quantities.  The procedure was created for
+systems whose equations of motion have been derived with Kane's method.
+Although also applicable to dynamic system equations formulated using other
+methods, it is restricted to systems which can be completely described by a set
+of ODE's (i.e., DAE's needn't be solved).
 
 We begin with a review of Kane's method for generating equations of motion is
 reviewed first, in order to properly orient the reader to the format and some
@@ -148,14 +143,13 @@ complicated; it also requires a velocity constraint. Using generalized speeds
 allows for the angular velocity to be expressed more simply as
 \begin{align}
 \label{eq:ex1}
-{^N}\bar{\omega}^B = \it{\omega}_1 \hat{b}_1 + \it{\omega}_2 \hat{b}_2 +
-\it{\omega}_3 \hat{b}_3
+{^N}\bs{\omega}^B = \omega_1 \uv{b}{1} + \omega_2 \uv{u}{2} + \omega_3 \uv{b}{3}
 \end{align}
 or, the angular velocity of rigid body $B$ in the reference frame $N$ is the
 defined as the sum of three generalized--speed basis--vector products.
 The derivatives of these generalized speeds will appear in the equations
 of motion, rather than the twice time differentiated generalized coordinates
-($\ddot{\mathbf{q}}$'s).
+($\ddot{{q}}$'s).
 
 A drawback of allowing such definitions can be seen when formulating the
 kinematic differential equations, which relate the rate of change of the
@@ -170,9 +164,9 @@ generalized speeds. For example, for the angular velocity in equation
 (\ref{eq:ex1}), the partial angular velocities of body $B$ in reference frame
 $N$ are
 \[
-{^N}\bar{\omega}^B_{\omega_1} = \hat{b}_1 \quad \quad
-{^N}\bar{\omega}^B_{\omega_2} = \hat{b}_2 \quad \quad
-{^N}\bar{\omega}^B_{\omega_3} = \hat{b}_3
+  {^N}\bs{\omega}^B_{\omega_1} = \uv{b}{1} \quad \quad
+  {^N}\bs{\omega}^B_{\omega_2} = \uv{b}{2} \quad \quad
+  {^N}\bs{\omega}^B_{\omega_3} = \uv{b}{3}
 \]
 and it can be seen that the partial velocities represent the direction of
 motion associated with each generalized speed. The geometric interpretations of
@@ -180,7 +174,7 @@ these partial (angular) velocities are discussed at length by
 Lesser~\cite{Lesser1992}.
 
 Taking the dot product of each partial velocity and both sides of Newton's
-second law, $\bar{F}=m\bar{a}$ (or the rotational equivalent), only terms that
+second law, $\bs{F}=m\bs{a}$ (or the rotational equivalent), only terms that
 are parallel to the partial velocities remain; one scalar equation is generated
 for each generalized speed. An important byproduct is that internal constraint forces
 (non-contributing forces) imposed by objects such as pin or sliding joints no
@@ -209,35 +203,34 @@ the system need to be written as linear combinations of the generalized speeds.
 The translational velocity of the particles are
 \begin{align}
 \label{eq:particle_translational}
-{^N}\bar{v}^{P_i} = \sum^o_{j=1} {^N}\bar{v}^{P_i}_{u_j} u_j + {^N}\bar{v}^{P_i}_t
+{^N}\bs{v}^{P_i} = \sum^o_{j=1} {^N}\bs{v}^{P_i}_{u_j} u_j + {^N}\bs{v}^{P_i}_t
 \quad \quad i=1,...,g
 \end{align}
 while the translational velocity of rigid body mass centers are
 \begin{align}
 \label{eq:rb_translational}
-{^N}\bar{v}^{B_i^*} = \sum_{j=1}^o {^N}\bar{v}^{B_i^*}_{u_j} u_j +
-{^N}\bar{v}^{B_i^*}_t \quad \quad i=1,...,h
+{^N}\bs{v}^{B_i^*} = \sum_{j=1}^o {^N}\bs{v}^{B_i^*}_{u_j} u_j +
+{^N}\bs{v}^{B_i^*}_t \quad \quad i=1,...,h
 \end{align}
 and finally the translational velocity of points which have applied forces are
 \begin{align}
 \label{eq:points_translational}
-{^N}\bar{v}^{Q_i} = \sum_{j=1}^o {^N}\bar{v}^{Q_i}_{u_j} u_j + {^N}\bar{v}^{Q_i}_t
+{^N}\bs{v}^{Q_i} = \sum_{j=1}^o {^N}\bs{v}^{Q_i}_{u_j} u_j + {^N}\bs{v}^{Q_i}_t
 \quad \quad i=1,...,k
 \end{align}
 Next, the angular velocity of rigid bodies are
 \begin{align}
 \label{eq:rb_rotational_bodies}
-{^N}\bar{\omega}^{B_i} = \sum_{j=1}^o {^N}\bar{\omega}^{B_i}_{u_j} u_j +
-{^N}\bar{\omega}^{B_i}_t \quad \quad i=1,...,h
+{^N}\bs{\omega}^{B_i} = \sum_{j=1}^o {^N}\bs{\omega}^{B_i}_{u_j} u_j +
+{^N}\bs{\omega}^{B_i}_t \quad \quad i=1,...,h
 \end{align}
 and the angular velocity of reference frames which have applied torques are
 \begin{align}
 \label{eq:rb_rotational_frames}
-{^N}\bar{\omega}^{E_i} = \sum_{j=1}^o {^N}\bar{\omega}^{E_i}_{u_j} u_j +
-{^N}\bar{\omega}^{E_i}_t \quad \quad i=1,...,c
+{^N}\bs{\omega}^{E_i} = \sum_{j=1}^o {^N}\bs{\omega}^{E_i}_{u_j} u_j +
+{^N}\bs{\omega}^{E_i}_t \quad \quad i=1,...,c
 \end{align}
-
-In these equations, each term $\bar{v}_t$ or $\bar{\omega}_t$ represents a
+In these equations, each term $\bs{v}_t$ or $\bs{\omega}_t$ represents a
 velocity or angular velocity component which is a prescribed function of time,
 and has no dependence on generalized speeds (e.g., a motor or crank driven at a
 specified rate).
@@ -245,126 +238,131 @@ specified rate).
 For this system, we consider configuration constraints of the form
 \begin{align}
 \label{eq:configuration_constraints}
-\mathbf{f}_c(\mathbf{q}, t) = \mathbf{0}
+f_c(q, t) = 0
 \end{align}
-where the terms $\mathbf{f}_c$ and $\mathbf{0}$ have the shape $l \times 1$.
-The velocity constraints are taken to have the form
+where $q\in\mathbb{R}^n, t\in\mathbb{R}$, and $f_c : \mathbb{R}^n \times
+\mathbb{R} \mapsto \mathbb{R}^l$.  The velocity constraints are taken to have
+the form
 \begin{align}
 \label{eq:velocity_constraints}
-\mathbf{f}_v(\mathbf{q}, \mathbf{u}, t) = \mathbf{0}
+f_v(q, u, t) = 0
 \end{align}
-where the terms $\mathbf{f}_v$ and $\mathbf{0}$ have the shape $m \times 1$,
-and $\mathbf{f}_v$ depends linearly on $\mathbf{u}$.  It is important that the
-velocity constraints include the time-differentiated configuration constraints
-or equivalent constraints which produce the same behavior. Furthermore,
-velocity constraints should be written such that generalized speeds and
-coordinates appear, but $\dot{\mathbf{q}}$ terms do not.  Finally, acceleration
-constraints are typically time-differentiated velocity constraints (or
-similarly formed from kinematic considerations) and are assumed to have the
+where $u\in\mathbb{R}^o$, $f_v : \mathbb{R}^n \times \mathbb{R}^o \times
+\mathbb{R} \mapsto \mathbb{R}^m$, and $f_v$ is linear in $u$.  It is important
+that the velocity constraints include the time-differentiated configuration
+constraints or equivalent constraints which produce the same behavior.
+Furthermore, velocity constraints should be written such that generalized
+speeds and coordinates appear, but $\dot{q}$ terms do not (i.e., they should be
+eliminated by appealing to the kinematic differential equations). Finally,
+acceleration constraints are typically time-differentiated velocity constraints
+(or similarly formed from kinematic considerations) and are assumed to have the
 form
 \begin{align}
-\label{eq:acceleration_constraints}
-\mathbf{f}_a(\mathbf{q}, \dot{\mathbf{q}}, \mathbf{u}, \dot{\mathbf{u}}, t) =
-\mathbf{0}
+  \label{eq:acceleration_constraints}
+  f_a(q, \dot{q}, u, \dot{u}, t) = 0
 \end{align}
-In contrast to the velocity constraints, our formulation permits the
-acceleration constraints to involve $\dot{\mathbf{q}}$ terms (alternatively
-they can be eliminated by appealing to the kinematic differential equations).
-
-By assumption, the velocity constraints are linear with respect to
-$\mathbf{u}$, so we introduce
+where $f_a : \mathbb{R}^n \times \mathbb{R}^n \times \mathbb{R}^o \times
+\mathbb{R}^o \times \mathbb{R} \mapsto \mathbb{R}^m$. In contrast to the
+velocity constraints, our formulation permits the acceleration constraints to
+involve $\dot{q}$ terms, although eliminating them using by appealing to the
+kinematic differential equations presents no problems. By assumption, the
+velocity constraints are linear with respect to $u$, so we introduce
 \begin{align}
 \label{eq:constraint_B}
-\mathbf{B} &\triangleq \nabla_{\mathbf{u}} \mathbf{f}_v (\mathbf{q}, \mathbf{u},
-t)
+  B &\triangleq \nabla_u f_v (q, u, t)
 \end{align}
-which implies
+which implies that $B : \mathbb{R}^n \times \mathbb{R} \mapsto \mathbb{R}^m
+\times \mathbb{R}^o$, i.e, $B$ is an $m \times o$ matrix whose entries depend
+on $q$ and $t$. The velocity constraint equations may now be written as
 \begin{align}
 \label{eq:constraint_Bu0}
-\mathbf{B}\mathbf{u} + \mathbf{f}_{vt}(\mathbf{q}, t) &= \mathbf{0}
+B u + f_{vt}(q, t) &= 0
 \end{align}
-where $\mathbf{f}_{vt}$ arises from explicit time varying terms that occur in
-the velocity constraints. These typically arise from specified quantities whose
-dynamics are being ignored (e.g., a motor spinning at constant speed).
+where $f_{vt} : \mathbb{R}^n \times \mathbb{R} \mapsto \mathbb{R}^m$ arises if
+there are explicit time varying terms in the velocity constraints. These
+typically arise from specified quantities whose dynamics are being ignored
+(e.g., a motor spinning at constant speed).
 
 With these definitions established, Kane's method can be applied. In vector
-form, Kane's dynamical equations are
+form, Kane's holonomic dynamical equations are
 \begin{align}
 \label{eq:kanes_eq}
-\mathbf{F} + \mathbf{F}^* = \mathbf{0}
+F + F^* = 0
 \end{align}
-where $\mathbf{F}$ are the generalized active forces and $\mathbf{F}^*$ are the
-generalized inertia forces. If Newton's second law is written as $f - ma = 0$,
-$\mathbf{F}$ is the multibody generalization of $f$ and $\mathbf{F}^*$ is the
-multibody generalization of $-ma$. As will be shown, these forces are obtained
-by taking the dot product of the partial velocities/angular-velocities, as
-defined in (\ref{eq:particle_translational}) - (\ref{eq:rb_rotational_frames}),
-with the resultant forces/torques ($\bar{R}$/ $\bar{T}$) and with inertial
-forces/torques ($\bar{R}^*$/$\bar{T}^*$).
+where $F\in\mathbb{R}^o$ are the generalized active forces and
+$F^*\in\mathbb{R}^o$ are the generalized inertia forces. The i-th element of
+$F$ and $F^*$ are each associated with the i-th generalized speed. If Newton's
+second law is written as $f - ma = 0$, $F$ is the multibody generalization of
+$f$ and $F^*$ is the multibody generalization of $-ma$. As will be shown, these
+forces are obtained by taking the dot product of the partial velocities and
+partial angular velocities, as defined in (\ref{eq:particle_translational}) -
+(\ref{eq:rb_rotational_frames}), with the resultant forces and torques
+($\bs{R}$ and $\bs{T}$) and with inertial forces/torques ($\bs{R}^*$ and
+$\bs{T}^*$).
 
 The resultant force at a point is defined as the sum of all force vectors
 acting directly on that point. The resultant torque on a reference frame is
 defined similarly -- it is the sum of all torque vectors acting on that
 reference frame. Distance forces do not need to be transformed into a resultant
 force/torque pair for any components of the system; they only need to be
-considered at the point of application (e.g., if a force $\bar{f}$ is the only
-force applied to body $B$ at point $Q$, then $\bar{R}_{B^*}=0$ and
-$\bar{T}_B=0$ but $\bar{R}_Q=\bar{f}$). The generalized active forces are
-\begin{equation}
+considered at the point of application (e.g., if a force $\bs{f}$ is the only
+force applied to body $B$ at point $Q$, then $\bs{R}_{B^*}=0$ and
+$\bs{T}_B=0$ but $\bs{R}_Q=\bs{f}$). The generalized active forces are
+\begin{multline}
 \label{eq:definition_F}
-\mathbf{F} =
 \begin{bmatrix}
-\displaystyle \sum_{i=1}^g \bar{R}_{B^*_i} \cdot {^N}\bar{v}^{B^*_i}_1 +
-\sum_{i=1}^h \bar{R}_{P_i} \cdot {^N}\bar{v}^{P_i}_1 +
-\sum_{i=1}^k \bar{R}_{Q_i} \cdot {^N}\bar{v}^{Q_i}_1 +
-\sum_{i=1}^g \bar{T}_{B_i} \cdot {^N}\bar{\omega}^{B_i}_1 +
-\sum_{i=1}^c \bar{T}_{E_i} \cdot {^N}\bar{\omega}^{E_i}_1 \\
-\displaystyle \sum_{i=1}^g \bar{R}_{B^*_i} \cdot {^N}\bar{v}^{B^*_i}_2 +
-\sum_{i=1}^h \bar{R}_{P_i} \cdot {^N}\bar{v}^{P_i}_2 +
-\sum_{i=1}^k \bar{R}_{Q_i} \cdot {^N}\bar{v}^{Q_i}_2 +
-\sum_{i=1}^g \bar{T}_{B_i} \cdot {^N}\bar{\omega}^{B_i}_2 +
-\sum_{i=1}^c \bar{T}_{E_i} \cdot {^N}\bar{\omega}^{E_i}_2 \\
+\displaystyle \sum_{i=1}^g \bs{R}_{B^*_i} \cdot {^N}\bs{v}^{B^*_i}_1 +
+\sum_{i=1}^h \bs{R}_{P_i} \cdot {^N}\bs{v}^{P_i}_1 +
+\sum_{i=1}^k \bs{R}_{Q_i} \cdot {^N}\bs{v}^{Q_i}_1 +
+\sum_{i=1}^g \bs{T}_{B_i} \cdot {^N}\bs{\omega}^{B_i}_1 +
+\sum_{i=1}^c \bs{T}_{E_i} \cdot {^N}\bs{\omega}^{E_i}_1 \\
+\displaystyle \sum_{i=1}^g \bs{R}_{B^*_i} \cdot {^N}\bs{v}^{B^*_i}_2 +
+\sum_{i=1}^h \bs{R}_{P_i} \cdot {^N}\bs{v}^{P_i}_2 +
+\sum_{i=1}^k \bs{R}_{Q_i} \cdot {^N}\bs{v}^{Q_i}_2 +
+\sum_{i=1}^g \bs{T}_{B_i} \cdot {^N}\bs{\omega}^{B_i}_2 +
+\sum_{i=1}^c \bs{T}_{E_i} \cdot {^N}\bs{\omega}^{E_i}_2 \\
 \displaystyle \vdots \\
-\displaystyle \sum_{i=1}^g \bar{R}_{B^*_i} \cdot {^N}\bar{v}^{B^*_i}_o +
-\sum_{i=1}^h \bar{R}_{P_i} \cdot {^N}\bar{v}^{P_i}_o +
-\sum_{i=1}^k \bar{R}_{Q_i} \cdot {^N}\bar{v}^{Q_i}_o +
-\sum_{i=1}^g \bar{T}_{B_i} \cdot {^N}\bar{\omega}^{B_i}_o +
-\sum_{i=1}^c \bar{T}_{E_i} \cdot {^N}\bar{\omega}^{E_i}_o
-\end{bmatrix}
-\end{equation}
+\displaystyle \sum_{i=1}^g \bs{R}_{B^*_i} \cdot {^N}\bs{v}^{B^*_i}_o +
+\sum_{i=1}^h \bs{R}_{P_i} \cdot {^N}\bs{v}^{P_i}_o +
+\sum_{i=1}^k \bs{R}_{Q_i} \cdot {^N}\bs{v}^{Q_i}_o +
+\sum_{i=1}^g \bs{T}_{B_i} \cdot {^N}\bs{\omega}^{B_i}_o +
+\sum_{i=1}^c \bs{T}_{E_i} \cdot {^N}\bs{\omega}^{E_i}_o
+\end{bmatrix}\\
+=F
+\end{multline}
 
-We now define the inertia forces and torques, $\bar{R}^*$ and $\bar{T}^*$. We
+We now define the inertia forces and torques, $\bs{R}^*$ and $\bs{T}^*$. We
 leave out the inertial frame $N$ from the expressions; it is assumed to be $N$.
 The inertia force for particle $P$ is
 \begin{align}
 \label{eq:particle_gen_inertia}
-\bar{R}^*_P \triangleq -m_P {^N}\bar{a}^P
+\bs{R}^*_P \triangleq -m_P {^N}\bs{a}^P
 \end{align}
 while the inertia force and inertia torque for rigid body $B$ is
 \begin{align}
 \label{eq:rb_translational_gen_inertia}
-\bar{R}^*_{B^*} &\triangleq -m_B {^N}\bar{a}^{B^*} \\
+\bs{R}^*_{B^*} &\triangleq -m_B {^N}\bs{a}^{B^*} \\
 \label{eq:rb_rotational_gen_inertia}
-\bar{T}^*_B &\triangleq -{^N}\bar{\alpha}^B \cdot \bar{\bar{I}}^{B/B^*} -
-{^N}\bar{\omega}^B \times \bar{\bar{I}}^{B/B^*} \cdot {^N}\bar{\omega}^B
+\bs{T}^*_B &\triangleq -{^N}\bs{\alpha}^B \cdot \bs{I}^{B/B^*} -
+{^N}\bs{\omega}^B \times \bs{I}^{B/B^*} \cdot {^N}\bs{\omega}^B
 \end{align}
-Where $\bar{\bar{I}}^{B/B^*}$ is the central inertia dyadic of the rigid body
-$B$ about its mass center $B^*$ \cite{Kane1985}. The generalized inertia forces
+Where $\bs{I}^{B/B^*}$ is the central inertia dyadic of the rigid body
+$B$ about its mass center $B^*$~\cite{Kane1985}. The generalized inertia forces
 are
 \begin{equation}
 \label{eq:definition_Fstar}
 \mathbf{F}^* =
 \begin{bmatrix}
-\displaystyle \sum_{i=1}^g \bar{R}^*_{B^*_i} \cdot {^N}\bar{v}^{B^*_i}_1 +
-\sum_{i=1}^h \bar{R}^*_{P_i} \cdot {^N}\bar{v}^{P_i}_1 +
-\sum_{i=1}^g \bar{T}^*_{B_i} \cdot {^N}\bar{\omega}^{B_i}_1 \\
-\displaystyle \sum_{i=1}^g \bar{R}^*_{B^*_i} \cdot {^N}\bar{v}^{B^*_i}_2 +
-\sum_{i=1}^h \bar{R}^*_{P_i} \cdot {^N}\bar{v}^{P_i}_2 +
-\sum_{i=1}^g \bar{T}^*_{B_i} \cdot {^N}\bar{\omega}^{B_i}_2 \\
+\displaystyle \sum_{i=1}^g \bs{R}^*_{B^*_i} \cdot {^N}\bs{v}^{B^*_i}_1 +
+\sum_{i=1}^h \bs{R}^*_{P_i} \cdot {^N}\bs{v}^{P_i}_1 +
+\sum_{i=1}^g \bs{T}^*_{B_i} \cdot {^N}\bs{\omega}^{B_i}_1 \\
+\displaystyle \sum_{i=1}^g \bs{R}^*_{B^*_i} \cdot {^N}\bs{v}^{B^*_i}_2 +
+\sum_{i=1}^h \bs{R}^*_{P_i} \cdot {^N}\bs{v}^{P_i}_2 +
+\sum_{i=1}^g \bs{T}^*_{B_i} \cdot {^N}\bs{\omega}^{B_i}_2 \\
 \displaystyle \vdots \\
-\displaystyle \sum_{i=1}^g \bar{R}^*_{B^*_i} \cdot {^N}\bar{v}^{B^*_i}_o +
-\sum_{i=1}^h \bar{R}^*_{P_i} \cdot {^N}\bar{v}^{P_i}_o +
-\sum_{i=1}^g \bar{T}^*_{B_i} \cdot {^N}\bar{\omega}^{B_i}_o
+\displaystyle \sum_{i=1}^g \bs{R}^*_{B^*_i} \cdot {^N}\bs{v}^{B^*_i}_o +
+\sum_{i=1}^h \bs{R}^*_{P_i} \cdot {^N}\bs{v}^{P_i}_o +
+\sum_{i=1}^g \bs{T}^*_{B_i} \cdot {^N}\bs{\omega}^{B_i}_o
 \end{bmatrix}
 \end{equation}
 
@@ -377,113 +375,108 @@ constraints. However, these $o-m$ equations generally involve all $o$ speeds
 (we assume the dependent speeds and their time derivatives have \textit{not}
 been algebraically eliminated). In order to obtain the nonholonomic dynamical
 equations, however, a choice must be made as to which speeds will be dependent.
-The methods for doing this are outside the scope of this paper, but it is
-important that whatever selection is made avoids singularities which can occur
-in certain configurations or sets of system parameters. For a careful treatment
-of this, we encourage the reader to examine the work of Reckdahl
-\cite{Reckdahl1996}.
+The methods for doing this are described extensively in~\cite{Reckdahl1996} and
+described briefly in \autoref{model:dynamics}.
 
-We assume the $o$ generalized speeds are ordered $\mathbf{u} = [\mathbf{u}_i,
-\mathbf{u}_d]^T$, where $\mathbf{u}_i\in\mathbf{R}^{o-m}$ and
-$\mathbf{u}_d\in\mathbf{R}^{m}$ are the independent and dependent speeds,
-respectively. The velocity constraint Jacobian matrix $B$ can be similarly
-rearranged as $\mathbf{B} = [\mathbf{B}_i, \mathbf{B}_d]$, where
-$\mathbf{B}_i\in \mathbf{R}^{m \times o-m}$ and $\mathbf{B}_d \in \mathbf{R}^{m
-\times m}$. With this in mind, equation (\ref{eq:constraint_Bu0}) can be
-written as
+We assume the $o$ generalized speeds are ordered $u = [u_i, u_d]^T$, where
+$u_i\in\mathbb{R}^{o-m}, u_d\in\mathbb{R}^{m}$ are the independent and
+dependent speeds, respectively. The velocity constraint Jacobian matrix $B$ can
+be similarly rearranged as $B = [B_i, B_d]$, where $B_i\in \mathbb{R}^{m \times
+o-m}$ and $B_d \in \mathbb{R}^{m \times m}$. With this in mind, equation
+(\ref{eq:constraint_Bu0}) can be written as
 \begin{align}
-\mathbf{B}_i \mathbf{u}_i + \mathbf{B}_d \mathbf{u}_d + \mathbf{f}_{vt}(\mathbf{q}, t) &= \mathbf{0} \\
-\implies \mathbf{u}_d &= -\mathbf{B}_d^{-1} \mathbf{B}_i \mathbf{u}_i - \mathbf{f}_{vt}(\mathbf{q}, t)
+{B}_i {u}_i + {B}_d {u}_d + f_{vt}({q}, t) &= 0 \\
+\implies {u}_d &= -{B}_d^{-1} {B}_i {u}_i - f_{vt}({q}, t)
 \end{align}
 For convenience, we define
 \begin{align}
 \label{eq:constraint_A}
-\mathbf{A} \triangleq - \mathbf{B}_{d}^{-1} \mathbf{B}_i
+A \triangleq - B_{d}^{-1} {B}_i
 \end{align}
-and note that $\mathbf{A}\in\mathbf{R}^{m \times (o - m)}$. To constrain the
+and note that $A\in\mathbb{R}^{m \times (o - m)}$. To constrain the
 generalized active and inertia forces, we partitioned them in a similar
 manner
 \begin{align}
 \label{eq:F_Fstar_rewrite}
-\mathbf{F} = \begin{bmatrix} \mathbf{F}_i \\ \mathbf{F}_d \end{bmatrix} \quad
-\quad \mathbf{F}^* = \begin{bmatrix} \mathbf{F}^*_i \\ \mathbf{F}^*_d
+F = \begin{bmatrix} F_i \\ F_d \end{bmatrix} \quad
+\quad F^* = \begin{bmatrix} F^*_i \\ F^*_d
 \end{bmatrix}
 \end{align}
-allowing the nonholonomic generalized forces to be written:
+where $F_i, F_i^*\in\mathbb{R}^{o-m}, F_d, F_d^*\in\mathbb{R}^{m}$, allowing
+the nonholonomic generalized forces to be written as
 \begin{align}
 \label{eq:F_Fstar_nonholonomic}
-\tilde{\mathbf{F}} = \mathbf{F}_i + \mathbf{A}^T \mathbf{F}_d \quad \quad
-\tilde{\mathbf{F}}^* = \mathbf{F}_i^* + \mathbf{A}^T \mathbf{F}_d^*
+\tilde{F} = F_i + A^T F_d \quad \quad
+\tilde{F}^* = F_i^* + A^T F_d^*
 \end{align}
-which allows Kane's nonholonomic dynamical equations to be written as
+where $\tilde{F}, \tilde{F}^*\in\mathbb{R}^{o-m}$ are the nonholonomic
+generalized active and nonholonomic generalized inertia forces, respectively.
+This allows Kane's nonholonomic dynamical equations to be written as
 \begin{align}
 \label{eq:kanes_eq_nonholonomic}
-\tilde{\mathbf{F}} + \tilde{\mathbf{F}}^* = \mathbf{0}
+\tilde{F} + \tilde{F}^* = 0
 \end{align}
 This process of constraining the equations of motion reduces the number of
-equations from $o$ to $o-m$. However, the (\ref{eq:kanes_eq_nonholonomic}) still
-contain $o$ unknowns ($\dot{\mathbf{u}}_1,...,\dot{\mathbf{u}}_o$). By
-augmenting (\ref{eq:kanes_eq_nonholonomic}) with the acceleration constraint
-equations (\ref{eq:acceleration_constraints}), we obtain $o$ equations in
-$o$ unknowns. Note that equations (\ref{eq:kanes_eq_nonholonomic}) and
+equations from $o$ to $o-m$. However, the (\ref{eq:kanes_eq_nonholonomic})
+still contain $o$ unknowns ($\dot{u}_1,...,\dot{u}_o$). By augmenting
+(\ref{eq:kanes_eq_nonholonomic}) with the acceleration constraint equations
+(\ref{eq:acceleration_constraints}), we obtain $o$ equations in $o$ unknowns.
+Note that equations (\ref{eq:kanes_eq_nonholonomic}) and
 (\ref{eq:acceleration_constraints}) are linear in the $\dot{u}_i$'s. The
 augmented system of equations is
 \begin{align}
 \label{eq:F_Fstar_f_a}
 \begin{bmatrix}
-\tilde{\mathbf{F}} + \tilde{\mathbf{F}}^* \\
-\mathbf{f}_a (\mathbf{q}, \dot{\mathbf{q}}, \mathbf{u}, \dot{\mathbf{u}}, t)
-\end{bmatrix} = \mathbf{0}
+\tilde{F} + \tilde{F}^* \\
+f_a (q, \dot{q}, u, \dot{u}, t)
+\end{bmatrix} = 0
 \end{align}
 
 For convenience, we summarize the critical equations in Table
 \ref{table:assumptions}.
-
-% This is incomplete unless we mention the kinematic equations so I am leaving
-% it out for now. I think we have stated this earlier.
-%With regards to obtaining linearized equations, it is
-%critical to note that solving equations (\ref{eq:F_Fstar_f_a}) for the
-%$\dot{\mathbf{u}}$'s, 
-%with respect to $\mathbf{u}_i$ does not give the correct linear equations. The
-%reasons for this will be covered later.
-
-%TODO: Expand on r (exogenous inputs)
 \begin{table}[htbp]
   \centering
-  \caption{Constrained multibody system governing definitions and equations}
-  \label{table:assumptions}
   \begin{tabular}[c]{l l l}
-    Quantity & Shape & Description\\
-    \hline
-    $\bm{q},\bm{\dot{q}}$ & $\mathbf{R}^n$ & Coordinates and their time
-    derivatives\\
-    $\bm{u}, \bm{\dot{u}}$ & $\mathbf{R}^o$ & Speeds and their time derivatives\\
-    $\bm{r}$ & $\mathbf{R}^s$ & Exogenous inputs \\
+    \toprule
+    Quantity & Space & Description\\
+    \midrule
+    $q,\dot{q}$ & $\mathbb{R}^n$ & Coordinates and their time derivatives\\
+    $u, \dot{u}$ & $\mathbb{R}^o$ & Speeds and their time derivatives\\
+    $r$ & $\mathbb{R}^s$ & Exogenous inputs \\
+    \bottomrule
   \end{tabular}
   \begin{tabular}[c]{r @{ $=$ } l l}
     \multicolumn{3}{c}{ } \\
+    \toprule
     \multicolumn{2}{c}{Equation} & Description \\
-    \hline
-    $\bm{f}_{c}(\bm{q}, t)$ & $\bm{0}_{l \times 1}$ & Configuration constraints \\
-    $\bm{f}_{v}(\bm{q}, \bm{u}, t)$ & $\bm{0}_{m \times 1}$ & Velocity constraints \\
-    $\bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t)$ & $\bm{0}_{m
-    \times 1}$ & Acceleration constraints \\
-    $\bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) + \bm{f}_{1}(\bm{q}, \bm{u}, t)$ &
-    $\bm{0}_{n \times 1}$ & Kinematic differential equations \\
-    $\bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) + \bm{f}_{3}(\bm{q}, \bm{\dot{q}},
-    \bm{u}, \bm{r}, t)$ & $\bm{0}_{(o - m) \times 1}$ & Dynamic differential equations
+    \midrule
+    $f_{c}(q, t)$ & $0$ & Configuration constraints \\
+    $f_{v}(q, u, t)$ & $0$ & Velocity constraints \\
+    $f_{a}(q, \dot{q}, u, \dot{u}, t)$ & $0$ & Acceleration constraints \\
+    $f_{0}(q, \dot{q}, t) + f_{1}(q, u, t)$ &
+    $0$ & Kinematic differential equations \\
+    $f_{2}(q, \dot{u}, t) + f_{3}(q, \dot{q}, u, r, t)$ & $0$ & Dynamic differential equations\\
+    \bottomrule
   \end{tabular}
+  \caption{Constrained multibody system governing definitions and equations}
+  \label{table:assumptions}
 \end{table}
 
-The only new terms are $\mathbf{f}_0$, $\mathbf{f}_1$, $\mathbf{f}_2$, and
-$\mathbf{f}_3$.  The kinematic differential equations are split up into the
-quantities $\mathbf{f}_0$ and $\mathbf{f}_1$, depending on whether each term
-has a $\mathbf{u}$ or $\dot{\mathbf{q}}$ present.  The same is true for
-$\mathbf{f}_2$ and $\mathbf{f}_3$; if a term contains a $\dot{\mathbf{u}}$ it
-is placed into $\mathbf{f}_2$ and if not it is placed into $\mathbf{f}_3$. The
-motivation for this organizational scheme will be made apparent in Section
-\ref{sec:derivations}.
-
+The only new terms are $f_0$, $f_1$, $f_2$, and $f_3$. These terms are
+introduced for notational convenience when deriving the linearization
+procedure. The $n$ kinematic differential equations are arranged so all terms
+appear to the left of the equality and arranged into
+$f_0:\mathbb{R}^{n}\times\mathbb{R}^{n}\times\mathbb{R}\mapsto\mathbb{R}^n$ and
+$f_0:\mathbb{R}^{n}\times\mathbb{R}^{o}\times\mathbb{R}\mapsto\mathbb{R}^n$,
+depending on whether each term has a ${u}$ or $\dot{q}$ present. The same
+organizational scheme is applied to the $o-m$ dynamic differential equations,
+where
+$f_2:\mathbb{R}^n\times\mathbb{R}^o\times\mathbb{R}\times\mapsto\mathbb{R}^{o-m}$
+and
+$f_3:\mathbb{R}^n\times\mathbb{R}^n\times\mathbb{R}^o\times\mathbb{R}^s\times\mathbb{R}\times\mapsto\mathbb{R}^{o-m}$;
+if a term contains a $\dot{u}$ it is placed into $f_2$ and if not it is placed
+into $f_3$. The motivation for this organizational scheme will be made apparent
+in Section \ref{sec:derivations}.
 
 \section{Dynamics Example}
 \label{sec:example}
@@ -516,7 +509,7 @@ accounted for when linearizing the equations of motion, we purposefully locate
 the center of the disk $C^*$ relative to the inertial origin $N^*$ with a
 non-minimal choice of coordinates
 \begin{equation*}
-  \bar{r}^{C^*/N^*} = q_4 \hat{n}_x + q_5 \hat{n}_y + q_6 \hat{n}_z
+  \bs{r}^{C^*/N^*} = q_4 \uv{n}{x} + q_5 \uv{n}{y} + q_6 \uv{n}{z}{n}
 \end{equation*}
 which results in the configuration constraint $\mathbf{f}_c$
 \begin{equation}
@@ -535,36 +528,38 @@ The angular velocity of $C$ in $N$, however, is defined in the intermediate
 lean frame $B$.
 \begin{align}
   \label{v_u}
-  {^N}\bar{v}^{C^*} &= u_4 \hat{c}_x + u_5 \hat{c}_y + u_6 \hat{c}_z \\
+  {^N}\bs{v}^{C^*} &= u_4 \uv{c}{x} + u_5 \uv{c}{y} + u_6 \uv{c}{z} \\
   \label{w_u}
-  {^N}\bar{\omega}^C &= u_1 \hat{b}_x + u_2 \hat{b}_y + u_3 \hat{b}_z
+  {^N}\bs{\omega}^C &= u_1 \uv{b}{x} + u_2 \uv{b}{y} + u_3 \uv{b}{z}
 \end{align}
 The unconstrained partial angular velocity and partial velocity of $C^*$,
 respectively, are
 \begin{align}
-  {^N}\bar{v}^{C^*}_u &= [0, 0, 0, \hat{c}_x, \hat{c}_y, \hat{c}_z] \\
-  {^N}\bar{\omega}^C_u &= [\hat{b}_x, \hat{b}_y, \hat{b}_z, 0, 0, 0]
+  {^N}\bs{v}^{C^*}_u &= [\bs{0}, \bs{0}, \bs{0}, \uv{c}{x}, \uv{c}{y}, \uv{c}{z}] \\
+  {^N}\bs{\omega}^C_u &= [\uv{b}{x}, \uv{b}{y}, \uv{b}{z}, \bs{0}, \bs{0}, \bs{0}]
 \end{align}
 where we present the partial velocities as a $1\times6$ matrix whose entries
 are populated with standard 3-vectors. Given these definitions, the velocity of
 the lowest point of the disk $P^*$ is
 \begin{align*}
-    {^N}\bm{v}^{P^*} &= \bm{v}^{C^*} + \bm{\omega}^{C} \times r^{P^*/C^*} \\
-                     &= u_4\hat{c}_x + u_5\hat{c}_y + u_6\hat{c}_z + r u_2
-                        \hat{b}_x - r u_1 \hat{b}_y \\
-                     &= (r u_2 \cos(q_3) + u_4) \hat{c}_x + (-r
-                        u_1 + u_5)\hat{c}_y + r u_2 \sin(q_3) +
-                        u6) \hat{c}_z
+  {^N}\bs{v}^{P^*} &= \bs{v}^{C^*} + \bs{\omega}^{C} \times \bs{r}^{P^*/C^*} \\
+  &= u_4\uv{c}{x} + u_5\uv{c}{y} + u_6\uv{c}{z} + r u_2
+  \uv{b}{x} - r u_1 \uv{b}{y} \\
+  &= (r u_2 \cos(q_3) + u_4) \uv{c}{x} + (-r u_1 + u_5)\uv{c}{y} + (r u_2 \sin(q_3) +
+  u_6) \uv{c}{z}
 \end{align*}
 where we have made use of the fact that $\bm{r}^{P^*/C^*} = r\bm{b}_z$.
 Under the assumption of pure rolling this immediately yields three velocity
-constraint equations which make up $\mathbf{f}_v = \mathbf{0}$
+constraint equations which make up $f_v(q, u, t) = 0$
 \begin{subequations}
 \label{rd:f_v}
 \begin{align}
-    r u_2 \cos(q_3) + u_4 &= 0\\
-            -r u_1 + u_5 &= 0\\
-    r u_2 \sin(q_3) + u_6 &= 0
+  \begin{bmatrix}
+    r u_2 \cos(q_3) + u_4 \\
+    -r u_1 + u_5 \\
+    r u_2 \sin(q_3) + u_6 \\
+  \end{bmatrix} &=
+  \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}
 \end{align}
 \end{subequations}
 These equations are linear in the $u_i$ terms, nonlinear in the $q_i$ terms,
@@ -577,7 +572,7 @@ wondering why we have chosen such a diabolical set of coordinates and speeds.
 In this simple example, there is an {\bf \textit{obvious and minimal}} choice of
 coordinates and speeds ($q_6, u_4, u_5, u_6$, should be dependent; this choice
 will be valid for all parameters and configurations; further, the derivation of
-the equations of motion can be done without ever introducing these quantities),
+the equations of motion can be done without ever introducing dependent quantities),
 for some systems this is not the case (e.g., Stewart's platform, bicycle). The
 numeric values of system parameters and the configurations in which the system
 will operate will determine which coordinates and speeds can be taken to be
@@ -594,15 +589,18 @@ simple example, readers can apply the same techniques to more complicated
 systems where its use is more appropriate or necessary.
 
 Time differentiating the velocity constraint equations yields the acceleration
-constraint equations, $\mathbf{f}_a = \mathbf{0}$, written out as:
+constraint equations, $f_a(q, \dot{q}, u, \dot{u}, t) = 0$
 \begin{subequations}
 \label{rd:f_a}
 \begin{align}
-    -r u_{2} \sin(q_{3}) \dot{q}_{3} + r \cos(q_{3}) \dot{u}_{2} + \dot{u}_{4} &=
-    0\\
-    - r \dot{u}_{1} + \dot{u}_{5} &= 0\\
-    r u_{2} \cos(q_{3}) \dot{q}_{3} + r \sin(q_{3}) \dot{u}_{2} + \dot{u}_{6} &=
-    0
+  \begin{bmatrix}
+    -r u_{2} \sin(q_{3}) \dot{q}_{3} + r \cos(q_{3}) \dot{u}_{2} + \dot{u}_{4}
+    \\
+    - r \dot{u}_{1} + \dot{u}_{5} \\
+    r u_{2} \cos(q_{3}) \dot{q}_{3} + r \sin(q_{3}) \dot{u}_{2} + \dot{u}_{6}
+  \end{bmatrix}
+  &=
+  \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}
 \end{align}
 \end{subequations}
 which must also be satisfied during general motions. There are two types of
@@ -611,18 +609,18 @@ terms involving $\dot{q}_i$'s, $u_i$'s, and $q_i$'s. This structure will be
 taken advantage of subsequently.
 
 The kinematic differential equations relate the time derivatives of the
-coordinates and the generalized speeds. They are obtained by equating the
-velocities written using time-differentiated generalized coordinates and the
-velocities written using generalized speeds. From the addition theorem for
-angular velocity, the angular velocity of $C$ is
+coordinates and the generalized speeds. They are obtained by equating
+velocities expressed in terms of time-differentiated generalized coordinates
+with velocities expressed in terms of generalized speeds. From the addition
+theorem for angular velocity, the angular velocity of $C$ is
 \begin{equation}
   \label{w_qdot}
-  {^N}\bar{\omega}^C = \dot{q}_1 \hat{n}_z + \dot{q}_2 \hat{a}_x + \dot{q}_3 \hat{b}_y
+  {^N}\bs{\omega}^C = \dot{q}_1 \uv{n}{z} + \dot{q}_2 \uv{a}{x} + \dot{q}_3 \uv{b}{y}
 \end{equation}
 while time differentiating $r^{C^*}$ in $N$ yields
 \begin{equation}
   \label{v_qdot}
-  \bar{v}^{C^*} = \dot{q}_4 \hat{n}_x + \dot{q}_5 \hat{n}_y + \dot{q}_6 \hat{n}_z
+  \bs{v}^{C^*} = \dot{q}_4 \uv{n}{x} + \dot{q}_5 \uv{n}{y} + \dot{q}_6 \uv{n}{z}
 \end{equation}
 Equating (\ref{w_u}) with (\ref{w_qdot}) and (\ref{v_u}) with (\ref{v_qdot}),
 and resolving these vector equations into the $B$ frame, and rearranging so
@@ -631,78 +629,76 @@ that all terms appear to the left of the equality sign, we obtain
     \label{rd:f_0_f_1}
 \underbrace{\left[\begin{matrix}\dot{q}_{2}\\\sin\left(q_{2}\right)
     \dot{q}_{1} + \dot{q}_{3}\\\cos\left(q_{2}\right)
-    \dot{q}_{1}\\\dot{q}_{4}\\\dot{q}_{5}\\\dot{q}_{6}\end{matrix}\right]}_{\mathbf{f}_0}
+    \dot{q}_{1}\\\dot{q}_{4}\\\dot{q}_{5}\\\dot{q}_{6}\end{matrix}\right]}_{f_0}
     + 
 \underbrace{\left[\begin{matrix}- u_{1}\\- u_{2}\\- u_{3}\\r u_{1}
     \sin\left(q_{1}\right) \cos\left(q_{2}\right) +
     r u_{2} \cos\left(q_{1}\right)\\- r u_{1}
     \cos\left(q_{1}\right) \cos\left(q_{2}\right) +
     r u_{2} \sin\left(q_{1}\right)\\- r u_{1}
-    \sin\left(q_{2}\right)\end{matrix}\right]}_{\mathbf{f}_1}
+    \sin\left(q_{2}\right)\end{matrix}\right]}_{f_1}
     = \left[\begin{matrix} 0\\ 0\\ 0\\ 0\\ 0\\ 0\end{matrix}\right]
 \end{align}
-The translation acceleration of $C^*$ and the angular acceleration of $C$,
+The translational acceleration of $C^*$ and the angular acceleration of $C$,
 relative to $N$, are
 \begin{align}
-    {^N}\bar{a}^{C^*} =& (-(u_1 \sin(q_3) + u_3 \cos(q_3)) u_5 + u_2 u_6 +
-                         \dot{u}_4) \hat{c}_x \notag \\
+    {^N}\bs{a}^{C^*} =& (-(u_1 \sin(q_3) + u_3 \cos(q_3)) u_5 + u_2 u_6 +
+    \dot{u}_4) \uv{c}{x} \notag \\
                       & + ((u_1 \sin(q_3) + u_3 \cos(q_3)) u_4 - (u_1
-                         \cos(q_3) - u_3 \sin(q_3)) u_6 + \dot{u}_5) \hat{c}_y
+                      \cos(q_3) - u_3 \sin(q_3)) u_6 + \dot{u}_5) \uv{c}{y}
                          \notag\\
                       & + ((u_1 \cos(q_3) - u_3 \sin(q_3)) u_5 - u_2 u_4 +
-                         \dot{u}_6) \hat{c}_z \\
-    {^N}\bar{\alpha}^{C} =& (-u_2 u_3 + u_3^2 \tan(q_2) + \dot{u}_1) \hat{b}_x
-                         + \dot{u}_2 \hat{b}_y + (u_1 u_2 - u_1 u_3 \tan(q2) +
-                         \dot{u}_3) \hat{b}_z
+                      \dot{u}_6) \uv{c}{z} \\
+                      {^N}\bs{\alpha}^{C} =& (-u_2 u_3 + u_3^2 \tan(q_2) + \dot{u}_1) \uv{b}{x}
+                      + \dot{u}_2 \uv{b}{y} + (u_1 u_2 - u_1 u_3 \tan(q2) +
+                      \dot{u}_3) \uv{b}{z}
 \end{align}
 
-As stated, the mass of the disk is $m$, and the inertia dyadic of the disk can
-be written as
+The mass of the disk is $m$, and the inertia dyadic of the disk can is
 \begin{align}
-    \bar{\bar{\mathbf{I}}}^{C/C^*} = \frac{m r^2}{4} \hat{c}_x\hat{c}_x +
-    \frac{m r^2}{2} \hat{c}_y\hat{c}_y + \frac{m r^2}{4} \hat{c}_z\hat{c}_z
+  \bs{\mathbf{I}}^{C/C^*} = \frac{m r^2}{4} \uv{c}{x}\uv{c}{x} +
+    \frac{m r^2}{2} \uv{c}{y}\uv{c}{y} + \frac{m r^2}{4} \uv{c}{z}\uv{c}{z}
 \end{align}
 Using equations (\ref{eq:rb_translational_gen_inertia}) and
-(\ref{eq:rb_rotational_gen_inertia}), $\bar{R}^*_{C^*}$ and $\bar{T}^*_C$ can be
+(\ref{eq:rb_rotational_gen_inertia}), $\bs{R}^*_{C^*}$ and $\bs{T}^*_C$ can be
 written.
 \begin{align}
-    \bar{R}^*_{C^*} =& - m (- (u_{1} \sin(q_{3}) + u_{3}
+    \bs{R}^*_{C^*} =& - m (- (u_{1} \sin(q_{3}) + u_{3}
                        \cos(q_{3})) u_{5} + u_{2} u_{6} +
-                       \dot{u}_{4}) \hat{c}_x \notag \\
+                       \dot{u}_{4}) \uv{c}{x} \notag \\
                      & - m ((u_{1} \sin(q_{3}) + u_{3}
                        \cos(q_{3})) u_{4} - (u_{1}
                        \cos(q_{3}) - u_{3}
                        \sin(q_{3})) u_{6} + \dot{u}_{5})
-                       \hat{c}_y \notag \\
+                       \uv{c}{y} \notag \\
                      & - m ((u_{1} \cos(q_{3}) - u_{3}
                        \sin(q_{3})) u_{5} - u_{2} u_{4} +
-                   \dot{u}_{6}) \hat{c}_z \\
-    \bar{T}^*_C =& \frac{m r^{2}}{4} (2 u_{1} u_{2} \sin(q_{3})
+                   \dot{u}_{6}) \uv{c}{z} \\
+    \bs{T}^*_C =& \frac{m r^{2}}{4} (2 u_{1} u_{2} \sin(q_{3})
                    - u_{1} u_{3} \sin(q_{3}) \tan(q_{2})
                    + 2 u_{2} u_{3} \cos(q_{3}) \notag\\&\quad\quad- u_{3}^2
                    \cos(q_{3}) \tan(q_{2}) +
                    \sin(q_{3}) \dot{u}_{3} - \cos(q_{3})
-                   \dot{u}_{1}) \hat{c}_x \notag \\
-                 & - \frac{m r^{2}}{2} \dot{u}_{2} \hat{c}_y \notag \\
+                   \dot{u}_{1}) \uv{c}{x} \notag \\
+                 & - \frac{m r^{2}}{2} \dot{u}_{2} \uv{c}{y} \notag \\
                  & + \frac{m r^{2}}{4} (- 2 u_{1} u_{2}
                    \cos(q_{3}) + u_{1} u_{3} \cos(q_{3})
                    \tan(q_{2}) + 2 u_{2} u_{3}
                    \sin(q_{3}) \notag\\&\quad\quad - u_{3}^2 \sin(q_{3})
                    \tan(q_{2}) - \sin(q_{3}) \dot{u}_{1}
-                   - \cos(q_{3}) \dot{u}_{3}) \hat{c}_z
+                   - \cos(q_{3}) \dot{u}_{3}) \uv{c}{z}
 \end{align}
 
-The generalized active forces for this example are
+The active forces and active torques are
 \begin{align}
-    \bar{R}_{C^*} &= m g \hat{n}_z \\
-    \bar{T}_C &= 0
+  \bs{R}_{C^*} &= m g \uv{n}{z} \\
+  \bs{T}_C &= \bs{0}
 \end{align}
 
 Equations (\ref{eq:definition_F}), (\ref{eq:definition_Fstar}), and
-(\ref{eq:kanes_eq}) can be used to construct the equations of motion.
-For brevity, we omit the results of each step involved, and only write the
-results, after they have been partitioned into the $\mathbf{f}_2$ and
-$\mathbf{f}_3$ vectors.
+(\ref{eq:kanes_eq}) can be used to construct the equations of motion.  For
+brevity, we omit the results of each step involved, and only write the results,
+after they have been partitioned into the $f_2$ and $f_3$ vectors.
 \begin{align}
     \label{rd:f_2_f_3}
     & \left[\begin{matrix} 0\\ 0\\ 0\end{matrix}\right] =
@@ -710,7 +706,7 @@ $\mathbf{f}_3$ vectors.
                 \dot{u}_{5}\right)\\\frac{m r}{2} \left(- r \dot{u}_{2} + 2
                 \sin\left(q_{3}\right) \dot{u}_{6} + 2 \cos\left(q_{3}\right)
                 \dot{u}_{4}\right)\\- \frac{m r^{2}}{4}
-                \dot{u}_{3}\end{matrix}\right]}_{\mathbf{f}_2} + \notag\\
+                \dot{u}_{3}\end{matrix}\right]}_{f_2} + \notag\\
     &\underbrace{\left[\begin{matrix}
                 m r \left( g \sin(q_2) - u_1 u_4 \sin(q_3) + u_1 u_6 \cos(q_3)
                     + (\frac{r u_2}{2} - \frac{r u_3}{4} \tan(q_2) - u_4
@@ -719,7 +715,7 @@ $\mathbf{f}_3$ vectors.
                 \sin\left(q_{3}\right) + u_{2} u_{6}
                 \cos\left(q_{3}\right) - u_{3} u_{5}\right)\\\frac{m r^{2}}{4}
                 \left(- 2 u_{2} + u_{3} \tan\left(q_{2}\right)\right)
-                u_{1}\end{matrix}\right]}_{\mathbf{f}_3} 
+                u_{1}\end{matrix}\right]}_{f_3} 
 \end{align}
 
 The twelve unknown quantities appearing in the nine kinematic and dynamic
@@ -738,14 +734,14 @@ equations can be written.
 The naive approach to linearizing these equations of motion would be to solve
 for the ($\dot{q}_i$, $\dot{u}_i$) terms to construct the right-hand side of
 \begin{align}
-\begin{bmatrix}\dot{\mathbf{q}} \\ \dot{\mathbf{u}}\end{bmatrix} =
-    \mathbf{f}(\mathbf{q}, \mathbf{u}, t)
+\begin{bmatrix}\dot{{q}} \\ \dot{{u}}\end{bmatrix} =
+    \mathbf{f}({q}, {u}, t)
 \end{align}
-and take the Jacobian of $\mathbf{f}$ with respect to $[\mathbf{q} \quad
-\mathbf{u}]^T$. However, this will give incorrect results. As discussed in
-\cite{Schwab2003}, when $m, r,$ and $g$ are taken to be unity, and the system
-is linearized about the upright steady rolling condition, the critical speed is
-$v \triangleq -r\dot{q}_3 =\pm\frac{1}{\sqrt{3}}$. When following the naive approach, and
+and take the Jacobian of $\mathbf{f}$ with respect to $[{q} \quad {u}]^T$.
+However, this will give incorrect results. As discussed in~\cite{Schwab2003},
+when $m, r,$ and $g$ are taken to be unity, and the system is linearized about
+the upright steady rolling condition, the critical speed is $v \triangleq
+-r\dot{q}_3 =\pm\frac{1}{\sqrt{3}}$. When following the naive approach, and
 evaluating the Jacobian at the same operating conditions and parameters, eight
 of the twelve eigenvalues are identically zero while the remaining four are
 \begin{align}
@@ -775,9 +771,9 @@ only functions of time, but also functions of the independent coordinates and
 independent speeds. These dependent terms should in fact be written as
 \begin{align}
 \label{eq:q_d_redefined}
-\mathbf{q}_d (t) \to \mathbf{q}_d (\mathbf{q}_i, t) \\
+{q}_d (t) \to {q}_d ({q}_i, t) \\
 \label{eq:u_d_redefined}
-\mathbf{u}_d (t) \to \mathbf{u}_d (\mathbf{q}_i, \mathbf{u}_i, t)
+{u}_d (t) \to {u}_d ({q}_i, {u}_i, t)
 \end{align}
 While this might seem obvious, no previous author appears to make this
 explicitly clear when presenting techniques for symbolically linearizing
@@ -788,79 +784,79 @@ reliably in software is therefore a strong argument for the detailed and
 explicit procedure we present.
 
 We begin with a first order Taylor series expansion of the equations in Table
-\ref{table:assumptions} about $\bm{q}=\bm{q}^*$, $\bm{\dot{q}}=\bm{\dot{q}}^*$,
-$\bm{u}=\bm{u}^*$, $\bm{\dot{u}}=\bm{\dot{u}}^*$, $\bm{r}=\bm{r}^*$; it is
-assumed that all of the equations in Table \ref{table:assumptions} are
-satisfied by these quantities (i.e., the system is in a valid state).  In the
-interest of brevity, we omit writing this point of linearization in each
-gradient in the calculations below; all are evaluated at this point. Expansion
-of the three constraint equations, keeping only first order terms, yields
+\ref{table:assumptions} about $q=q^*$, $\dot{q}=\dot{q}^*$, $u=u^*$,
+$\dot{u}=\dot{u}^*$, $r=r^*$; it is assumed that all of the equations in Table
+\ref{table:assumptions} are satisfied by these quantities (i.e., the system is
+satisfies the constraint equations and Newton's 2nd law).  In the interest of
+brevity, we omit writing this point of linearization in each gradient in the
+calculations below; all are evaluated at this point. Expansion of the three
+constraint equations, keeping only first order terms, yields
 \begin{align}
   \label{eq:configuration_expansion}
-  \bm{f}_{c}(\bm{q}, t) &\approx \underbrace{\bm{f}_{c}(\bm{q}^*, t)}_{\bm{0}} +
-  \nabla_{\bm{q}}\bm{f}_{c} \delta \bm{q}\\
+  f_{c}(q, t) &\approx \underbrace{f_{c}(q^*, t)}_{\bm{0}} +
+  \nabla_{q}f_{c} \delta q\\
   \label{eq:velocity_expansion}
-  \bm{f}_{v}(\bm{q}, \bm{u}, t) &\approx \underbrace{\bm{f}_{v}(\bm{q}^*,
-  \bm{u}^*, t)}_{\bm{0}} +  \nabla_{\bm{q}}\bm{f}_{v} \delta \bm{q} +
-  \nabla_{\bm{u}}\bm{f}_{v} \delta \bm{u} \\
+  f_{v}(q, u, t) &\approx \underbrace{f_{v}(q^*,
+  u^*, t)}_{\bm{0}} +  \nabla_{q}f_{v} \delta q +
+  \nabla_{u}f_{v} \delta u \\
   \label{eq:acceleration_expansion}
-  \bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t) &\approx
-  \underbrace{\bm{f}_{a}(\bm{q}^*, \bm{\dot{q}}^*, \bm{u}^*, \bm{\dot{u}}^*,
-t)}_{\bm{0}} +  \nabla_{\bm{q}}\bm{f}_{a} \delta \bm{q} +
-\nabla_{\bm{\dot{q}}}\bm{f}_{a}
- \delta \bm{\dot{q}} \notag\\
-&+ \nabla_{\bm{u}}\bm{f}_{a} \delta \bm{u} + \nabla_{\bm{\dot{u}}}\bm{f}_{a}
-\delta \bm{\dot{u}}
+  f_{a}(q, \dot{q}, u, \dot{u}, t) &\approx
+  \underbrace{f_{a}(q^*, \dot{q}^*, u^*, \dot{u}^*,
+t)}_{\bm{0}} +  \nabla_{q}f_{a} \delta q +
+\nabla_{\dot{q}}f_{a}
+ \delta \dot{q} \notag\\
+&+ \nabla_{u}f_{a} \delta u + \nabla_{\dot{u}}f_{a}
+\delta \dot{u}
 \end{align}
 The first terms are identically zero because of the assumption that the
 point of linearization satisfies the constraints.  The Taylor series expansion
 of the kinematic differential equations is
 \begin{align}
   \label{eq:f0_expansion}
-  \bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) &\approx \bm{f}_{0}(\bm{q}^*,
-  \bm{\dot{q}}^*, t) + \nabla_{\bm{q}}\bm{f}_{0} \delta\bm{q} +
-  \nabla_{\bm{\dot{q}}}\bm{f}_{0} \delta\bm{\dot{q}}\\
+  f_{0}(q, \dot{q}, t) &\approx f_{0}(q^*,
+  \dot{q}^*, t) + \nabla_{q}f_{0} \delta{q} +
+  \nabla_{\dot{q}}f_{0} \delta\dot{q}\\
   \label{eq:f1_expansion}
-  \bm{f}_{1}(\bm{q}, \bm{u}, t) &\approx \bm{f}_{1}(\bm{q}^*,
-  \bm{u}^*, t) + \nabla_{\bm{q}}\bm{f}_{1} \delta\bm{q} +
-  \nabla_{\bm{u}}\bm{f}_{1} \delta\bm{u}
+  f_{1}(q, u, t) &\approx f_{1}(q^*,
+  u^*, t) + \nabla_{q}f_{1} \delta{q} +
+  \nabla_{u}f_{1} \delta{u}
 \end{align}
 Summing (\ref{eq:f0_expansion}) and (\ref{eq:f1_expansion}) and recognizing
 that the sum of the first term on the right hand side of each equation must
 equal zero, we obtain
 \begin{align}
   \label{eq:f0_plus_f1_expansion}
-  \bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) + \bm{f}_{1}(\bm{q}, \bm{u}, t) &\approx
-  \nabla_{\bm{q}}(\bm{f}_{0} + \bm{f}_{1}) \delta\bm{q} +
-  \nabla_{\bm{\dot{q}}}\bm{f}_{0} \delta\bm{\dot{q}} +
-  \nabla_{\bm{u}}\bm{f}_{1} \delta\bm{u}
+  f_{0}(q, \dot{q}, t) + f_{1}(q, u, t) &\approx
+  \nabla_{q}(f_{0} + f_{1}) \delta{q} +
+  \nabla_{\dot{q}}f_{0} \delta\dot{q} +
+  \nabla_{u}f_{1} \delta{u}
 \end{align}
 Similarly, a Taylor series expansion of the dynamic differential equations, we
 obtain
 \begin{align}
   \label{eq:f2_expansion}
-  \bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) &\approx
-      \bm{f}_{2}(\bm{q}^*, \bm{\dot{u}}^*, t) +
-      \nabla_{\bm{q}}\bm{f}_{2} \delta\bm{q}
-      + \nabla_{\bm{\dot{u}}}\bm{f}_{2} \delta\bm{\dot{u}}\\
-  \bm{f}_{3}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{r}, t) &\approx
-  \bm{f}_{3}(\bm{q}^*, \bm{\dot{q}}^*, \bm{u}^*, \bm{r}^*, t) +
-  \nabla_{\bm{q}}\bm{f}_{3} \delta\bm{q}\notag\\
+  f_{2}(q, \dot{u}, t) &\approx
+      f_{2}(q^*, \dot{u}^*, t) +
+      \nabla_{q}f_{2} \delta{q}
+      + \nabla_{\dot{u}}f_{2} \delta\dot{u}\\
+  f_{3}(q, \dot{q}, u, r, t) &\approx
+  f_{3}(q^*, \dot{q}^*, u^*, r^*, t) +
+  \nabla_{q}f_{3} \delta{q}\notag\\
   \label{eq:f3_expansion}
-  &+ \nabla_{\bm{\dot{q}}}\bm{f}_{3} \delta\bm{\dot{q}}
-  + \nabla_{\bm{u}}\bm{f}_{3} \delta \bm{u}
-  + \nabla_{\bm{r}}\bm{f}_{3} \delta\bm{r}
+  &+ \nabla_{\dot{q}}f_{3} \delta\dot{q}
+  + \nabla_{u}f_{3} \delta u
+  + \nabla_{r}f_{3} \delta{r}
 \end{align}
 Summing (\ref{eq:f2_expansion}) and (\ref{eq:f3_expansion}) and recognizing
 that the sum of the first term on the right hand sides of these equations must
 equal zero, we obtain
 \begin{align}
-  \bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) + \bm{f}_{3}(\bm{q}, \bm{\dot{q}},
-  \bm{u}, \bm{r}, t) &\approx \nabla_{\bm{q}}(\bm{f}_2 + \bm{f}_3)
-  \delta\bm{q} + \nabla_{\bm{\dot{q}}}\bm{f}_{3} \delta\bm{\dot{q}}\notag\\
+  f_{2}(q, \dot{u}, t) + f_{3}(q, \dot{q},
+  u, r, t) &\approx \nabla_{q}(f_2 + f_3)
+  \delta{q} + \nabla_{\dot{q}}f_{3} \delta\dot{q}\notag\\
   \label{eq:f2_plus_f3_expansion}
-  &+ \nabla_{\bm{u}}\bm{f}_{3} \delta\bm{u} +
-  \nabla_{\bm{\dot{u}}}\bm{f}_{2} \delta\bm{\dot{u}} + \nabla_{\bm{r}}\bm{f}_{3} \delta\bm{r}
+  &+ \nabla_{u}f_{3} \delta{u} +
+  \nabla_{\dot{u}}f_{2} \delta\dot{u} + \nabla_{r}f_{3} \delta{r}
 \end{align}
 
 Equating the right hand sides of equations (\ref{eq:f0_plus_f1_expansion}),
@@ -870,18 +866,18 @@ and (\ref{eq:f2_plus_f3_expansion}) to zero (as in Table
 \begin{align}
 \label{eq:quant_to_compute}
   \begin{array}{llcll}
-    \tilde{M}_{qq}  &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_0 & \quad &
-    \tilde{M}_{uqc} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_a \\
-    \tilde{M}_{uuc} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_a & \quad &
-    \tilde{M}_{uqd} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_3 \\
-    \tilde{M}_{uud} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_2 & \quad &
-    \tilde{A}_{qq}  &\triangleq -\nabla_{\bm{q}}(\bm{f}_0 + \bm{f}_1) \\
-    \tilde{A}_{qu}  &\triangleq -\nabla_{\bm{u}}\bm{f}_1 & \quad &
-    \tilde{A}_{uqc} &\triangleq - \nabla_{\bm{q}} \bm{f}_a \\
-    \tilde{A}_{uuc} &\triangleq - \nabla_{\bm{u}} \bm{f}_a & \quad &
-    \tilde{A}_{uqd} &\triangleq - \nabla_{\bm{q}} (\bm{f}_2 + \bm{f}_3) \\
-    \tilde{A}_{uud} &\triangleq - \nabla_{\bm{u}} \bm{f}_3 & \quad &
-    \tilde{B}_{u}   &\triangleq -\nabla_{\bm{r}}\bm{f}_{3}
+    \tilde{M}_{qq}  &\triangleq \nabla_{\dot{q}}f_0 & \quad &
+    \tilde{M}_{uqc} &\triangleq \nabla_{\dot{q}}f_a \\
+    \tilde{M}_{uuc} &\triangleq \nabla_{\dot{u}}f_a & \quad &
+    \tilde{M}_{uqd} &\triangleq \nabla_{\dot{q}}f_3 \\
+    \tilde{M}_{uud} &\triangleq \nabla_{\dot{u}}f_2 & \quad &
+    \tilde{A}_{qq}  &\triangleq -\nabla_{q}(f_0 + f_1) \\
+    \tilde{A}_{qu}  &\triangleq -\nabla_{u}f_1 & \quad &
+    \tilde{A}_{uqc} &\triangleq - \nabla_{q} f_a \\
+    \tilde{A}_{uuc} &\triangleq - \nabla_{u} f_a & \quad &
+    \tilde{A}_{uqd} &\triangleq - \nabla_{q} (f_2 + f_3) \\
+    \tilde{A}_{uud} &\triangleq - \nabla_{u} f_3 & \quad &
+    \tilde{B}_{u}   &\triangleq -\nabla_{r}f_{3}
   \end{array}
 \end{align}
 enables the unconstrained linear state space equations to be written as
@@ -889,15 +885,15 @@ enables the unconstrained linear state space equations to be written as
   \label{eq:state_space_unconstrained}
   \left[
     \begin{array}{cc}
-      \tilde{M}_{qq} & \bm{0}_{n \times o} \\
+      \tilde{M}_{qq} & 0_{n \times o} \\
       \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
       \tilde{M}_{uqd} & \tilde{M}_{uud}
     \end{array}
     \right]
     \left[
       \begin{array}{c}
-        \delta \bm{\dot{q}} \\
-        \delta \bm{\dot{u}}
+        \delta \dot{q} \\
+        \delta \dot{u}
       \end{array}
     \right]
    &=
@@ -910,18 +906,18 @@ enables the unconstrained linear state space equations to be written as
    \right]
     \left[
       \begin{array}{c}
-        \delta \bm{q} \\
-        \delta \bm{u}
+        \delta q \\
+        \delta u
       \end{array}
     \right]
     +
     \left[
       \begin{array}{c}
-        \bm{0}_{(n + m) \times s} \\
+        0_{(n + m) \times s} \\
         \tilde{B}_{u}
       \end{array}
     \right]
-    \delta \bm{r}
+    \delta r
 \end{align}
 Equation (\ref{eq:state_space_unconstrained}) has a state space of dimension $n
 + o$, yet only $p = n - l + o - m$ of these quantities are independent.  To
@@ -929,17 +925,17 @@ address this issue, a smaller set of independent coordinates and speeds must be
 selected. To this end, we partition the generalized coordinates and generalized
 speeds as
 \begin{equation*}
-  \tilde{\bm{q}} \triangleq \left[\begin{array}{cc}\bm{q}_{i} &
-      \bm{q}_{d}\end{array}\right]^{T} =  P_{q}^{-1} \bm{q}
+  \tilde{q} \triangleq \left[\begin{array}{cc}q_{i} &
+      q_{d}\end{array}\right]^{T} =  P_{q}^{-1} q
       \qquad\qquad
-  \tilde{\bm{u}} \triangleq \left[\begin{array}{cc}\bm{u}_{i} &
-      \bm{u}_{d}\end{array}\right]^{T} =  P_{u}^{-1} \bm{u}
+  \tilde{u} \triangleq \left[\begin{array}{cc}u_{i} &
+      u_{d}\end{array}\right]^{T} =  P_{u}^{-1} u
 \end{equation*}
-where $P_q \in \mathbf{R}^{n \times n}$ and $P_u \in \mathbf{R}^{o \times o}$
+where $P_q \in \mathbb{R}^{n \times n}$ and $P_u \in \mathbb{R}^{o \times o}$
 are invertible permutation matrices which map an ordering which has the
-independent quantities ($\bm{q}_{i}\in\mathbf{R}^{n-l},\,
-\bm{u}_{i}\in\mathbf{R}^{o-m})$ first, followed by the dependent quantities,
-($\bm{q}_{d}\in\mathbf{R}^{l},\, \bm{u}_{d}\in\mathbf{R}^{m}$) to the original
+independent quantities ($q_{i}\in\mathbb{R}^{n-l},\,
+u_{i}\in\mathbb{R}^{o-m})$ first, followed by the dependent quantities,
+($q_{d}\in\mathbb{R}^{l},\, u_{d}\in\mathbb{R}^{m}$) to the original
 ordering of the coordinates and speeds.  We use the notation $P_{qi}$ and
 $P_{qd}$ to denote the first $n-l$ and last $l$ columns of $P_q$, respectively;
 similarly, $P_{ui}$ is the first $o-m$ columns of $P_{u}$ while $P_{ud}$ is the
@@ -948,34 +944,34 @@ last $m$ columns of $P_u$.
 Making use of $P_q$ and the assumption that equation
 (\ref{eq:configuration_expansion}) is zero gives
 \begin{align}
-\nabla_{\bm{q}}\bm{f}_{c} \delta \bm{q} &= \nabla_{\bm{q}}\bm{f}_{c} P_{q} \delta \bm{\tilde{q}} \notag \\
-   &= \nabla_{\bm{q}}\bm{f}_{c} P_{qi} \delta \bm{q_i} +
-  \nabla_{\bm{q}}\bm{f}_{c} P_{qd} \delta \bm{q_d}\notag\\
-  \implies \delta \bm{q}_d &= -(\nabla_{\bm{q}}\bm{f}_{c} P_{qd})^{-1}
-  (\nabla_{\bm{q}}\bm{f}_{c} P_{qi}) \delta \bm{q}_i \notag\\
+\nabla_{q}f_{c} \delta q &= \nabla_{q}f_{c} P_{q} \delta \bm{\tilde{q}} \notag \\
+   &= \nabla_{q}f_{c} P_{qi} \delta \bm{q_i} +
+  \nabla_{q}f_{c} P_{qd} \delta \bm{q_d}\notag\\
+  \implies \delta q_d &= -(\nabla_{q}f_{c} P_{qd})^{-1}
+  (\nabla_{q}f_{c} P_{qi}) \delta q_i \notag\\
   \label{eq:delta_q}
-  \implies \delta \bm{q} &= \underbrace{\left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
-  \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right]
-  P_{qi}}_{\triangleq C_0} \delta \bm{q}_i
+  \implies \delta q &= \underbrace{\left[ I_{n \times n} - P_{qd}(\nabla_{q}
+  f_{c} P_{qd})^{-1} \nabla_{q} f_{c} \right]
+  P_{qi}}_{\triangleq C_0} \delta q_i
 \end{align}
 Making use of $P_q$, $P_u$, the assumption that equation
 (\ref{eq:velocity_expansion}) is zero, and taking equation (\ref{eq:delta_q})
 into account gives
 \begin{align}
-\nabla_{\bm{q}}\bm{f}_{v} \delta \bm{q} + \nabla_{\bm{u}}\bm{f}_{v} \delta \bm{u}
-  &= \nabla_{\bm{q}} \bm{f}_{v} C_0 \delta \bm{q}_i +\nabla_{\bm{u}} \bm{f}_{v}
+\nabla_{q}f_{v} \delta q + \nabla_{u}f_{v} \delta u
+  &= \nabla_{q} f_{v} C_0 \delta q_i +\nabla_{u} f_{v}
   \delta P_u \bm{\tilde{u}} \notag \\
-  &=\nabla_{\bm{q}} \bm{f}_{v} C_0 \delta \bm{q}_i + \nabla_{\bm{u}} \bm{f}_{v} P_{ui} \delta \bm{u}_i +
-\nabla_{\bm{u}} \bm{f}_{v} P_{ud} \delta \bm{u}_d \notag\\
+  &=\nabla_{q} f_{v} C_0 \delta q_i + \nabla_{u} f_{v} P_{ui} \delta u_i +
+\nabla_{u} f_{v} P_{ud} \delta u_d \notag\\
 %
-\implies \delta \bm{u}_d &= -\left(\nabla_{\bm{u}} \bm{f}_{v}
-P_{ud}\right)^{-1}\left[\nabla_{\bm{q}}\bm{f}_{v} C_0 \delta \bm{q}_i +
-  \nabla_{\bm{u}} \bm{f}_{v} P_{ui} \delta \bm{u}_i \right]\notag\\
-  \implies \delta \bm{u} &= \underbrace{-P_{ud}(\nabla_{\bm{u}} \bm{f}_{v} P_{ud})^{-1}
-  \nabla_{\bm{q}} \bm{f}_{v}}_{\triangleq C_1} C_0 \delta \bm{q}_i \notag\\
+\implies \delta u_d &= -\left(\nabla_{u} f_{v}
+P_{ud}\right)^{-1}\left[\nabla_{q}f_{v} C_0 \delta q_i +
+  \nabla_{u} f_{v} P_{ui} \delta u_i \right]\notag\\
+  \implies \delta u &= \underbrace{-P_{ud}(\nabla_{u} f_{v} P_{ud})^{-1}
+  \nabla_{q} f_{v}}_{\triangleq C_1} C_0 \delta q_i \notag\\
   \label{eq:delta_u}
-  &+ \underbrace{\left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{v} P_{ud})^{-1} \nabla_{\bm{u}}
-  \bm{f}_{v} \right] P_{ui}}_{\triangleq C_2} \delta \bm{u}_i
+  &+ \underbrace{\left[I - P_{ud} (\nabla_{u}f_{v} P_{ud})^{-1} \nabla_{u}
+  f_{v} \right] P_{ui}}_{\triangleq C_2} \delta u_i
 \end{align}
 
 Making use of equations (\ref{eq:delta_q}) and (\ref{eq:delta_u}), we can
@@ -984,15 +980,15 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
   \label{eq:state_space_constrained}
   \left[
     \begin{array}{cc}
-      \tilde{M}_{qq} & \bm{0}_{n \times o} \\
+      \tilde{M}_{qq} & 0_{n \times o} \\
       \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
       \tilde{M}_{uqd} & \tilde{M}_{uud}
     \end{array}
     \right]
     \left[
       \begin{array}{c}
-        \delta \bm{\dot{q}} \\
-        \delta \bm{\dot{u}}
+        \delta \dot{q} \\
+        \delta \dot{u}
       \end{array}
     \right]
    &=
@@ -1005,18 +1001,18 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
    \right]
     \left[
       \begin{array}{c}
-        \delta \bm{q}_i \\
-        \delta \bm{u}_i
+        \delta q_i \\
+        \delta u_i
       \end{array}
     \right]
     \notag \\
     &+\left[
       \begin{array}{c}
-        \bm{0}_{(n+m) \times s} \\
+        0_{(n+m) \times s} \\
         \tilde{B}_{u}
       \end{array}
     \right]
-    \delta \bm{r}
+    \delta r
 \end{align}
 This definitively establishes how the first time derivatives of coordinates and
 speeds (independent \textit{and} dependent) depend, to first order, upon a
@@ -1101,7 +1097,7 @@ in terms of the disc spin rate $\dot{q}_3$; for this upright configuration
 
 Evaluating the matrices in equations (\ref{eq:state_space_constrained}) at
 these equilibrium conditions and subsequently solving these equations for
-$\delta\dot{\mathbf{q}}$ and $\delta\dot{\mathbf{u}}$ yields the linearized
+$\delta\dot{{q}}$ and $\delta\dot{{u}}$ yields the linearized
 relationship between the time derivatives of all state variables and the
 independent state variables. By taking only the rows associated with the
 independent states, the linear relationship between the independent states and
@@ -1151,11 +1147,13 @@ see~\cite{OReilly1996,Neimark1972,Kuleshov2001}.
 \label{sec:discussion}
 Most modern control techniques assume a system can be written as
 \begin{align}
-\dot{\mathbf{x}} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}
+\dot{x} = Ax + Br
 \end{align}
-but equation (\ref{eq:state_space_constrained}) doesn't fit into the standard
-linear system framework because it is non-square.
-To obtain a square system we define
+(traditionally $u$ is used instead of $r$, but Kane's method reserves $u$ for
+generalize speeds, so we use $r$ to denote what is traditionally written as $u$
+in control-focused literature). \autoref{eq:state_space_constrained} isn't
+square, so it doesn't fit into the standard linear system framework. To obtain
+a square system we define
 \begin{align}
 \tilde{A} &=
    \left[
@@ -1168,7 +1166,7 @@ To obtain a square system we define
 \tilde{B} &= 
     \left[
       \begin{array}{c}
-        \bm{0}_{(n+m) \times s} \\
+        0_{(n+m) \times s} \\
         \tilde{B}_{u}
       \end{array}
     \right]
@@ -1180,27 +1178,27 @@ from (\ref{eq:state_space_constrained}) and
   \label{eq:B_prime}
     B^\prime &\triangleq \tilde{M}^{-1} \tilde{B}
 \end{align}
-where  $A^\prime \in \bm{R}^{(o + n) \times (o - m + n -l)}$, $B^\prime \in
-\bm{R}^{(o + n) \times s}$.  We can extract the rows corresponding to the
+where  $A^\prime \in \mathbb{R}^{(o + n) \times (o - m + n -l)}$, $B^\prime \in
+\mathbb{R}^{(o + n) \times s}$.  We can extract the rows corresponding to the
 independent states by defining
 \begin{align}
   \label{eq:P_prime}
     P^\prime &\triangleq \begin{bmatrix}
-        P_{qi} & \bm{O}_{n \times (o - m)} \\
-        \bm{O}_{o \times (n - l)} & P_{ui}
+        P_{qi} & O_{n \times (o - m)} \\
+        O_{o \times (n - l)} & P_{ui}
     \end{bmatrix} \\
   \label{eq:A}
     A &\triangleq P^{\prime T} A^\prime \\
   \label{eq:B}
     B &\triangleq P^{\prime T} B^\prime
 \end{align}
-where $P^\prime \in \bm{R}^{(o + n) \times (o - m + n - l)}$.  Defining
-$\bm{x}_i = \left[\delta\bm{q}_i,\,\delta\bm{u}_i\right]^{T}$ yields the square
-state space system $\dot{\bm{x}}_i = A \bm{x}_i + B \bm{r}$ to which standard
-linear systems analyses may applied.  It is worth noting that the rows of
-$A^\prime$ and $B^\prime$ which correspond to dependent states can be used in
-output or measurement equations of a linear state space model (e.g.,
-measurements from an accelerometer, or measurements of dependent speeds).
+where $P^\prime \in \mathbb{R}^{(o + n) \times (o - m + n - l)}$.  Defining
+$x_i = \left[\delta q_i,\,\delta u_i\right]^{T}$ yields the square state space
+system $\dot{x}_i = A x_i + B r$ to which standard linear systems analyses may
+applied. It is worth noting that the rows of $A^\prime$ and $B^\prime$ which
+correspond to dependent states can be used in output or measurement equations
+of a linear state space model (e.g., measurements from an accelerometer, or
+measurements of dependent speeds).
 
 Kane's dynamical equations are typically formulated for one particular choice
 of dependent speeds, and computer code is generated for that single choice of
@@ -1221,22 +1219,22 @@ where the ability to switch the choice of dependent states ``on the fly'' is
 extremely helpful is in the computation of Lyapunov characteristic exponents
 (LCE's). When computing LCE's, time simulation of the nonlinear dynamics
 \textit{and} linearization at each point along the trajectory a
-required~\cite{Benettin1980a,Benettin1980b,Udwadia2001};
-having a computer code that makes it easy to switch choice of dependent states
-at the time of numerical evaluation is of great benefit in this case. The
-matrices which must be used to determine the best choice of coordinates and
-speeds are $\nabla_{\bm{q}} \bm{f}_c P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_v P_{ud}$;
-these matrices appear in equations (\ref{eq:delta_q}) and (\ref{eq:delta_u}).
-If for some choice of dependent coordinates or dependent speeds either of these
-matrices are singular or nearly singular, a different set of dependent
-coordinates and dependent speeds should be chosen. These matrices generally
-depend only upon parameters and coordinates (not speeds). While some systems
-may permit a choice of independent state variables which are valid for all
-configurations of interest, others may not. Methods for automatically selecting
-the ``best'' choice of independent state variables are discussed in
-\cite{Reckdahl1996}; they involve computing the singular value decomposition
-$\nabla_q \bm{f}_c$ and $\nabla_u \bm{f}_v$  to determine a set of independent
-states which will ensure the non-singularity of the aforementioned matrices.
+required~\cite{Benettin1980a,Benettin1980b,Udwadia2001}; having a computer code
+that makes it easy to switch choice of dependent states at the time of
+numerical evaluation is of great benefit in this case. The matrices which must
+be used to determine the best choice of coordinates and speeds are $\nabla_{q}
+f_c P_{qd}$ and $\nabla_{u} f_v P_{ud}$; these matrices appear in equations
+(\ref{eq:delta_q}) and (\ref{eq:delta_u}).  If for some choice of dependent
+coordinates or dependent speeds either of these matrices are singular or nearly
+singular, a different set of dependent coordinates and dependent speeds should
+be chosen. These matrices generally depend only upon parameters and coordinates
+(not speeds). While some systems may permit a choice of independent state
+variables which are valid for all configurations of interest, others may not.
+Methods for automatically selecting the ``best'' choice of independent state
+variables are discussed in~\cite{Reckdahl1996}; they involve computing the
+singular value decomposition $\nabla_q f_c$ and $\nabla_u f_v$ to determine a
+set of independent states which will ensure the non-singularity of the
+aforementioned matrices.
 
 \section{Conclusions}
 A procedure for forming linearized equations of motion for constrained
@@ -1251,11 +1249,12 @@ and linearization point).
 %TODO: mention if it is compatible with other procedures.
 
 The procedure has been implemented symbolically in the
-\texttt{physics.mechanics} sub-module of the open source symbolic manipulator
-SymPy\cite{SymPy}. In addition to the rolling disk example, we have also
-applied it to the Whipple bicycle model (and extensions of this model) and
-found that it matches (to at least 14 digits) the eigenvalues published for a
-benchmark set of parameters~\cite{Meijaard2007}. This latter example provides a
-challenging and rigorous test of the procedure which strongly indicates both
-its utility and its correctness.
+\texttt{sympy.physics.mechanics} sub-module of the open source symbolic
+manipulator SymPy~\cite{SymPy}. In addition to the rolling disk example, we
+have also applied it to the exteneded Whipple bicycle model described in
+\autoref{chapter2}~\cite{libbicycle}, and obtained results that matched (to at
+least 14 digits) the eigenvalues published for a benchmark set of
+parameters~\cite{Meijaard2007}. This latter example provides a challenging and
+rigorous test of the procedure which strongly indicates both its utility and
+its correctness.
 

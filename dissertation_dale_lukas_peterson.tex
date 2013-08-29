@@ -11,6 +11,7 @@
 \usepackage{booktabs}
 \usepackage[Q=yes]{examplep}
 \usepackage{graphicx}
+% Meijaard isn't being listed
 \usepackage[
     abbreviate=false,
     backend=biber,
@@ -19,7 +20,8 @@
     sortcites=true,
     sorting=nyt,
     sortlocale=en_US,
-    style=numeric-comp
+    maxnames=10,
+    style=numeric-verb
 ]{biblatex}
 \addbibresource{library.bib}
 \defbibheading{subbibliography}{\section*{References for Chapter \ref{refsection:\therefsection}}}

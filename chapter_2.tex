@@ -784,23 +784,25 @@ Python programming language, specifically designed to assist in performing
 symbolic mathematics on a computer. It includes most common symbolic operations
 such as expanding expressions, substitution, differentiation, as well as useful
 functionality for generating C/C++/Fortran code and for outputting symbolic
-expressions in \LaTeX form. Because it is implemented in the general purpose
-programming language Python, programs that derive equations of motion with it
-can utilize the functionality of a feature rich, high level programming
+expressions in \LaTeX{} form. Because it SymPy is implemented in the general
+purpose programming language Python, programs that derive equations of motion
+with it can utilize the functionality of a feature rich, high level programming
 language (control flow, file I/O, user interaction, graphical user interfaces,
-plotting, etc.) without having to transition to a separate external tool. This
+plotting, etc.) without having to transition to a separate software tool. This
 greatly streamlines the workflow when deriving and analyzing the equations of
 motion.
 
 SymPy has a submodule called \verb|sympy.physics.mechanics| which provides
 functions and classes to help form equations of motion using Kane's method. I
 originally implemented this submodule as a separate project called
-PyDy~\cite{PyDy}. Gilbert Gede subsequently integrated it into the main SymPy
+PyDy~\cite{PyDy}. In 2011, Gilbert Gede integrated PyDy into the main SymPy
 project (using the \verb|sympy.physics.mechanics| name) and substantially
-extended its functionality; it was further extended by Angadh Nanjangud to
-allow for the use of Lagrange's method for forming equations of motion. Since
-its inception in 2009, it has been funded by 3 Google Summer of Code projects,
-and it received contributions from several other community members.
+extended its functionality; in 2012 it was further extended by Angadh Nanjangud
+to allow for the use of Lagrange's method for forming equations of motion.
+Since its inception in 2009, it has been funded by three Google Summer of Code
+projects, and it has received contributions from several other community
+members, including nearly every exercise of~\cite{Kane1985} worked out
+explicitly.
 
 The kinematics as presented in \autoref{model:kinematics} along with the active
 forces mentioned above were programmed into a Python script which derives the
@@ -854,16 +856,18 @@ dependent speeds
 \begin{align}
   B(q, p) u &= B_i(q, p) u_i + B_d(q, p) u_d \\
             &= 0 \\
-\implies u_d &= \underbrace{-B_d(q, p)^{-1} B_i(q, p)}_{A_{rs}} u_i
+\implies u_d &= \underbrace{-B_d(q, p)^{-1} B_i(q, p)}_{A} u_i
 \end{align}
 where $u_d, u_i$ are the dependent and independent speeds, and $B_d(q,p),
 B_i(q,p)$, are the columns of $B(q, p)$ associated with dependent and
-independent speeds. The nonholonomic generalized active forces and nonholonomic
-generalized inertia forces can be computed at the time of simulation (as
-opposed to the time of symbolic derivation) using Equations 4.4.3 and Equations
-4.11.4 of~\cite{Kane1985}, respectively. The primary advantage of this approach
-is that the generated equations can be utilized for more than a single choice
-of generalized speeds. This technique is implemented in~\cite{libbicycle}.
+independent speeds ($A$ is the matrix representation of $A_{rs}$ in equation
+2.13.1 of~\cite{Kane1985}). The nonholonomic generalized active forces and
+nonholonomic generalized inertia forces can be computed at the time of
+simulation (as opposed to the time of symbolic derivation) using Equations
+4.4.3 and Equations 4.11.4 of~\cite{Kane1985}, respectively. The primary
+advantage of this approach is that the generated equations can be utilized for
+more than a single choice of generalized speeds. This technique is implemented
+in~\cite{libbicycle}.
 
 A final approach (suggested in conversation by David A. Levinson), is to apply
 the first approach to generate equations of motion for every possible choice of

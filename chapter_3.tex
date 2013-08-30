@@ -301,10 +301,11 @@ defined similarly -- it is the sum of all torque vectors acting on that
 reference frame. Distance forces do not need to be transformed into a resultant
 force/torque pair for any components of the system; they only need to be
 considered at the point of application (e.g., if a force $\bs{f}$ is the only
-force applied to body $B$ at point $Q$, then $\bs{R}_{B^*}=0$ and
-$\bs{T}_B=0$ but $\bs{R}_Q=\bs{f}$). The generalized active forces are
+force applied to body $B$ at point $Q$, then $\bs{R}_{B^*}=\bs{0}$ and
+$\bs{T}_B=\bs{0}$ but $\bs{R}_Q=\bs{f}$). The generalized active forces are
 \begin{multline}
 \label{eq:definition_F}
+F =\\
 \begin{bmatrix}
 \displaystyle \sum_{i=1}^g \bs{R}_{B^*_i} \cdot {^N}\bs{v}^{B^*_i}_1 +
 \sum_{i=1}^h \bs{R}_{P_i} \cdot {^N}\bs{v}^{P_i}_1 +
@@ -322,8 +323,7 @@ $\bs{T}_B=0$ but $\bs{R}_Q=\bs{f}$). The generalized active forces are
 \sum_{i=1}^k \bs{R}_{Q_i} \cdot {^N}\bs{v}^{Q_i}_o +
 \sum_{i=1}^g \bs{T}_{B_i} \cdot {^N}\bs{\omega}^{B_i}_o +
 \sum_{i=1}^c \bs{T}_{E_i} \cdot {^N}\bs{\omega}^{E_i}_o
-\end{bmatrix}\\
-=F
+\end{bmatrix}
 \end{multline}
 
 We now define the inertia forces and torques, $\bs{R}^*$ and $\bs{T}^*$. We

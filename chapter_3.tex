@@ -108,7 +108,7 @@ generate the equations of motion for the rolling disk, but we purposefully
 introduce a dependent coordinate and three dependent speeds in the formulation.
 The need for a different linearization technique is demonstrated with this
 example. In response to this need, we present the newly developed linearization
-procedure and its derivation. This new linearization procedure is applied the
+procedure and its derivation. This new linearization procedure is applied to the
 same rolling disk example to illustrate its validity and an example of its
 application. Finally, we discuss other details and nuances of the procedure and
 its use, as well as directions for future work.
@@ -485,7 +485,7 @@ frame $N$ to be similarly equipped with dextral unit vectors $\hat{n}_x,
 \hat{n}_y, \hat{n}_z$, with $\hat{n}_z$ perpendicular to the ground plane
 (downwards) and aligned with the local gravitational field. To orient the disk,
 first align $C$ with $N$, then apply successive body fixed ZXY rotations:
-yaw $q_1$, roll $q_2$, and spin $q_3$.  Denote by $A$ and $B$ the two frames
+yaw $q_1$, lean $q_2$, and spin $q_3$.  Denote by $A$ and $B$ the two frames
 associated with the first two intermediate rotations in the sequence; we refer
 to these as the instantaneous yaw and lean frames, respectively. The unit
 vector, $\hat{b}_z$ fixed in the $B$ frame, is parallel to the disk plane and
@@ -537,7 +537,7 @@ where we present the partial velocities as a $1\times6$ matrix whose entries
 are populated with standard 3-vectors. Given these definitions, the velocity of
 the lowest point of the disk $P^*$ is
 \begin{align*}
-  {^N}\bs{v}^{P^*} &= \bs{v}^{C^*} + \bs{\omega}^{C} \times \bs{r}^{P^*/C^*} \\
+  {^N}\bs{v}^{P^*} &= {^N}\bs{v}^{C^*} + {^N}\bs{\omega}^{C} \times \bs{r}^{P^*/C^*} \\
   &= u_4\uv{c}{x} + u_5\uv{c}{y} + u_6\uv{c}{z} + r u_2
   \uv{b}{x} - r u_1 \uv{b}{y} \\
   &= (r u_2 \cos(q_3) + u_4) \uv{c}{x} + (-r u_1 + u_5)\uv{c}{y} + (r u_2 \sin(q_3) +
@@ -615,7 +615,7 @@ theorem for angular velocity, the angular velocity of $C$ is
 while time differentiating $r^{C^*}$ in $N$ yields
 \begin{equation}
   \label{v_qdot}
-  \bs{v}^{C^*} = \dot{q}_4 \uv{n}{x} + \dot{q}_5 \uv{n}{y} + \dot{q}_6 \uv{n}{z}
+  {^N}\bs{v}^{C^*} = \dot{q}_4 \uv{n}{x} + \dot{q}_5 \uv{n}{y} + \dot{q}_6 \uv{n}{z}
 \end{equation}
 Equating (\ref{w_u}) with (\ref{w_qdot}) and (\ref{v_u}) with (\ref{v_qdot}),
 and resolving these vector equations into the $B$ frame, and rearranging so
@@ -1105,7 +1105,7 @@ Most modern control techniques assume a system can be written as
 \dot{x} = Ax + Br
 \end{align}
 (traditionally $u$ is used instead of $r$, but Kane's method reserves $u$ for
-generalize speeds, so we use $r$ to denote what is traditionally written as $u$
+generalized speeds, so we use $r$ to denote what is traditionally written as $u$
 in control-focused literature). \autoref{eq:state_space_constrained} isn't
 square, so it doesn't fit into the standard linear system framework. To obtain
 a square system we define

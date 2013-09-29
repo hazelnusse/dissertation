@@ -279,8 +279,8 @@ plate as shown in \autoref{rb:img:imuplacement}. The gyroscope and
 accelerometer sensor axes were assumed to be aligned with each other since they
 are manufactured on the same piece of silicon. The sensor $\uv{s}{x}-\uv{s}{y}$
 plane was approximately parallel to the plane of the battery plate, with
-$\uv{s}{y}$ pointed approximately forward, $\uv{s}{y}$ to the left, and
-$\uv{s}{z}$ down.
+$\uv{s}{x}$ to the left, $\uv{s}{y}$ approximately forward, and $\uv{s}{z}$
+down.
 
 As described in Chapter 1, the bicycle model introduces set of dextral unit
 vectors fixed to the rear frame $R$ of the bicycle, with $\uv{r}{z}$ parallel to
@@ -801,7 +801,7 @@ Once the state feedback gain was computed, the closed loop eigenvalues of the
 stabilized plant dynamics $A+BK$ were computed, and the estimator gain was
 selected using pole placement. The poles of the estimator were all placed on
 the negative real axis, equally spaced by 0.2 rad/s, and with the slowest estimator
-pole being $3\min(\text{Re}(\sigma(A+BK)))$. This ensured the convergence of
+pole being $3 \times \min(\text{Re}(\sigma(A+BK)))$. This ensured the convergence of
 the estimator was substantially faster than the controller dynamics.
 
 With the bicycle dynamics stabilized by the inner loop, an outer loop was added
@@ -833,9 +833,9 @@ of each.
     \verb|samples.dat|).
   \item[\Q{disable}] Immediately disable the motors and end data collection.
   \item[\Q{reset}] Perform a software reset of the microcontroller.
-  \item[\Q{threads}] Show the memory address, stack address, priority, number
-    of references to this thread, thread state, thread time in ticks, and the
-    name of all currently running threads.
+  \item[\Q{threads}] Print the following for all running threads: memory
+    address, stack address, priority, number of references to this thread,
+    thread state, thread time in ticks, and thread name.
   \item[\Q{calibrate}] Begin the steer angle calibration routine (see
     \autoref{rb:subsec:sensors})
   \item[\Q{homefork}] Wait for the steer encoder index signal to set the steer calibration offset.

@@ -650,7 +650,7 @@ which permit the constraint to be written concisely as
 \end{align}
 where $f_c : \mathbb{R}^3 \times \mathbb{R}^7 \mapsto \mathbb{R}$.  The three
 elements of $q$ cannot be varied independently and most often the pitch $\theta$
-is selected to be a dependent coordinate~\cite{Peterson2008a}.
+is selected to be a dependent coordinate to satisfy~\cite{Peterson2008a}.
 
 The angular velocity of the four bodies and the velocity of the gyrostat mass
 centers can be defined with only six generalized speeds. These six generalized
@@ -758,7 +758,7 @@ Python programming language, specifically designed to assist in performing
 symbolic mathematics on a computer. It includes most common symbolic operations
 such as expanding expressions, substitution, differentiation, as well as useful
 functionality for generating C/C++/Fortran code and for outputting symbolic
-expressions in \LaTeX{} form. Because it SymPy is implemented in the general
+expressions in \LaTeX{} form. Because SymPy is implemented in the general
 purpose programming language Python, programs that derive equations of motion
 with it can utilize the functionality of a feature rich, high level programming
 language (control flow, file I/O, user interaction, graphical user interfaces,
@@ -775,7 +775,7 @@ extended its functionality; in 2012 it was further extended by Angadh Nanjangud
 to allow for the use of Lagrange's method for forming equations of motion.
 Since its inception in 2009, it has been funded by three Google Summer of Code
 projects, and it has received contributions from several other community
-members, including nearly every exercise of~\cite{Kane1985} worked out
+members, including many of the exercises of~\cite{Kane1985} worked out
 explicitly.
 
 The kinematics as presented in \autoref{model:kinematics} along with the active
@@ -795,7 +795,7 @@ speeds and their time derivatives in the velocity and acceleration expressions
 implies that they will be present in the dynamic equations unless they are
 otherwise eliminated. There are at least three ways this can be handled.
 
-The first way involves making a choice of which speeds to be considered
+The first way involves choosing which speeds will be considered
 independent (i.e., $u_i=[u_2, u_4, u_5]^T$), symbolically solving
 \autoref{model:eq:f_v_matrix} for the dependent speeds (i.e., $u_d = [u_1, u_3,
 u_6]^T$), symbolically computing time derivatives of the dependent speeds, and
@@ -813,7 +813,7 @@ except that the choice of independent speeds is not determined until the matrix
 $B(q, p)$ (\autoref{model:eq:f_v_matrix}) is evaluated numerically (e.g.,
 during a numerical integration of the equations of motion). Once $B(q, p)$ is
 formed numerically, its singular value decomposition is computed ($B(q, p) =
-U\Sigma U^*$). The row-wise Euclidean norm of $V$ is computed to yield a column
+U\Sigma V^*$). The row-wise Euclidean norm of $V$ is computed to yield a column
 vector of the same size as $u$, and indices of the dependent speeds are chosen
 to be the indices of the largest entries of this vector (i.e., if there are $o$
 dependent generalized speeds, the indices of the $o$ largest entries of the
@@ -857,7 +857,7 @@ The general form of the equations of motion and the associated constraint
 equations is presented in \autoref{table:assumptions} of
 \hyperref[chapter3]{Chapter 3}. To follow the notation presented there, for the
 model of the bicycle presented in this chapter, there are $n=8$ generalized
-coordinates, $l=1$ configuration constraints, $o=6$ generalized speeds, $m=3$
-velocity constraint equations, and $s=3$ exogenous inputs (one torque applied
+coordinates, $l=1$ configuration constraint, $o=6$ generalized speeds, $m=3$
+velocity constraints, and $s=3$ exogenous inputs (one torque applied
 at each revolute joint).
 
